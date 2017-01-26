@@ -1,0 +1,90 @@
+<?xml version="1.0" standalone="yes"?>
+<xs:schema id="GIADBSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.rustest.ru/giadbset">
+  <xs:element name="GIADBSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="rbd_StationFormAct" maxOccurs="unbounded" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="StationFormActId" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" type="xs:string" />
+              <xs:element name="Region" type="xs:int" />
+              <xs:element name="RegistrationCode" type="xs:int" minOccurs="0" />
+              <xs:element name="GovermentCode" type="xs:int" />
+              <xs:element name="StationCode" type="xs:int" />
+              <xs:element name="SubjectCode" type="xs:int" />
+              <xs:element name="ExamDate" type="xs:dateTime" />
+              <xs:element name="GovermentID" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" type="xs:string" minOccurs="0" />
+              <xs:element name="StationID" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" type="xs:string" minOccurs="0" />
+              <xs:element name="ExamGlobalID" type="xs:anyType" minOccurs="0" />
+              <xs:element name="ProjectName">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="100" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ProjectBatchId" type="xs:int" />
+              <xs:element name="CertificateNum">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="StartTime" type="xs:string" />
+              <xs:element name="EndTime" type="xs:string" />
+              <xs:element name="IDCode">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="B01" type="xs:anyType" minOccurs="0" />
+              <xs:element name="B02" type="xs:anyType" minOccurs="0" />
+              <xs:element name="B03" type="xs:anyType" minOccurs="0" />
+              <xs:element name="B04" type="xs:anyType" minOccurs="0" />
+              <xs:element name="B05" type="xs:anyType" minOccurs="0" />
+              <xs:element name="B01Other" type="xs:anyType" minOccurs="0" />
+              <xs:element name="B02Other" type="xs:anyType" minOccurs="0" />
+              <xs:element name="B03Other" type="xs:anyType" minOccurs="0" />
+              <xs:element name="B04Other" type="xs:anyType" minOccurs="0" />
+              <xs:element name="B05Other" type="xs:anyType" minOccurs="0" />
+              <xs:element name="B1" type="xs:anyType" minOccurs="0" />
+              <xs:element name="B2" type="xs:anyType" minOccurs="0" />
+              <xs:element name="B3" type="xs:anyType" minOccurs="0" />
+              <xs:element name="B4" type="xs:anyType" minOccurs="0" />
+              <xs:element name="B5" type="xs:anyType" minOccurs="0" />
+              <xs:element name="B6" type="xs:anyType" minOccurs="0" />
+              <xs:element name="B7" type="xs:anyType" minOccurs="0" />
+              <xs:element name="B8" type="xs:anyType" minOccurs="0" />
+              <xs:element name="B9" type="xs:anyType" minOccurs="0" />
+              <xs:element name="B10" type="xs:anyType" minOccurs="0" />
+              <xs:element name="B11" type="xs:anyType" minOccurs="0" />
+              <xs:element name="B12" type="xs:anyType" minOccurs="0" />
+              <xs:element name="B13" type="xs:anyType" minOccurs="0" />
+              <xs:element name="B14" type="xs:anyType" minOccurs="0" />
+              <xs:element name="B15" type="xs:anyType" minOccurs="0" />
+              <xs:element name="B16" type="xs:anyType" minOccurs="0" />
+              <xs:element name="B17" type="xs:anyType" minOccurs="0" />
+              <xs:element name="B18" type="xs:anyType" minOccurs="0" />
+              <xs:element name="B19" type="xs:anyType" minOccurs="0" />
+              <xs:element name="B20" type="xs:anyType" minOccurs="0" />
+              <xs:element name="B21" type="xs:anyType" minOccurs="0" />
+              <xs:element name="B22" type="xs:anyType" minOccurs="0" />
+              <xs:element name="B23" type="xs:anyType" minOccurs="0" />
+              <xs:element name="B24" type="xs:anyType" minOccurs="0" />
+              <xs:element name="B25" type="xs:anyType" minOccurs="0" />
+              <xs:element name="B26" type="xs:anyType" minOccurs="0" />
+              <xs:element name="B27" type="xs:anyType" minOccurs="0" />
+              <xs:element name="B28" type="xs:anyType" minOccurs="0" />
+              <xs:element name="B29" type="xs:anyType" minOccurs="0" />
+              <xs:element name="B30" type="xs:anyType" minOccurs="0" />
+              <xs:element name="Comments" type="xs:anyType" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
