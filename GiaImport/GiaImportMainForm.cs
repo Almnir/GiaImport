@@ -119,11 +119,11 @@ namespace GiaImport
             ConcurrentDictionary<string, string> result = task.Result;
             if (result.Count != 0)
             {
-                MessageShowControl.ShowValidationErrors(result);
+                Invoke(new Action(() => { MessageShowControl.ShowValidationErrors(result); }));
             }
             else
             {
-                MessageShowControl.ShowValidationSuccess();
+                Invoke(new Action(() => { MessageShowControl.ShowValidationSuccess(); }));
             }
         }
 
