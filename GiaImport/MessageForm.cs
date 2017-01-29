@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace GiaImport
 {
-    public partial class MessageForm : Form
+    public partial class MessageForm : MetroFramework.Forms.MetroForm
     {
         public enum EnumMessageIcon
         {
@@ -25,29 +25,30 @@ namespace GiaImport
 
         public void SetContent(string content)
         {
-            this.label1.Text = content;
+            this.metroLabel1.Text = content;
         }
 
         public void SetExtendedContent(string content)
         {
-            this.richTextBox1.Text = content;
+            this.metroTextBox1.Text = content;
         }
 
         public void SetIcon(EnumMessageIcon messageIcon)
         {
+            metroTile1.UseTileImage = true;
             switch (messageIcon)
             {
                 case EnumMessageIcon.Error:
-                    pictureBox1.Image = SystemIcons.Error.ToBitmap();
+                    metroTile1.Image = SystemIcons.Error.ToBitmap();
                     break;
                 case EnumMessageIcon.Information:
-                    pictureBox1.Image = SystemIcons.Information.ToBitmap();
+                    metroTile1.Image = SystemIcons.Information.ToBitmap();
                     break;
                 case EnumMessageIcon.Question:
-                    pictureBox1.Image = SystemIcons.Question.ToBitmap();
+                    metroTile1.Image = SystemIcons.Question.ToBitmap();
                     break;
                 case EnumMessageIcon.Warning:
-                    pictureBox1.Image = SystemIcons.Warning.ToBitmap();
+                    metroTile1.Image = SystemIcons.Warning.ToBitmap();
                     break;
             }
         }
@@ -65,6 +66,11 @@ namespace GiaImport
             mform.SetExtendedContent(extendedcontent);
             mform.SetIcon(icon);
             mform.ShowDialog();
+        }
+
+        private void metroButton1_Click(object sender, System.EventArgs e)
+        {
+            this.Close();
         }
     }
 }

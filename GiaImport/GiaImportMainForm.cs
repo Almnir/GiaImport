@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace GiaImport
 {
-    public partial class GiaImportMainForm : Form
+    public partial class GiaImportMainForm : MetroFramework.Forms.MetroForm
     {
         Dictionary<string, FileInfo> loadedFiles = new Dictionary<string, FileInfo>();
         Dictionary<string, FileInfo> actualCheckedFiles = new Dictionary<string, FileInfo>();
@@ -22,7 +22,7 @@ namespace GiaImport
 
         private void SetActualCheckedFiles()
         {
-            var checkedItems = this.fileListView.CheckedItems
+            var checkedItems = this.metroListView1.CheckedItems
                                  .Cast<ListViewItem>().Select(a => a.Text).ToList();
             this.actualCheckedFiles.Clear();
             foreach (string ci in checkedItems)
@@ -38,6 +38,11 @@ namespace GiaImport
         }
 
         private void filesOpenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFiles();
+        }
+
+        private void OpenFiles()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
 
@@ -58,16 +63,16 @@ namespace GiaImport
                     {
                         loadedFiles.Add(file, fi);
                         ListViewItem lvi = new ListViewItem(fi.Name);
-                        fileListView.Items.Add(lvi);
+                        metroListView1.Items.Add(lvi);
                     }
                 }
-                fileListView.Refresh();
+                metroListView1.Refresh();
             }
         }
 
         private void chooseAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.fileListView.Items.OfType<ListViewItem>().ToList().ForEach(item => item.Checked = true);
+            this.metroListView1.Items.OfType<ListViewItem>().ToList().ForEach(item => item.Checked = true);
         }
 
         private void simpleImportToolStripMenuItem_Click(object sender, EventArgs e)
@@ -76,6 +81,11 @@ namespace GiaImport
         }
 
         private void validationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Validate();
+        }
+
+        private void Validate()
         {
             SetActualCheckedFiles();
             if (!this.actualCheckedFiles.Any())
@@ -129,9 +139,14 @@ namespace GiaImport
 
         private void filesCloseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            fileListView.Items.Clear();
+            CloseFiles();
+        }
+
+        private void CloseFiles()
+        {
+            metroListView1.Items.Clear();
             loadedFiles.Clear();
-            fileListView.Refresh();
+            metroListView1.Refresh();
         }
 
         private ConcurrentDictionary<string, string> RunVerifier(ProgressBar pbarLine, Label plabel, IProgress<int> progress, CancellationToken ct)
@@ -170,21 +185,31 @@ namespace GiaImport
 
         private void checkAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.fileListView.Items.OfType<ListViewItem>().ToList().ForEach(item => item.Checked = true);
+            CheckAll();
+        }
+
+        private void CheckAll()
+        {
+            this.metroListView1.Items.OfType<ListViewItem>().ToList().ForEach(item => item.Checked = true);
         }
 
         private void unchekAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.fileListView.Items.OfType<ListViewItem>().ToList().ForEach(item => item.Checked = false);
+            UncheckAll();
+        }
+
+        private void UncheckAll()
+        {
+            this.metroListView1.Items.OfType<ListViewItem>().ToList().ForEach(item => item.Checked = false);
         }
 
         private void fileListView_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
             {
-                if (fileListView.FocusedItem.Bounds.Contains(e.Location) == true)
+                if (metroListView1.FocusedItem.Bounds.Contains(e.Location) == true)
                 {
-                    contextMenuStrip1.Show(Cursor.Position);
+                    metroContextMenu1.Show(Cursor.Position);
                 }
             }
         }
@@ -193,6 +218,36 @@ namespace GiaImport
         {
             AboutBox abx = new AboutBox();
             abx.ShowDialog();
+        }
+
+        private void importButton_Click(object sender, EventArgs e)
+        {
+            MessageForm.ShowDialog("Результаты верификации", "Верификация пройдена без ошибок!", "Ошибок нет.", MessageForm.EnumMessageIcon.Information);
+        }
+
+        private void openFilesButton_Click(object sender, EventArgs e)
+        {
+            OpenFiles();
+        }
+
+        private void closeFilesButton_Click(object sender, EventArgs e)
+        {
+            CloseFiles();
+        }
+
+        private void validateButton_Click(object sender, EventArgs e)
+        {
+            Validate();
+        }
+
+        private void checkAllToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            CheckAll();
+        }
+
+        private void uncheckAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            UncheckAll();
         }
     }
 }

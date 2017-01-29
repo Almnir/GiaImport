@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace GiaImport
 {
-    public partial class ProgressBarWindow : Form
+    public partial class ProgressBarWindow : MetroFramework.Forms.MetroForm
     {
         public ProgressBarWindow()
         {
