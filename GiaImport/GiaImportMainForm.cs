@@ -1,8 +1,7 @@
-﻿using Microsoft.Samples;
-using System;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -14,10 +13,28 @@ namespace GiaImport
     public partial class GiaImportMainForm : Form
     {
         Dictionary<string, FileInfo> loadedFiles = new Dictionary<string, FileInfo>();
-        DataSet mainDataSet = new DataSet();
+        Dictionary<string, FileInfo> actualCheckedFiles = new Dictionary<string, FileInfo>();
+
         public GiaImportMainForm()
         {
             InitializeComponent();
+        }
+
+        private void SetActualCheckedFiles()
+        {
+            var checkedItems = this.fileListView.CheckedItems
+                                 .Cast<ListViewItem>().Select(a => a.Text).ToList();
+            this.actualCheckedFiles.Clear();
+            foreach (string ci in checkedItems)
+            {
+                foreach (var lf in loadedFiles)
+                {
+                    if (lf.Value.Name.Equals(ci))
+                    {
+                        this.actualCheckedFiles.Add(lf.Key, lf.Value);
+                    }
+                }
+            }
         }
 
         private void filesOpenToolStripMenuItem_Click(object sender, EventArgs e)
@@ -48,179 +65,65 @@ namespace GiaImport
             }
         }
 
+        private void chooseAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.fileListView.Items.OfType<ListViewItem>().ToList().ForEach(item => item.Checked = true);
+        }
+
         private void simpleImportToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Dictionary<string, FileInfo> selectedFiles = new Dictionary<string, FileInfo>();
-            ListView.SelectedListViewItemCollection selected = fileListView.SelectedItems;
-            foreach (ListViewItem sel in selected)
-            {
-                foreach (var lf in loadedFiles)
-                {
-                    if (lf.Value.Name.Equals(sel.Text))
-                    {
-                        selectedFiles.Add(lf.Key, lf.Value);
-                    }
-                }
-            }
-            foreach (string sel in selectedFiles.Keys)
-            {
-                DataTable dt = new DataTable();
-                dt.ReadXml(sel);
-                mainDataSet.Tables.Add(dt);
-            }
-            SqlConnection connection = new SqlConnection("DB ConnectionSTring");
-            SqlBulkCopy sbc = new SqlBulkCopy(connection);
-            sbc.DestinationTableName = "yourXMLTable";
-        }
-
-        public void BulkWriteToDb(string connectionString, DataTable dataTable)
-        {
-            SqlTransaction tran = null;
-            SqlConnection connection = null;
-            try
-            {
-                using (connection = new SqlConnection(connectionString))
-                {
-                    connection.Open();
-
-                    using (tran = connection.BeginTransaction())
-                    {
-                        using (SqlBulkCopy bcp = new SqlBulkCopy(connection, SqlBulkCopyOptions.Default, tran))
-                        {
-                            bcp.DestinationTableName = dataTable.TableName;
-                            bcp.BatchSize = 500;
-                            bcp.NotifyAfter = 1000;
-                            bcp.SqlRowsCopied +=
-                                new SqlRowsCopiedEventHandler(bulkCopy_SqlRowsCopied);
-                            bcp.WriteToServer(dataTable);
-                        }
-                        tran.Commit();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                if (tran != null)
-                {
-                    tran.Rollback();
-                }
-                throw new BulkException("Ошибка в методе BulkWriteToDb.", ex);
-            }
-            finally
-            {
-                if (connection != null)
-                {
-                    connection.Close();
-                }
-            }
-        }
-
-        static async Task<int> HandeBulkCopyAsync(string connectionString, DataTable dataTable)
-        {
-            int count = 0;
-            SqlTransaction tran = null;
-            SqlConnection connection = null;
-            try
-            {
-                using (connection = new SqlConnection(connectionString))
-                {
-                    connection.Open();
-
-                    using (tran = connection.BeginTransaction())
-                    {
-                        using (SqlBulkCopy bcp = new SqlBulkCopy(connection, SqlBulkCopyOptions.Default, tran))
-                        {
-                            bcp.DestinationTableName = dataTable.TableName;
-                            bcp.BatchSize = 500;
-                            bcp.NotifyAfter = 1000;
-                            await bcp.WriteToServerAsync(dataTable);
-                            count++;
-                        }
-                        tran.Commit();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                if (tran != null)
-                {
-                    tran.Rollback();
-                }
-                throw new BulkException("Ошибка в методе BulkWriteToDb.", ex);
-            }
-            finally
-            {
-                if (connection != null)
-                {
-                    connection.Close();
-                }
-            }
-            return count;
-        }
-
-        private void bulkCopy_SqlRowsCopied(object sender, SqlRowsCopiedEventArgs e)
         {
             throw new NotImplementedException();
         }
 
-        public static DataTable LoadXmlToDataTable(string fileName)
-        {
-            DataTable dataTable = new DataTable();
-            try
-            {
-                dataTable.ReadXml(fileName);
-            }
-            catch (Exception ex)
-            {
-                throw new LoadXMLException("Всё плохо!", ex);
-            }
-            return dataTable;
-        }
-
-        private void chooseAllToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void validationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(Verifier.GetPath("ac_Appeals.xsd"));
-            //CancellationTokenSource source = new CancellationTokenSource();
-            //ProgressBarWindow pbw = new ProgressBarWindow();
-            //pbw.Disposed += (a, b) => source.Cancel();
-            //pbw.Show();
-            //ProgressBar pbarTotal = pbw.GetProgressBarTotal();
-            //pbarTotal.Maximum = loadedFiles.Count - 1;
-            //Label plabel = pbw.GetLabel();
-            //IProgress<int> progress = new Progress<int>(value => { pbarTotal.Value = value; });
-            //await Task.Run(() => RunVerifier(plabel, progress, source.Token), source.Token);
-            // TODO: показать диалог завершения
-            //pbw.Close();
+            SetActualCheckedFiles();
+            if (!this.actualCheckedFiles.Any())
+            {
+                MessageBox.Show("Внимание", "Ни одного файла не выбрано!");
+                return;
+            }
+            ProgressBarWindow pbw = new ProgressBarWindow();
+            pbw.SetTitle("Валидация выполняется...");
+            pbw.Show();
+            ProgressBar pbarTotal = pbw.GetProgressBarTotal();
+            ProgressBar pbarLine = pbw.GetProgressBarLine();
+            pbarTotal.Maximum = actualCheckedFiles.Count - 1;
+            Label plabel = pbw.GetLabel();
+            CancellationTokenSource source = new CancellationTokenSource();
+            IProgress<int> progress = new Progress<int>(value =>
+            {
+                ProgressBar pb = pbw.GetProgressBarTotal();
+                if (!pb.IsDisposed)
+                {
+                    pb.Invoke((MethodInvoker)(() =>
+                    {
+                        pb.Value = value;
+                    }));
+                }
+            });
+            try
+            {
+                Task<ConcurrentDictionary<string, string>> task = Task.Run(() => RunVerifier(pbarLine, plabel, progress, source.Token), source.Token);
+                task.ContinueWith(taskc => EndVerifier(taskc, pbw));
+            }
+            catch (TaskCanceledException)
+            {
+                MessageBox.Show("Операция отменена!");
+            }
         }
 
-        private void RunVerifier(Label plabel, IProgress<int> progress, CancellationToken cancellationToken)
+        private void EndVerifier(Task<ConcurrentDictionary<string, string>> task, ProgressBarWindow pbw)
         {
-            for (int i = 0; i <= loadedFiles.Count - 1; i++)
+            pbw.Invoke((MethodInvoker)(() => { pbw.Close(); }));
+            ConcurrentDictionary<string, string> result = task.Result;
+            if (result.Count != 0)
             {
-                try
-                {
-                    Thread.Sleep(1000);
-                    Verifier verifier = new Verifier();
-                    Task task = Task.Run(() => verifier.VerifySingleFile("fdf", "", progress));
-                    progress.Report(i);
-                    cancellationToken.ThrowIfCancellationRequested();
-                    if (!plabel.IsDisposed)
-                        plabel.Invoke((MethodInvoker)(() => plabel.Text = loadedFiles.Keys.ElementAt(i)));
-                }
-                catch (OperationCanceledException)
-                {
-                    MessageBox.Show("Прервано!");
-                }
-                catch (Exception)
-                {
-                   // TODO: логировать
-                }
-
+                MessageShowControl.ShowValidationErrors(result);
+            }
+            else
+            {
+                MessageShowControl.ShowValidationSuccess();
             }
         }
 
@@ -229,6 +132,67 @@ namespace GiaImport
             fileListView.Items.Clear();
             loadedFiles.Clear();
             fileListView.Refresh();
+        }
+
+        private ConcurrentDictionary<string, string> RunVerifier(ProgressBar pbarLine, Label plabel, IProgress<int> progress, CancellationToken ct)
+        {
+            Verifier verifier = new Verifier();
+            for (int i = 0; i <= actualCheckedFiles.Count - 1; i++)
+            {
+                progress.Report(i);
+                ct.ThrowIfCancellationRequested();
+                string fileName = actualCheckedFiles[actualCheckedFiles.Keys.ElementAt(i)].Name;
+                string xmlFilePath = actualCheckedFiles[actualCheckedFiles.Keys.ElementAt(i)].FullName;
+                string nm = fileName.Substring(0, fileName.Count() - 4);
+                string name = nm + ".xsd";
+                string xsdFilePath = Directory.GetCurrentDirectory() + @"\XSD\" + name;
+                if (!plabel.IsDisposed)
+                {
+                    plabel.Invoke((MethodInvoker)(() => plabel.Text = fileName));
+                }
+                pbarLine.Invoke((MethodInvoker)(() =>
+                {
+                    pbarLine.Style = ProgressBarStyle.Marquee;
+                    pbarLine.MarqueeAnimationSpeed = 30;
+                    pbarLine.Visible = true;
+                }));
+                verifier.VerifySingleFile(xsdFilePath, xmlFilePath, ct);
+                //Thread.Sleep(2000);
+                pbarLine.Invoke((MethodInvoker)(() =>
+                {
+                    pbarLine.Style = ProgressBarStyle.Continuous;
+                    pbarLine.MarqueeAnimationSpeed = 0;
+                }));
+                Thread.Sleep(100);
+            }
+            return verifier.errorDict;
+        }
+
+        private void checkAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.fileListView.Items.OfType<ListViewItem>().ToList().ForEach(item => item.Checked = true);
+        }
+
+        private void unchekAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.fileListView.Items.OfType<ListViewItem>().ToList().ForEach(item => item.Checked = false);
+        }
+
+        private void fileListView_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                if (fileListView.FocusedItem.Bounds.Contains(e.Location) == true)
+                {
+                    contextMenuStrip1.Show(Cursor.Position);
+                }
+            }
+        }
+
+        private void оПрограммеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AboutBox abx = new AboutBox();
+            abx.ShowDialog();
         }
     }
 }

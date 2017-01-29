@@ -10,6 +10,11 @@ namespace GiaImport
             InitializeComponent();
         }
 
+        public void SetTitle(string title)
+        {
+            this.Text = title;
+        }
+
         public ProgressBar GetProgressBarLine()
         {
             return this.progressBarLine;
@@ -34,6 +39,11 @@ namespace GiaImport
         {
             progressBarTotal.Dispose();
             progressBarLine.Dispose();
+        }
+
+        private void ProgressBarWindow_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

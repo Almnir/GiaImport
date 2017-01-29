@@ -1,6 +1,5 @@
-﻿using Microsoft.Samples;
-using System;
-using System.Collections.Generic;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Text;
 
 namespace GiaImport
@@ -8,32 +7,37 @@ namespace GiaImport
     class MessageShowControl
     {
 
-        public static void ShowValidationErrors(Dictionary<string, string> filesErrors)
+        public static void ShowValidationErrors(ConcurrentDictionary<string, string> filesErrors)
         {
-            TaskDialog taskDialog = new TaskDialog();
-            taskDialog.WindowTitle = "Результаты верификации";
-            taskDialog.MainIcon = TaskDialogIcon.Warning;
-            taskDialog.MainInstruction = "Результаты верификации";
-            taskDialog.Content = "Файлы, не прошедшие проверку и причина ошибки";
-            taskDialog.ExpandedByDefault = true;
+            MessageForm frm = new MessageForm();
+            frm.SetTitle("Результаты верификации");
+            frm.SetIcon(MessageForm.EnumMessageIcon.Error);
+            frm.SetContent("Файлы, не прошедшие проверку и причина ошибки");
             StringBuilder fileErrorText = new StringBuilder();
             foreach (var fe in filesErrors)
             {
                 fileErrorText.Append(string.Format("{0} - {1}", fe.Key, fe.Value)).Append(Environment.NewLine);
             }
-            taskDialog.ExpandedInformation = fileErrorText.ToString();
-            taskDialog.CommonButtons = TaskDialogCommonButtons.Close;
-            int result = taskDialog.Show();
+            frm.SetExtendedContent(fileErrorText.ToString());
+            MessageForm.ShowDialog("Результаты верификации", "Файлы, не прошедшие проверку и причина ошибки", fileErrorText.ToString(), MessageForm.EnumMessageIcon.Error);
+            //TaskDialog taskDialog = new TaskDialog();
+            //taskDialog.WindowTitle = "Результаты верификации";
+            //taskDialog.MainIcon = TaskDialogIcon.Warning;
+            //taskDialog.MainInstruction = "Результаты верификации";
+            //taskDialog.Content = "Файлы, не прошедшие проверку и причина ошибки";
+            //taskDialog.ExpandedByDefault = true;
+            //StringBuilder fileErrorText = new StringBuilder();
+            //foreach (var fe in filesErrors)
+            //{
+            //    fileErrorText.Append(string.Format("{0} - {1}", fe.Key, fe.Value)).Append(Environment.NewLine);
+            //}
+            //taskDialog.ExpandedInformation = fileErrorText.ToString();
+            //taskDialog.CommonButtons = TaskDialogCommonButtons.Close;
+            //int result = taskDialog.Show();
         }
         public static void ShowValidationSuccess()
         {
-            TaskDialog taskDialog = new TaskDialog();
-            taskDialog.WindowTitle = "Результаты верификации";
-            taskDialog.MainIcon = TaskDialogIcon.None;
-            taskDialog.MainInstruction = "Результаты верификации";
-            taskDialog.Content = "Верификация пройдена без ошибок!";
-            taskDialog.CommonButtons = TaskDialogCommonButtons.Close;
-            int result = taskDialog.Show();
+            MessageForm.ShowDialog("Результаты верификации", "Верификация пройдена без ошибок!", "Ошибок нет.", MessageForm.EnumMessageIcon.Information);
         }
     }
 }

@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Schema;
 
@@ -9,7 +12,7 @@ namespace GiaImport
 {
     class Verifier
     {
-        List<string> xsdList = new List<string>()
+        public static List<string> xsdList = new List<string>()
         {
             "ac_Appeals.xsd",
             "ac_AppealTasks.xsd",
@@ -68,6 +71,8 @@ namespace GiaImport
             "sht_Sheets_R.xsd"
         };
 
+        public ConcurrentDictionary<string, string> errorDict = new ConcurrentDictionary<string, string>();
+
         public static string GetPath(string filename)
         {
             string curdir = Directory.GetCurrentDirectory();
@@ -97,8 +102,27 @@ namespace GiaImport
             int progressCounter = 0;
             while (await xml.ReadAsync())
             {
-                progress.Report(progressCounter);
-                progressCounter++;
+                //progress.Report(progressCounter);
+                //progressCounter++;
+            }
+        }
+        public void VerifySingleFile(string xsdFileName, string xmlFileName, CancellationToken ct)
+        {
+            XmlReaderSettings readerSettings = new XmlReaderSettings();
+            readerSettings.Async = true;
+            // TODO: хардкод, вынести в константы
+            readerSettings.Schemas.Add("http://www.rustest.ru/giadbset", xsdFileName);
+            readerSettings.ValidationType = ValidationType.Schema;
+            readerSettings.ValidationEventHandler += (sender, e) => ValidationEventHandler(sender, e, xmlFileName);
+
+            XmlReader xml = XmlReader.Create(xmlFileName, readerSettings);
+            //int progressCounter = 0;
+            Thread.Sleep(2000);
+            while (xml.Read())
+            {
+                ct.ThrowIfCancellationRequested();
+                //progress.Report(progressCounter);
+                //progressCounter++;
             }
         }
 
@@ -115,6 +139,7 @@ namespace GiaImport
                 this.errorState = true;
                 this.errorString += e.Message;
                 this.errorString += Environment.NewLine;
+                this.errorDict.TryAdd(xsdFileName, this.errorString);
             }
         }
 

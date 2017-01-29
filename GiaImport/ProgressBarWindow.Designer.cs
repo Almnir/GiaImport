@@ -64,6 +64,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(612, 122);
+            this.ControlBox = false;
             this.Controls.Add(this.progressBarTotal);
             this.Controls.Add(this.progressBarLine);
             this.Controls.Add(this.pbLabel);
@@ -73,6 +74,7 @@
             this.ShowIcon = false;
             this.Text = "Выполнение";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ProgressBarWindow_FormClosed);
+            this.Load += new System.EventHandler(this.ProgressBarWindow_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
