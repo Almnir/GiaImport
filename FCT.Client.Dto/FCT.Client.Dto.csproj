@@ -1,0 +1,435 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4F492530-C1C9-4DD3-94CF-3564D0DF0596}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FCT.Client.Dto</RootNamespace>
+    <AssemblyName>FCT.Client.Dto</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+    <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;V810</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release-Gia|AnyCPU' ">
+    <OutputPath>bin\Release-Gia\</OutputPath>
+    <DefineConstants>TRACE;GIA</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release-Gia|x86' ">
+    <OutputPath>bin\Release-Gia\</OutputPath>
+    <DefineConstants>TRACE;GIA</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'GIA|AnyCPU' ">
+    <OutputPath>bin\GIA\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'GIA|x86' ">
+    <OutputPath>bin\x86\GIA\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug-Gia|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug-Gia\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;GIA</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug-Gia|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug-Gia\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;GIA</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release-GiaOnlyImport|AnyCPU' ">
+    <OutputPath>bin\Release-GiaOnlyImport\</OutputPath>
+    <DefineConstants>TRACE;GIA</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release-GiaOnlyImport|x86' ">
+    <OutputPath>bin\x86\Release-GiaOnlyImport\</OutputPath>
+    <DefineConstants>TRACE;GIA</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug-GiaOnlyImport|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug-GiaOnlyImport\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;GIA</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug-GiaOnlyImport|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug-GiaOnlyImport\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;GIA</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release-GiaDataCollect|AnyCPU' ">
+    <OutputPath>bin\Release-GiaDataCollect\</OutputPath>
+    <DefineConstants>TRACE;GiaDataCollect</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release-GiaDataCollect|x86' ">
+    <OutputPath>bin\Release-GiaDataCollect\</OutputPath>
+    <DefineConstants>TRACE;GiaDataCollect</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug-GiaDataCollect|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug-GiaDataCollect\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;GiaDataCollect</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug-GiaDataCollect|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug-GiaDataCollect\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;GiaDataCollect</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'SimpleLauncher|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\SimpleLauncher\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'SimpleLauncher|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\SimpleLauncher\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AreasDto.cs" />
+    <Compile Include="Common\BrokenDto.cs" />
+    <Compile Include="Common\BulkColumnAttribute.cs" />
+    <Compile Include="Common\ExportDataEntity.cs" />
+    <Compile Include="Common\ExportSettings.cs" />
+    <Compile Include="Common\ImportSourceFile.cs" />
+    <Compile Include="Common\SenderInfoDto.cs" />
+    <Compile Include="Consolidation\AltsDto.cs" />
+    <Compile Include="Consolidation\AnswersDto.cs" />
+    <Compile Include="Consolidation\AppealsDto.cs" />
+    <Compile Include="Consolidation\AppealTasksDto.cs" />
+    <Compile Include="Consolidation\DatsGroupsDto.cs" />
+    <Compile Include="Consolidation\DatsBordersDto.cs" />
+    <Compile Include="Consolidation\HumanTestsDto.cs" />
+    <Compile Include="Consolidation\MarksDto.cs" />
+    <Compile Include="Consolidation\PrnfCertificatePrintMainDto.cs" />
+    <Compile Include="Consolidation\SheetsCDto.cs" />
+    <Compile Include="Consolidation\ComplectsDto.cs" />
+    <Compile Include="CitizenshipDto.cs" />
+    <Compile Include="Consolidation\FinalMarksCDto.cs" />
+    <Compile Include="Consolidation\MarksCDto.cs" />
+    <Compile Include="AddressDto.cs" />
+    <Compile Include="AddressTypeDto.cs" />
+    <Compile Include="BuildingTypeDto.cs" />
+    <Compile Include="CertificateKeysDto.cs" />
+    <Compile Include="CodeRangesDto.cs" />
+    <Compile Include="Extensions\PeopleDtoExtensions.cs" />
+    <Compile Include="Interfaces\IDtoWithAddress.cs" />
+    <Compile Include="Interfaces\IDtoWithAddressType.cs" />
+    <Compile Include="Interfaces\IDtoWithCurrentRegion.cs" />
+    <Compile Include="Interfaces\IDtoWithSchool.cs" />
+    <Compile Include="Interfaces\IPeopleDto.cs" />
+    <Compile Include="ParticipantsVerbalExamPlacesOnStationDto.cs" />
+    <Compile Include="ReportJournalDto.cs" />
+    <Compile Include="TimeZonesDto.cs" />
+    <Compile Include="Interfaces\IDtoWithAuditorium.cs" />
+    <Compile Include="Interfaces\IDtoWithDocument.cs" />
+    <Compile Include="Interfaces\IDtoWithExam.cs" />
+    <Compile Include="Interfaces\IDtoWithExpert.cs" />
+    <Compile Include="Interfaces\IDtoWithParticipantExam.cs" />
+    <Compile Include="Interfaces\IDtoWithRegion.cs" />
+    <Compile Include="Interfaces\IDtoWithSchemeVersion.cs" />
+    <Compile Include="Interfaces\IDtoWithStation.cs" />
+    <Compile Include="Interfaces\IDtoWithStationExam.cs" />
+    <Compile Include="Interfaces\IDtoWithStationWorker.cs" />
+    <Compile Include="Interfaces\IDtoWithSubject.cs" />
+    <Compile Include="Interfaces\IDtoWithWave.cs" />
+    <Compile Include="Interfaces\IDtoWithWorkerPosition.cs" />
+    <Compile Include="ParticipantsExamsOnSchoolDto.cs" />
+    <Compile Include="RegionDtoBase.cs" />
+    <Compile Include="SWorkerRoleDto.cs" />
+    <Compile Include="LocalityTypeDto.cs" />
+    <Compile Include="StreetTypeDto.cs" />
+    <Compile Include="ExpertCategoriesDto.cs" />
+    <Compile Include="SchoolAddressDto.cs" />
+    <Compile Include="CurrentRegionAddressDto.cs" />
+    <Compile Include="Enums\Enums.cs" />
+    <Compile Include="Extensions\CreateDtoExtensions.cs" />
+    <Compile Include="AuditoriumsDto.cs" />
+    <Compile Include="AuditoriumsSubjectsDto.cs" />
+    <Compile Include="Common\KeyCodeDto.cs" />
+    <Compile Include="Interfaces\DtoBase.cs" />
+    <Compile Include="Interfaces\DtoCreateDateBase.cs" />
+    <Compile Include="Interfaces\IDtoDataCollector.cs" />
+    <Compile Include="Interfaces\IDtoProcessorAccepter.cs" />
+    <Compile Include="Interfaces\IDtoProcessVisitor.cs" />
+    <Compile Include="Interfaces\IDtoVisitor.cs" />
+    <Compile Include="Interfaces\IDtoVisitorAccepter.cs" />
+    <Compile Include="Interfaces\IUidableDto.cs" />
+    <Compile Include="SearchTemplatesDto.cs" />
+    <Compile Include="Extensions\Extensions.cs" />
+    <Compile Include="Interfaces\IDuplicated.cs" />
+    <Compile Include="Interfaces\IKeyCode.cs" />
+    <Compile Include="Extensions\MonadicExtensions.cs" />
+    <Compile Include="CurrentRegionDto.cs" />
+    <Compile Include="DocumentTypesDto.cs" />
+    <Compile Include="EducationKindsDto.cs" />
+    <Compile Include="EducationTypesDto.cs" />
+    <Compile Include="ExamsDto.cs" />
+    <Compile Include="ExpertsDto.cs" />
+    <Compile Include="ExpertsExamsDto.cs" />
+    <Compile Include="ExpertsSubjectsDto.cs" />
+    <Compile Include="GovernmentsDto.cs" />
+    <Compile Include="Interfaces\IDto.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\IImportEntity.cs" />
+    <Compile Include="Interfaces\IWizardSettingsManager.cs" />
+    <Compile Include="OrganizationRolesDto.cs" />
+    <Compile Include="ParticipantCategoriesDto.cs" />
+    <Compile Include="ParticipantPropertiesDto.cs" />
+    <Compile Include="ParticipantsDto.cs" />
+    <Compile Include="ParticipantsExamPlacesOnStationDto.cs" />
+    <Compile Include="ParticipantsExamsDto.cs" />
+    <Compile Include="ParticipantsExamsHistoryDto.cs" />
+    <Compile Include="ParticipantsExamsOnStationDto.cs" />
+    <Compile Include="ParticipantsProfilingSubjectDto.cs" />
+    <Compile Include="ParticipantsSubjectDto.cs" />
+    <Compile Include="PCentersDto.cs" />
+    <Compile Include="PlacesDto.cs" />
+    <Compile Include="RegionsDto.cs" />
+    <Compile Include="SchemeVersionsDto.cs" />
+    <Compile Include="SchoolKindsDto.cs" />
+    <Compile Include="SchoolParticipantDto.cs" />
+    <Compile Include="SchoolPropertiesDto.cs" />
+    <Compile Include="SchoolsDto.cs" />
+    <Compile Include="SchoolTypesDto.cs" />
+    <Compile Include="StationExamAuditoryDto.cs" />
+    <Compile Include="StationsDto.cs" />
+    <Compile Include="StationsExamsDto.cs" />
+    <Compile Include="StationWorkerOnExamDto.cs" />
+    <Compile Include="StationWorkerOnStationDto.cs" />
+    <Compile Include="StationWorkersDto.cs" />
+    <Compile Include="StationWorkersSubjectsDto.cs" />
+    <Compile Include="StudyDto.cs" />
+    <Compile Include="SubjectsDto.cs" />
+    <Compile Include="SWorkerPositionsDto.cs" />
+    <Compile Include="TownshipsDto.cs" />
+    <Compile Include="TownTypesDto.cs" />
+    <Compile Include="WavesDto.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ExamPassportDto.cs" />
+    <Compile Include="StationWorkersAccreditationDto.cs" />
+    <Compile Include="RegionRequisitesDto.cs" />
+    <Compile Include="RegionSettingsDto.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RBD.Common\RBD.Common.csproj">
+      <Project>{ADC581D2-8B1B-4828-9DA6-AF967DF2DBE6}</Project>
+      <Name>RBD.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

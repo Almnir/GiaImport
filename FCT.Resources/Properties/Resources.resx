@@ -1,0 +1,506 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="ATECardReport" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\reports\atecardreport.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ExpertCardReport" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\reports\expertcardreport.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="GovCardReport" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\reports\govcardreport.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ParticipantCardReport" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\reports\participantcardreport.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="PPOICardReport" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\reports\ppoicardreport.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ReporertLangRussian" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\reporertlangrussian.xml;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
+  </data>
+  <data name="SchoolCardReport" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\reports\schoolcardreport.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ShartpshooterExpressLicense" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\shartpshooterexpresslicense.elic;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="testreport" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\reports\testreport.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="PPECardReport" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\reports\ppecardreport.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="AuditoriumCardReport" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\reports\auditoriumcardreport.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="rbdbootstrapper" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\rbdbootstrapper.exe;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ParticipantsQuantityReport" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\reports\participantsquantityreport.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ExamRegisteringReconciliationReport" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\reports\examregisteringreconciliationreport.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="K03_RoomControlReport" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\K03_RoomControlReport.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="K04_WorkerControlReport" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\K04_WorkerControlReport.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="K06_ReadyToExamReport" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\K06_ReadyToExamReport.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="K07_TotalReport" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\K07_TotalReport.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="K08_TotalWorkerControlReport" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\K08_TotalWorkerControlReport.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="PF01_RegionControl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\PF01_RegionControl.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="PF02_GovernmentControl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\PF02_GovernmentControl.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="PF03_AreaControl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\PF03_AreaControl.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="PF04_SchoolControl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\PF04_SchoolControl.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="PF05_PCenterControl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\PF05_PCenterControl.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="PF06_SWorkersControl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\PF06_SWorkersControl.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="PF07_ExpertsControl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\PF07_ExpertsControl.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="PF08_StationsControl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\PF08_StationsControl.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="PF09_SAudControl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\PF09_SAudControl.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="PF10_ParticipantControl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\PF10_ParticipantControl.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SB01_SummaryPreparationReport" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\SB01_SummaryPreparationReport.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SB02_StationWorkersReport" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\SB02_StationWorkersReport.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SB03_PeopleCountReport" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\SB03_PeopleCountReport.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SB04_VerifyReport" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\SB04_VerifyReport.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SB05_ExamPreparationReport" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\SB05_ExamPreparationReport.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SB06_PeopleCategoriesReport" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\SB06_PeopleCategoriesReport.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SB07_StationPlacesReport" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\SB07_StationPlacesReport.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="PL05_Materials" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\PL05_Materials.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="PF11_ParticipantDublication" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\PF11_ParticipantDublication.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="PF12_SWorkerDublication" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\PF12_SWorkerDublication.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="PL02_SchoolToStationReport" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\PL02_SchoolToStationReport.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="PL03_SWorkerEx" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\PL03_SWorkerEx.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="PL01_ParticipantByStation" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\PL01_ParticipantByStation.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SB08_ParticipantCountByExam" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\SB08_ParticipantCountByExam.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SB09_ExamDate" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\SB09_ExamDate.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ST01_StationReports" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\ST01_StationReports.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="PL07_Pass" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\PL07_Pass.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="PL04_SWorkerSetting" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\PL04_SWorkerSetting.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="PL06_SWorkerPlan" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\PL06_SWorkerPlan.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SB10_Registration" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\SB10_Registration.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="db" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\db.zip;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="R01_PResult" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\R01_PResult.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="K01B_StationAppointment" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\K01B_StationAppointment.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="K01A_StationReservingReport" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\K01A_StationReservingReport.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="PPEWorkerCardReport" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\PPEWorkerCardReport.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SB12_NotParticipant" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\SB12_NotParticipant.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SB01g_SummaryPreparationReport" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\reports\sb01g_summarypreparationreport.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SB03g_PeopleCountReport" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\reports\sb03g_peoplecountreport.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SB04g_VerifyReport" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\reports\sb04g_verifyreport.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="K06g_ReadyToExamReport" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\K06g_ReadyToExamReport.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="PL09_RegistrationCodesReport" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\PL09_RegistrationCodesReport.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ST01_ppe1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\ST01-ppe1.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ST01_ppe111" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\ST01-ppe111.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ST01_ppe111_tom" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\ST01-ppe111_tom.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ST01_ppe121" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\ST01-ppe121.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ST01_ppe122" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\ST01-ppe122.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ST01_ppe131" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\ST01-ppe131.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ST01_ppe131_tom" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\ST01-ppe131_tom.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ST01_ppe132_gia" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\ST01-ppe132_gia.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ST01_ppe132_gia_tom" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\ST01-ppe132_gia_tom.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ST01_ppe141" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\ST01-ppe141.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ST01_ppe141_ovz" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\ST01-ppe141_ovz.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ST01_ppe141_tom" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\ST01-ppe141_tom.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ST01_ppe142" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\ST01-ppe142.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ST01_ppe142_tom" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\ST01-ppe142_tom.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ST01_ppe15_tom" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\ST01-ppe15_tom.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ST01_ppe16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\ST01-ppe16.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ST01_ppe18_gia" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\ST01-ppe18_gia.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ST01_ppe19" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\ST01-ppe19.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ST01_ppe2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\ST01-ppe2.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ST01_ppe3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\ST01-ppe3.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ST01_ppe51" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\ST01-ppe51.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ST01_ppe52" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\ST01-ppe52.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ST01_ppe61" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\ST01-ppe61.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ST01_ppe62" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\ST01-ppe62.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ST01_ppe71" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\ST01-ppe71.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ST01_ppe72" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\ST01-ppe72.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="delete" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\delete.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="flag_red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\flag red.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="select_all" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\select_all.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="select_none" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\select_none.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_lock" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\lock.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PL10_SWorkerVoice" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\reports\pl10_sworkervoice.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ST01_ppe10" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\ST01-ppe10.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ST01_ppe123" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\ST01-ppe123.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ST01_ppe20" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\ST01-ppe20.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ST01_ppe21" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\ST01-ppe21.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ST01_ppe22" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\ST01-ppe22.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ST02_ppe52" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\ST02-ppe52.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ST02_ppe61" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\ST02-ppe61.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ST02_ppe72" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\ST02-ppe72.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ST02_Protokol_rezultatov_GVE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\ST02-Protokol_rezultatov_GVE.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="K09_FillAuditoriumsControlReport" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\K09_FillAuditoriumsControlReport.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SB07g_StationPlacesReport" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\SB07g_StationPlacesReport.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ST01_ppe11y" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\reports\st01-ppe11y.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ST01_ppe53y" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\reports\st01-ppe53y.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ST01_ppe54y" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\ST01-ppe54y.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="K10_ControlVerbalPlaningWokerAndAuditoriums" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\reports\k10_controlverbalplaningwokerandauditoriums.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="OpusBlankRegistartion" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\blanks\opusblankregistartion.tif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="OpusBlankWritingOneSidedPrintingAuto" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\blanks\opusblankwritingonesidedprintingauto.tif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="OpusBlankWritingOneSidedPrintingManual" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\blanks\opusblankwritingonesidedprintingmanual.tif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="OpusBlankWritingTwoSidedPrintingAuto" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\blanks\opusblankwritingtwosidedprintingauto.tif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="OpusBlankWritingTwoSidedPrintingAutoBack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\blanks\opusblankwritingtwosidedprintingautoback.tif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="OpusBlankWritingTwoSidedPrintingManual" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\blanks\opusblankwritingtwosidedprintingmanual.tif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="OpusBlankWritingTwoSidedPrintingManualBack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\blanks\opusblankwritingtwosidedprintingmanualback.tif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="OP01_ParticipantBySchool" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\reports\op01_participantbyschool.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="OP02_SchoolToSchoolReport" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\OP02_SchoolToSchoolReport.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="0P04_SchoolReportTotalCheck" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\reports\0p04_schoolreporttotalcheck.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="0P05_SchoolReportOpusInAuditorium" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\reports\0p05_schoolreportopusinauditorium.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="0P06_SchoolReportOpusCheckResult" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\reports\0p06_schoolreportopuscheckresult.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SB01_SummaryPreparationReport_Opus" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\reports\sb01_summarypreparationreport_opus.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="OP03_OpusPass" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\reports\op03_opuspass.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="OP07_ChangeParticipantsInfo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\reports\op07_changeparticipantsinfo.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="K02_DistributedControlReport" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\K02_DistributedControlReport.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StuffOrderByRegion" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\StuffOrderByRegion.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StuffOrderByStation" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Reports\StuffOrderByStation.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ST01_ppe15" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\reports\st01-ppe15.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ST01_ppe7y_gia" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\reports\st01-ppe7y_gia.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="ST01_ppe133y" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\reports\st01-ppe133y.rst;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+</root>

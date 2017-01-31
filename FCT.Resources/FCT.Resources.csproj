@@ -1,0 +1,513 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2C7101B2-9046-4CA5-A62D-519891E0F50D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RBD.Resources</RootNamespace>
+    <AssemblyName>RBD.Resources</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;MP</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugUnit|AnyCPU' ">
+    <OutputPath>bin\DebugUnit\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;MP</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugUnit|x86' ">
+    <OutputPath>bin\x86\DebugUnit\</OutputPath>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release-Gia|AnyCPU' ">
+    <OutputPath>bin\Release-Gia\</OutputPath>
+    <DefineConstants>TRACE;GIA</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release-Gia|x86' ">
+    <OutputPath>bin\Release-Gia\</OutputPath>
+    <DefineConstants>TRACE;GIA</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'GIA|AnyCPU' ">
+    <OutputPath>bin\GIA\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'GIA|x86' ">
+    <OutputPath>bin\x86\GIA\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug-Gia|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug-Gia\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;GIA</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug-Gia|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug-Gia\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;GIA</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release-GiaOnlyImport|AnyCPU' ">
+    <OutputPath>bin\Release-GiaOnlyImport\</OutputPath>
+    <DefineConstants>TRACE;GIA</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release-GiaOnlyImport|x86' ">
+    <OutputPath>bin\x86\Release-GiaOnlyImport\</OutputPath>
+    <DefineConstants>TRACE;GIA</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug-GiaOnlyImport|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug-GiaOnlyImport\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;GIA</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug-GiaOnlyImport|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug-GiaOnlyImport\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;GIA</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release-GiaDataCollect|AnyCPU' ">
+    <OutputPath>bin\Release-GiaDataCollect\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release-GiaDataCollect|x86' ">
+    <OutputPath>bin\x86\Release-GiaDataCollect\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug-GiaDataCollect|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug-GiaDataCollect\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;GIA</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug-GiaDataCollect|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug-GiaDataCollect\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;GIA</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'SimpleLauncher|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\SimpleLauncher\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;MP</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'SimpleLauncher|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\SimpleLauncher\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;MP</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Wrapper\AbstractWrapper.cs" />
+    <Compile Include="Wrapper\GiaWrapper.cs" />
+    <Compile Include="Wrapper\IWrapper.cs" />
+    <Compile Include="Properties\RbdResource.Designer.cs">
+      <DependentUpon>RbdResource.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Properties\GiaResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GiaResource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Wrapper\RbdUege2015AppWrapper.cs" />
+    <Compile Include="Wrapper\RbdWrapper.cs" />
+    <Compile Include="ResourceWrapper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Reports\ST01-ppe133y.rst" />
+    <None Include="Reports\ST01-ppe7y_gia.rst" />
+    <None Include="Reports\0P04_SchoolReportTotalCheck.rst" />
+    <None Include="Reports\0P05_SchoolReportOpusInAuditorium.rst" />
+    <None Include="Reports\0P06_SchoolReportOpusCheckResult.rst" />
+    <None Include="Reports\ATECardReport.rst" />
+    <None Include="Reports\AuditoriumCardReport.rst" />
+    <None Include="Reports\ExpertCardReport.rst" />
+    <None Include="Reports\GovCardReport.rst" />
+    <None Include="Reports\K10_ControlVerbalPlaningWokerAndAuditoriums.rst" />
+    <None Include="Reports\OP01_ParticipantBySchool.rst" />
+    <None Include="Reports\OP02_SchoolToSchoolReport.rst" />
+    <None Include="Reports\OP03_OpusPass.rst" />
+    <None Include="Reports\OP07_ChangeParticipantsInfo.rst" />
+    <None Include="Reports\ParticipantCardReport.rst" />
+    <None Include="Reports\PPECardReport.rst" />
+    <None Include="Reports\PPEWorkerCardReport.rst" />
+    <None Include="Reports\PPOICardReport.rst" />
+    <None Include="Reports\SB01_SummaryPreparationReport_Opus.rst">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Reports\SchoolCardReport.rst" />
+    <None Include="Reports\ST01-ppe15.rst" />
+    <None Include="Reports\StuffOrderByRegion.rst" />
+    <None Include="Reports\StuffOrderByStation.rst" />
+    <None Include="Reports\testreport.rst" />
+    <None Include="ShartpshooterExpressLicense.elic" />
+    <None Include="ST01-ppe15.rst" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\RbdResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>RbdResource.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\GiaResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>GiaResource.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReporertLangRussian.xml" />
+    <None Include="Reports\K06g_ReadyToExamReport.rst" />
+    <None Include="Reports\K09_FillAuditoriumsControlReport.rst" />
+    <None Include="Reports\PL09_RegistrationCodesReport.rst" />
+    <None Include="Reports\PL10_SWorkerVoice.rst" />
+    <None Include="Reports\SB03g_PeopleCountReport.rst" />
+    <None Include="Reports\SB01g_SummaryPreparationReport.rst" />
+    <None Include="Reports\SB04g_VerifyReport.rst" />
+    <None Include="Reports\SB07g_StationPlacesReport.rst" />
+    <None Include="Reports\ST01-ppe1.rst">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Reports\ST01-ppe10.rst" />
+    <None Include="Reports\ST01-ppe111.rst" />
+    <None Include="Reports\ST01-ppe111_tom.rst" />
+    <None Include="Reports\ST01-ppe11y.rst" />
+    <None Include="Reports\ST01-ppe121.rst" />
+    <None Include="Reports\ST01-ppe122.rst" />
+    <None Include="Reports\ST01-ppe123.rst" />
+    <None Include="Reports\ST01-ppe131.rst" />
+    <None Include="Reports\ST01-ppe131_tom.rst" />
+    <None Include="Reports\ST01-ppe132_gia.rst" />
+    <None Include="Reports\ST01-ppe132_gia_tom.rst" />
+    <None Include="Reports\ST01-ppe141.rst" />
+    <None Include="Reports\ST01-ppe141_ovz.rst" />
+    <None Include="Reports\ST01-ppe141_tom.rst" />
+    <None Include="Reports\ST01-ppe142.rst" />
+    <None Include="Reports\ST01-ppe142_tom.rst" />
+    <None Include="Reports\ST01-ppe15_tom.rst" />
+    <None Include="Reports\ST01-ppe16.rst" />
+    <None Include="Reports\ST01-ppe18_gia.rst" />
+    <None Include="Reports\ST01-ppe19.rst" />
+    <None Include="Reports\ST01-ppe1y.rst" />
+    <None Include="Reports\ST01-ppe2.rst" />
+    <None Include="Reports\ST01-ppe20.rst" />
+    <None Include="Reports\ST01-ppe21.rst" />
+    <None Include="Reports\ST01-ppe22.rst" />
+    <None Include="Reports\ST01-ppe3.rst" />
+    <None Include="Reports\ST01-ppe51.rst" />
+    <None Include="Reports\ST01-ppe52.rst" />
+    <None Include="Reports\ST01-ppe53y.rst" />
+    <None Include="Reports\ST01-ppe54y.rst" />
+    <None Include="Reports\ST01-ppe61.rst" />
+    <None Include="Reports\ST01-ppe62.rst" />
+    <None Include="Reports\ST01-ppe71.rst" />
+    <None Include="Reports\ST01-ppe72.rst" />
+    <None Include="Reports\ST02-ppe52.rst" />
+    <None Include="Reports\ST02-ppe61.rst" />
+    <None Include="Reports\ST02-ppe72.rst" />
+    <None Include="Reports\ST02-Protokol_rezultatov_GVE.rst" />
+    <None Include="Resources\Gia.ico" />
+    <None Include="Resources\rbd.ico" />
+    <None Include="Resources\lock.png" />
+    <None Include="Resources\delete.png" />
+    <None Include="Resources\flag red.png" />
+    <None Include="Resources\select_all.png" />
+    <None Include="Resources\select_none.png" />
+    <None Include="app.config" />
+    <None Include="Reports\ConsolidatedAnnualReport.rst" />
+    <None Include="Reports\ExamRegisteringReconciliationReport.rst" />
+    <None Include="Reports\K01A_StationReservingReport.rst" />
+    <None Include="Reports\K01B_StationAppointment.rst" />
+    <None Include="Reports\K02_DistributedControlReport.rst">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Reports\K03_RoomControlReport.rst" />
+    <None Include="Reports\K04_WorkerControlReport.rst" />
+    <None Include="Reports\K06_ReadyToExamReport.rst" />
+    <None Include="Reports\K07_TotalReport.rst">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Reports\K08_TotalWorkerControlReport.rst" />
+    <None Include="Reports\ParticipantsQuantityReport.rst" />
+    <None Include="Reports\PF01_RegionControl.rst" />
+    <None Include="Reports\PF02_GovernmentControl.rst" />
+    <None Include="Reports\PF03_AreaControl.rst" />
+    <None Include="Reports\PF04_SchoolControl.rst" />
+    <None Include="Reports\PF05_PCenterControl.rst" />
+    <None Include="Reports\PF06_SWorkersControl.rst" />
+    <None Include="Reports\PF07_ExpertsControl.rst" />
+    <None Include="Reports\PF08_StationsControl.rst" />
+    <None Include="Reports\PF09_SAudControl.rst" />
+    <None Include="Reports\PF10_ParticipantControl.rst" />
+    <None Include="Reports\PF11_ParticipantDublication.rst" />
+    <None Include="Reports\PF12_SWorkerDublication.rst" />
+    <None Include="Reports\PL01_ParticipantByStation.rst" />
+    <None Include="Reports\PL02_SchoolToStationReport.rst" />
+    <None Include="Reports\PL03_SWorkerEx.rst" />
+    <None Include="Reports\PL04_SWorkerSetting.rst" />
+    <None Include="Reports\PL05_Materials.rst" />
+    <None Include="Reports\PL06_SWorkerPlan.rst" />
+    <None Include="Reports\PL07_Pass.rst" />
+    <None Include="Reports\R01_PResult.rst" />
+    <None Include="Reports\SB01_SummaryPreparationReport.rst" />
+    <None Include="Reports\SB02_StationWorkersReport.rst" />
+    <None Include="Reports\SB03_PeopleCountReport.rst" />
+    <None Include="Reports\SB04_VerifyReport.rst" />
+    <None Include="Reports\SB05_ExamPreparationReport.rst" />
+    <None Include="Reports\SB06_PeopleCategoriesReport.rst" />
+    <None Include="Reports\SB07_StationPlacesReport.rst" />
+    <None Include="Reports\SB08_ParticipantCountByExam.rst" />
+    <None Include="Reports\SB09_ExamDate.rst" />
+    <None Include="Reports\SB10_Registration.rst" />
+    <None Include="Reports\SB12_NotParticipant.rst" />
+    <None Include="Reports\ST01_StationReports.rst" />
+    <None Include="Resources\rbdbootstrapper.exe" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{967B4E0D-AD0C-4609-AB67-0FA40C0206D8}" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Blanks\OpusBlankRegistartion.tif" />
+    <Content Include="Blanks\OpusBlankWritingOneSidedPrintingAuto.tif" />
+    <Content Include="Blanks\OpusBlankWritingOneSidedPrintingManual.tif" />
+    <Content Include="Blanks\OpusBlankWritingTwoSidedPrintingAuto.tif" />
+    <Content Include="Blanks\OpusBlankWritingTwoSidedPrintingAutoBack.tif" />
+    <Content Include="Blanks\OpusBlankWritingTwoSidedPrintingManual.tif" />
+    <Content Include="Blanks\OpusBlankWritingTwoSidedPrintingManualBack.tif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Settings\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+</Project>
