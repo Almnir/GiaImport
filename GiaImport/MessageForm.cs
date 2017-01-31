@@ -5,12 +5,10 @@ namespace GiaImport
 {
     public partial class MessageForm : MetroFramework.Forms.MetroForm
     {
-        public enum EnumMessageIcon
+        public enum EnumMessageStyle
         {
             Error,
-            Warning,
-            Information,
-            Question,
+            Information
         }
 
         public MessageForm()
@@ -33,22 +31,19 @@ namespace GiaImport
             this.metroTextBox1.Text = content;
         }
 
-        public void SetIcon(EnumMessageIcon messageIcon)
+        public void SetStyling(EnumMessageStyle messageStyle)
         {
             metroTile1.UseTileImage = true;
-            switch (messageIcon)
+            metroTile1.TileCount = 1;
+            switch (messageStyle)
             {
-                case EnumMessageIcon.Error:
-                    metroTile1.Image = SystemIcons.Error.ToBitmap();
+                case EnumMessageStyle.Error:
+                    metroTile1.Style = MetroFramework.MetroColorStyle.Red;
+                    metroTile1.Text = "Error";
                     break;
-                case EnumMessageIcon.Information:
-                    metroTile1.Image = SystemIcons.Information.ToBitmap();
-                    break;
-                case EnumMessageIcon.Question:
-                    metroTile1.Image = SystemIcons.Question.ToBitmap();
-                    break;
-                case EnumMessageIcon.Warning:
-                    metroTile1.Image = SystemIcons.Warning.ToBitmap();
+                case EnumMessageStyle.Information:
+                    metroTile1.Style = MetroFramework.MetroColorStyle.Default;
+                    metroTile1.Text = "Info";
                     break;
             }
         }
@@ -58,13 +53,13 @@ namespace GiaImport
             Close();
         }
 
-        public static void ShowDialog(string title, string content, string extendedcontent, EnumMessageIcon icon)
+        public static void ShowDialog(string title, string content, string extendedcontent, EnumMessageStyle messageStyle)
         {
             MessageForm mform = new MessageForm();
             mform.SetTitle(title);
             mform.SetContent(content);
             mform.SetExtendedContent(extendedcontent);
-            mform.SetIcon(icon);
+            mform.SetStyling(messageStyle);
             mform.ShowDialog();
         }
 

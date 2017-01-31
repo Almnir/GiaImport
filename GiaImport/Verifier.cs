@@ -89,23 +89,23 @@ namespace GiaImport
             this.errorString = string.Empty;
         }
 
-        public async void VerifySingleFile(string xsdFileName, string xmlFileName, IProgress<int> progress)
-        {
-            XmlReaderSettings readerSettings = new XmlReaderSettings();
-            readerSettings.Async = true;
-            // TODO: хардкод, вынести в константы
-            readerSettings.Schemas.Add("http://www.rustest.ru/giadbset", xsdFileName);
-            readerSettings.ValidationType = ValidationType.Schema;
-            readerSettings.ValidationEventHandler += (sender, e) => ValidationEventHandler(sender, e, xsdFileName);
+        //public async void VerifySingleFile(string xsdFileName, string xmlFileName, IProgress<int> progress)
+        //{
+        //    XmlReaderSettings readerSettings = new XmlReaderSettings();
+        //    readerSettings.Async = true;
+        //    // TODO: хардкод, вынести в константы
+        //    readerSettings.Schemas.Add("http://www.rustest.ru/giadbset", xsdFileName);
+        //    readerSettings.ValidationType = ValidationType.Schema;
+        //    readerSettings.ValidationEventHandler += (sender, e) => ValidationEventHandler(sender, e, xsdFileName);
 
-            XmlReader xml = XmlReader.Create(xmlFileName, readerSettings);
-            int progressCounter = 0;
-            while (await xml.ReadAsync())
-            {
-                //progress.Report(progressCounter);
-                //progressCounter++;
-            }
-        }
+        //    XmlReader xml = XmlReader.Create(xmlFileName, readerSettings);
+        //    int progressCounter = 0;
+        //    while (await xml.ReadAsync())
+        //    {
+        //        //progress.Report(progressCounter);
+        //        //progressCounter++;
+        //    }
+        //}
         public void VerifySingleFile(string xsdFileName, string xmlFileName, CancellationToken ct)
         {
             XmlReaderSettings readerSettings = new XmlReaderSettings();
@@ -117,7 +117,7 @@ namespace GiaImport
 
             XmlReader xml = XmlReader.Create(xmlFileName, readerSettings);
             //int progressCounter = 0;
-            Thread.Sleep(2000);
+            //Thread.Sleep(10);
             while (xml.Read())
             {
                 ct.ThrowIfCancellationRequested();

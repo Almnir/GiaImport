@@ -33,13 +33,13 @@ namespace GiaImport
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GiaImportMainForm));
             this.metroListView1 = new MetroFramework.Controls.MetroListView();
-            this.openFilesButton = new MetroFramework.Controls.MetroButton();
-            this.closeFilesButton = new MetroFramework.Controls.MetroButton();
-            this.validateButton = new MetroFramework.Controls.MetroButton();
-            this.importButton = new MetroFramework.Controls.MetroButton();
             this.metroContextMenu1 = new MetroFramework.Controls.MetroContextMenu(this.components);
             this.checkAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uncheckAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openFilesButton = new MetroFramework.Controls.MetroButton();
+            this.prepareFilesButton = new MetroFramework.Controls.MetroButton();
+            this.validateButton = new MetroFramework.Controls.MetroButton();
+            this.importButton = new MetroFramework.Controls.MetroButton();
             this.metroContextMenu1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -62,6 +62,28 @@ namespace GiaImport
             this.metroListView1.UseSelectable = true;
             this.metroListView1.View = System.Windows.Forms.View.List;
             // 
+            // metroContextMenu1
+            // 
+            this.metroContextMenu1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.checkAllToolStripMenuItem,
+            this.uncheckAllToolStripMenuItem});
+            this.metroContextMenu1.Name = "metroContextMenu1";
+            this.metroContextMenu1.Size = new System.Drawing.Size(146, 48);
+            // 
+            // checkAllToolStripMenuItem
+            // 
+            this.checkAllToolStripMenuItem.Name = "checkAllToolStripMenuItem";
+            this.checkAllToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.checkAllToolStripMenuItem.Text = "Выделить все";
+            this.checkAllToolStripMenuItem.Click += new System.EventHandler(this.checkAllToolStripMenuItem_Click_1);
+            // 
+            // uncheckAllToolStripMenuItem
+            // 
+            this.uncheckAllToolStripMenuItem.Name = "uncheckAllToolStripMenuItem";
+            this.uncheckAllToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.uncheckAllToolStripMenuItem.Text = "Снять все";
+            this.uncheckAllToolStripMenuItem.Click += new System.EventHandler(this.uncheckAllToolStripMenuItem_Click);
+            // 
             // openFilesButton
             // 
             this.openFilesButton.Location = new System.Drawing.Point(20, 64);
@@ -72,19 +94,19 @@ namespace GiaImport
             this.openFilesButton.UseSelectable = true;
             this.openFilesButton.Click += new System.EventHandler(this.openFilesButton_Click);
             // 
-            // closeFilesButton
+            // prepareFilesButton
             // 
-            this.closeFilesButton.Location = new System.Drawing.Point(141, 64);
-            this.closeFilesButton.Name = "closeFilesButton";
-            this.closeFilesButton.Size = new System.Drawing.Size(115, 42);
-            this.closeFilesButton.TabIndex = 7;
-            this.closeFilesButton.Text = "Закрыть Файлы";
-            this.closeFilesButton.UseSelectable = true;
-            this.closeFilesButton.Click += new System.EventHandler(this.closeFilesButton_Click);
+            this.prepareFilesButton.Location = new System.Drawing.Point(262, 64);
+            this.prepareFilesButton.Name = "prepareFilesButton";
+            this.prepareFilesButton.Size = new System.Drawing.Size(115, 42);
+            this.prepareFilesButton.TabIndex = 7;
+            this.prepareFilesButton.Text = "Подготовить";
+            this.prepareFilesButton.UseSelectable = true;
+            this.prepareFilesButton.Click += new System.EventHandler(this.prepareFilesButton_Click);
             // 
             // validateButton
             // 
-            this.validateButton.Location = new System.Drawing.Point(262, 64);
+            this.validateButton.Location = new System.Drawing.Point(141, 64);
             this.validateButton.Name = "validateButton";
             this.validateButton.Size = new System.Drawing.Size(115, 42);
             this.validateButton.TabIndex = 8;
@@ -102,28 +124,6 @@ namespace GiaImport
             this.importButton.UseSelectable = true;
             this.importButton.Click += new System.EventHandler(this.importButton_Click);
             // 
-            // metroContextMenu1
-            // 
-            this.metroContextMenu1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.checkAllToolStripMenuItem,
-            this.uncheckAllToolStripMenuItem});
-            this.metroContextMenu1.Name = "metroContextMenu1";
-            this.metroContextMenu1.Size = new System.Drawing.Size(149, 48);
-            // 
-            // checkAllToolStripMenuItem
-            // 
-            this.checkAllToolStripMenuItem.Name = "checkAllToolStripMenuItem";
-            this.checkAllToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
-            this.checkAllToolStripMenuItem.Text = "Выделить все";
-            this.checkAllToolStripMenuItem.Click += new System.EventHandler(this.checkAllToolStripMenuItem_Click_1);
-            // 
-            // uncheckAllToolStripMenuItem
-            // 
-            this.uncheckAllToolStripMenuItem.Name = "uncheckAllToolStripMenuItem";
-            this.uncheckAllToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
-            this.uncheckAllToolStripMenuItem.Text = "Снять все";
-            this.uncheckAllToolStripMenuItem.Click += new System.EventHandler(this.uncheckAllToolStripMenuItem_Click);
-            // 
             // GiaImportMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -131,7 +131,7 @@ namespace GiaImport
             this.ClientSize = new System.Drawing.Size(719, 513);
             this.Controls.Add(this.importButton);
             this.Controls.Add(this.validateButton);
-            this.Controls.Add(this.closeFilesButton);
+            this.Controls.Add(this.prepareFilesButton);
             this.Controls.Add(this.openFilesButton);
             this.Controls.Add(this.metroListView1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -146,7 +146,7 @@ namespace GiaImport
         #endregion
         private MetroFramework.Controls.MetroListView metroListView1;
         private MetroFramework.Controls.MetroButton openFilesButton;
-        private MetroFramework.Controls.MetroButton closeFilesButton;
+        private MetroFramework.Controls.MetroButton prepareFilesButton;
         private MetroFramework.Controls.MetroButton validateButton;
         private MetroFramework.Controls.MetroButton importButton;
         private MetroFramework.Controls.MetroContextMenu metroContextMenu1;
