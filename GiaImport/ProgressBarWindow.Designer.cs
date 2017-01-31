@@ -91,6 +91,7 @@
             this.Resizable = false;
             this.ShowIcon = false;
             this.Text = "Выполнение";
+            this.TopMost = true;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ProgressBarWindow_FormClosed);
             this.Load += new System.EventHandler(this.ProgressBarWindow_Load);
             this.metroPanel1.ResumeLayout(false);
