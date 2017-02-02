@@ -32,7 +32,7 @@ namespace GiaImport
                 using (StringReader stringReader = new StringReader(xml))
                 using (var xmlReader = new CustomDateTimeReader(stringReader))
                 {
-                    var ser = new XmlSerializer(typeof(res_AnswersSet));
+                    var ser = new XmlSerializer(typeof(T));
                     returnObject = (T)ser.Deserialize(xmlReader);
                 }
             }
@@ -42,7 +42,6 @@ namespace GiaImport
             }
             return returnObject;
         }
-
 
 
         private static void BulkLoad_rbd_Address(IEnumerable<rbd_AddressSet> obj)

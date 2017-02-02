@@ -51,11 +51,10 @@
             // 
             // pbLabel
             // 
-            this.pbLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.pbLabel.AutoSize = true;
-            this.pbLabel.Location = new System.Drawing.Point(241, 4);
+            this.pbLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pbLabel.Location = new System.Drawing.Point(0, 0);
             this.pbLabel.Name = "pbLabel";
-            this.pbLabel.Size = new System.Drawing.Size(81, 19);
+            this.pbLabel.Size = new System.Drawing.Size(598, 23);
             this.pbLabel.TabIndex = 2;
             this.pbLabel.Text = "%filename%";
             this.pbLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -95,7 +94,6 @@
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ProgressBarWindow_FormClosed);
             this.Load += new System.EventHandler(this.ProgressBarWindow_Load);
             this.metroPanel1.ResumeLayout(false);
-            this.metroPanel1.PerformLayout();
             this.ResumeLayout(false);
 
         }

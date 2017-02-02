@@ -95,6 +95,12 @@ namespace GiaImport
             FileInfo fi = new FileInfo(zipfilename);
             plabel.Text = fi.Name;
             CancellationTokenSource source = new CancellationTokenSource();
+            int entriesCount = 0;
+            using (var zip = ZipFile.OpenRead(zipfilename))
+            {
+                entriesCount = zip.Entries.Count();
+            }
+            pbarTotal.Maximum = entriesCount - 1;
             IProgress<int> progress = new Progress<int>(value =>
             {
                 ProgressBar pb = pbw.GetProgressBarTotal();
@@ -114,7 +120,7 @@ namespace GiaImport
             pbw.Show();
             try
             {
-                Task task = Task.Run(() => RunUnpacker(pbarTotal, pbarLine, plabel, zipfilename, source.Token), source.Token);
+                Task task = Task.Run(() => RunUnpacker(pbarTotal, pbarLine, plabel, zipfilename, progress, source.Token), source.Token);
                 task.ContinueWith(taskc => EndUnpacker(pbw));
             }
             catch (TaskCanceledException)
@@ -142,8 +148,8 @@ namespace GiaImport
             }));
             foreach (var file in loadedFiles)
             {
-                    ListViewItem lvi = new ListViewItem(file.Value.Name);
-                    Invoke(new Action(() => { metroListView1.Items.Add(lvi); }));
+                ListViewItem lvi = new ListViewItem(file.Value.Name);
+                Invoke(new Action(() => { metroListView1.Items.Add(lvi); }));
             }
             Invoke(new Action(() => { metroListView1.Refresh(); }));
         }
@@ -246,12 +252,16 @@ namespace GiaImport
             pbw.Show();
             try
             {
+                if (!File.Exists(Globals.TEMP_DIR + @"\XMLcut.exe"))
+                {
+                    File.Copy(Directory.GetCurrentDirectory() + @"\XMLcut.exe", Globals.TEMP_DIR + @"\XMLcut.exe");
+                }
                 Task task = Task.Run(() => RunShrinker(pbarLine, plabel, progress, source.Token), source.Token);
                 task.ContinueWith(taskc => EndShrinker(pbw));
             }
-            catch (TaskCanceledException)
+            catch (Exception ex)
             {
-                MessageBox.Show("Операция отменена!");
+                MessageShowControl.ShowPrepareErrors(ex.ToString());
             }
         }
 
@@ -259,16 +269,17 @@ namespace GiaImport
         {
             pbw.Invoke((MethodInvoker)(() => { pbw.Close(); }));
             Invoke(new Action(() => { MessageShowControl.ShowPrepareSuccess(); }));
-            foreach(var files in actualCheckedFiles)
+            foreach (var files in actualCheckedFiles)
             {
                 // имя*.расширение
-                string filepattern = files.Value.Name.Substring(0, files.Value.Name.Length - 4) + "*" + ".xml";
-                string[] allFiles = Directory.GetFiles(Globals.TEMP_DIR, "*.xlsx");
+                string regexPattern = Path.GetFileNameWithoutExtension(files.Key) + @"_\d+.*$";
+                string filePattern = Path.GetFileNameWithoutExtension(files.Key) + @"*";
+                string[] allFiles = Directory.GetFiles(Globals.TEMP_DIR, filePattern);
                 if (allFiles.Length > 1)
                 {
                     foreach (var af in allFiles)
                     {
-                        if (!af.Equals(files.Value.Name))
+                        if (!Path.GetFileName(af).Equals(files.Value.Name))
                         {
                             FileInfo fi = new FileInfo(af);
                             preparedFiles.Add(af, fi);
@@ -301,7 +312,8 @@ namespace GiaImport
             pbw.SetTitle("Импорт выполняется...");
             ProgressBar pbarTotal = pbw.GetProgressBarTotal();
             ProgressBar pbarLine = pbw.GetProgressBarLine();
-            pbarTotal.Maximum = actualCheckedFiles.Count - 1;
+            // на 1 больше для запуска хранимки
+            pbarTotal.Maximum = actualCheckedFiles.Count;
             Label plabel = pbw.GetLabel();
             CancellationTokenSource source = new CancellationTokenSource();
             IProgress<int> progress = new Progress<int>(value =>
@@ -323,13 +335,29 @@ namespace GiaImport
             pbw.Show();
             try
             {
-                Task<ConcurrentDictionary<string, string>> task = Task.Run(() => RunImport(pbarLine, plabel, progress, source.Token), source.Token);
+                Task<ConcurrentDictionary<string, string>> task = Task.Run(() => RunImport(pbw, pbarLine, plabel, progress, source.Token), source.Token);
                 task.ContinueWith(taskc => EndImport(taskc, pbw));
             }
             catch (TaskCanceledException)
             {
                 MessageBox.Show("Операция отменена!");
             }
+        }
+
+        private void EndImport(Task taskc, ProgressBarWindow pbw)
+        {
+            if (!pbw.IsDisposed)
+            {
+                pbw.Invoke((MethodInvoker)(() => { pbw.Close(); }));
+                Invoke(new Action(() => { MessageShowControl.ShowImportSuccess(); }));
+            }
+            Invoke(new Action(() =>
+            {
+                openFilesButton.Enabled = true;
+                prepareFilesButton.Enabled = true;
+                validateButton.Enabled = true;
+                importButton.Enabled = true;
+            }));
         }
 
         private void filesCloseToolStripMenuItem_Click(object sender, EventArgs e)
@@ -344,18 +372,46 @@ namespace GiaImport
             metroListView1.Refresh();
         }
 
-        private ConcurrentDictionary<string, string> RunImport(ProgressBar pbarLine, Label plabel, IProgress<int> progress, CancellationToken ct)
+        private ConcurrentDictionary<string, string> RunImport(ProgressBarWindow pbw, ProgressBar pbarLine, Label plabel, IProgress<int> progress, CancellationToken ct)
         {
+
             Verifier verifier = new Verifier();
-            for (int i = 0; i <= actualCheckedFiles.Count - 1; i++)
+            try
             {
+                int i = 0;
+                for (; i <= actualCheckedFiles.Count - 1; i++)
+                {
+                    progress.Report(i);
+                    ct.ThrowIfCancellationRequested();
+                    string fileName = actualCheckedFiles[actualCheckedFiles.Keys.ElementAt(i)].Name;
+                    string xmlFilePath = actualCheckedFiles[actualCheckedFiles.Keys.ElementAt(i)].FullName;
+                    if (!plabel.IsDisposed)
+                    {
+                        plabel.Invoke((MethodInvoker)(() => plabel.Text = fileName));
+                    }
+                    pbarLine.Invoke((MethodInvoker)(() =>
+                    {
+                        pbarLine.Style = ProgressBarStyle.Marquee;
+                        pbarLine.MarqueeAnimationSpeed = 30;
+                        pbarLine.Visible = true;
+                    }));
+                    BulkManager.BulkStart(xmlFilePath, ((rows) => 
+                    {
+                        if (!plabel.IsDisposed)
+                        {
+                            plabel.Invoke((MethodInvoker)(() => plabel.Text = string.Format("{0} - {1}", fileName, rows.RowsCopied.ToString()) ));
+                        }
+                    }));
+                    pbarLine.Invoke((MethodInvoker)(() =>
+                    {
+                        pbarLine.Style = ProgressBarStyle.Continuous;
+                        pbarLine.MarqueeAnimationSpeed = 0;
+                    }));
+                }
                 progress.Report(i);
-                ct.ThrowIfCancellationRequested();
-                string fileName = actualCheckedFiles[actualCheckedFiles.Keys.ElementAt(i)].Name;
-                string xmlFilePath = actualCheckedFiles[actualCheckedFiles.Keys.ElementAt(i)].FullName;
                 if (!plabel.IsDisposed)
                 {
-                    plabel.Invoke((MethodInvoker)(() => plabel.Text = fileName));
+                    plabel.Invoke((MethodInvoker)(() => plabel.Text = "Табличное преобразование..."));
                 }
                 pbarLine.Invoke((MethodInvoker)(() =>
                 {
@@ -363,15 +419,30 @@ namespace GiaImport
                     pbarLine.MarqueeAnimationSpeed = 30;
                     pbarLine.Visible = true;
                 }));
-                ImportFile(xmlFilePath, ct);
+                BulkManager.RunStoredSynchronize();
                 pbarLine.Invoke((MethodInvoker)(() =>
                 {
                     pbarLine.Style = ProgressBarStyle.Continuous;
                     pbarLine.MarqueeAnimationSpeed = 0;
                 }));
+
+            }
+            catch (Exception ex)
+            {
+                pbw.Invoke((MethodInvoker)(() => { pbw.Close(); }));
+                Invoke(new Action(() => { MessageShowControl.ShowImportErrors(ex.ToString()); }));
+                Invoke(new Action(() =>
+                {
+                    openFilesButton.Enabled = true;
+                    prepareFilesButton.Enabled = true;
+                    validateButton.Enabled = true;
+                    importButton.Enabled = true;
+                }));
+
             }
             return verifier.errorDict;
         }
+
 
 
         private ConcurrentDictionary<string, string> RunVerifier(ProgressBar pbarLine, Label plabel, IProgress<int> progress, CancellationToken ct)
@@ -427,7 +498,7 @@ namespace GiaImport
                     tempDir = Globals.TEMP_DIR;
 
                 }
-                long threshold = GetAvailableRAM() / 4;
+                long threshold = GetAvailableRAM() / 10;
                 FileInfo fi = new FileInfo(xmlFilePath);
                 long fsizemb = fi.Length / (1024 * 1024);
                 if (fsizemb >= threshold)
@@ -453,7 +524,7 @@ namespace GiaImport
             }
         }
 
-        private void RunUnpacker(ProgressBar pbarTotal, ProgressBar pbarLine, Label plabel, string zipfilename, CancellationToken ct)
+        private void RunUnpacker(ProgressBar pbarTotal, ProgressBar pbarLine, Label plabel, string zipfilename, IProgress<int> progress, CancellationToken ct)
         {
             pbarLine.Invoke((MethodInvoker)(() =>
             {
@@ -468,6 +539,7 @@ namespace GiaImport
                 pbarTotal.Visible = true;
             }));
             //ZipFile.ExtractToDirectory(zipfilename, Globals.TEMP_DIR);
+            int counter = 0;
             using (ZipArchive zip = ZipFile.OpenRead(zipfilename))
             {
                 foreach (var e in zip.Entries)
@@ -477,6 +549,8 @@ namespace GiaImport
                     FileInfo fi = new FileInfo(filenewpath);
                     if (!loadedFiles.Keys.Contains(filenewpath) && !loadedFiles.Values.Contains(fi))
                     {
+                        progress.Report(counter);
+                        counter++;
                         loadedFiles.Add(filenewpath, fi);
                     }
                 }
@@ -537,7 +611,7 @@ namespace GiaImport
 
         private void importButton_Click(object sender, EventArgs e)
         {
-            //MessageForm.ShowDialog("Результаты верификации", "Верификация пройдена без ошибок!", string.Format("Ошибок нет."), MessageForm.EnumMessageStyle.Information);
+            Import();
         }
 
         private void openFilesButton_Click(object sender, EventArgs e)

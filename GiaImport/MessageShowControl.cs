@@ -44,5 +44,20 @@ namespace GiaImport
         {
             MessageForm.ShowDialog("Подготовка", "Подготовка файлов окончена!", "Подготовка завершена", MessageForm.EnumMessageStyle.Information);
         }
+
+        internal static void ShowImportSuccess()
+        {
+            MessageForm.ShowDialog("Импорт", "Импорт файлов окончен!", "Импорт завершён", MessageForm.EnumMessageStyle.Information);
+        }
+
+        internal static void ShowImportErrors(string v)
+        {
+            MessageForm.ShowDialog("Результаты импорта", "В процессе импорта произошли ошибки!", v, MessageForm.EnumMessageStyle.Error);
+        }
+
+        internal static void ShowPrepareErrors(string v)
+        {
+            MessageForm.ShowDialog("Подготовка", "В процессе подготовки произошли ошибки!", v, MessageForm.EnumMessageStyle.Error);
+        }
     }
 }

@@ -173,19 +173,20 @@ namespace GiaImport
         internal void ShrinkSingleFile(string xmlFilePath, long partSizeMB, string tempDir, CancellationToken ct)
         {
             ProcessStartInfo startInfo = new ProcessStartInfo();
-            startInfo.CreateNoWindow = true;
-            startInfo.UseShellExecute = false;
-            startInfo.FileName = Directory.GetCurrentDirectory() + "XMLcut.exe";
+            //startInfo.CreateNoWindow = true;
+            //startInfo.UseShellExecute = false;
+            startInfo.FileName = Path.Combine(Globals.TEMP_DIR, "XMLcut.exe");
             //startInfo.WindowStyle = ProcessWindowStyle.Hidden;
-            startInfo.Arguments = partSizeMB.ToString() + " " + xmlFilePath + " " + tempDir;
+            FileInfo fi = new FileInfo(xmlFilePath);
+            startInfo.Arguments = partSizeMB.ToString() + " " + fi.Name;
+            startInfo.WorkingDirectory = Globals.TEMP_DIR;
             try
             {
-                // Start the process with the info we specified.
-                // Call WaitForExit and then the using-statement will close.
                 using (Process exeProcess = Process.Start(startInfo))
                 {
                     ct.ThrowIfCancellationRequested();
                     exeProcess.WaitForExit();
+                    int code = exeProcess.ExitCode;
                 }
             }
             catch (Exception ex)
