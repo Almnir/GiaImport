@@ -107,6 +107,7 @@ namespace GiaImport
 
         public static void RunStoredSynchronize()
         {
+            int errorCount = 0;
             try
             {
                 using (var conn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["gia"].ConnectionString))
@@ -117,21 +118,22 @@ namespace GiaImport
                 {
                     command.Parameters.Add("@TableGroup", SqlDbType.SmallInt).Value = 0;
                     command.Parameters.Add("@SkipErrors", SqlDbType.Bit).Value = 0;
+                    SqlParameter returnParameter = command.Parameters.Add("@error_count", SqlDbType.Int);
+                    returnParameter.Direction = ParameterDirection.ReturnValue;
                     conn.Open();
                     command.ExecuteNonQuery();
+                    errorCount = (int)returnParameter.Value;
                 }
             }
             catch (Exception ex)
             {
-                throw new SyncException(ex.ToString());
+                throw new SyncException(string.Format("При выполнении слияния было обнаружено ошибок: {0}", ex.ToString()));
             }
         }
 
-        public static void BulkStart(string xmlfilename, Action<BulkCopyRowsCopied> handler)
+        public static void BulkStart(string tablename, string xmlfilename, Action<BulkCopyRowsCopied> handler)
         {
-            FileInfo fi = new FileInfo(xmlfilename);
-            string propername = Path.GetFileNameWithoutExtension(fi.Name);
-            switch (propername)
+            switch (tablename)
             {
 
                 case "ac_Appeals":

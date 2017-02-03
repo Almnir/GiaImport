@@ -8,7 +8,8 @@ namespace GiaImport
         public enum EnumMessageStyle
         {
             Error,
-            Information
+            Information,
+            Warning
         }
 
         public MessageForm()
@@ -43,6 +44,10 @@ namespace GiaImport
                     break;
                 case EnumMessageStyle.Information:
                     metroTile1.Style = MetroFramework.MetroColorStyle.Default;
+                    metroTile1.Text = "Info";
+                    break;
+                case EnumMessageStyle.Warning:
+                    metroTile1.Style = MetroFramework.MetroColorStyle.Purple;
                     metroTile1.Text = "Info";
                     break;
             }

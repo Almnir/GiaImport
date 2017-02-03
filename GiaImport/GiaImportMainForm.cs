@@ -6,6 +6,7 @@ using System.Data;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -15,8 +16,13 @@ namespace GiaImport
     public partial class GiaImportMainForm : MetroFramework.Forms.MetroForm
     {
         Dictionary<string, FileInfo> loadedFiles = new Dictionary<string, FileInfo>();
+
+        /// <summary>
+        /// Файл - инфо
+        /// </summary>
         Dictionary<string, FileInfo> actualCheckedFiles = new Dictionary<string, FileInfo>();
-        Dictionary<string, FileInfo> preparedFiles = new Dictionary<string, FileInfo>();
+        // Имя файл - таблица
+        Dictionary<string, string> preparedFilesTables = new Dictionary<string, string>();
 
         public GiaImportMainForm()
         {
@@ -252,10 +258,10 @@ namespace GiaImport
             pbw.Show();
             try
             {
-                if (!File.Exists(Globals.TEMP_DIR + @"\XMLcut.exe"))
-                {
-                    File.Copy(Directory.GetCurrentDirectory() + @"\XMLcut.exe", Globals.TEMP_DIR + @"\XMLcut.exe");
-                }
+                //if (!File.Exists(Globals.TEMP_DIR + @"\XMLcut.exe"))
+                //{
+                //    File.Copy(Directory.GetCurrentDirectory() + @"\XMLcut.exe", Globals.TEMP_DIR + @"\XMLcut.exe");
+                //}
                 Task task = Task.Run(() => RunShrinker(pbarLine, plabel, progress, source.Token), source.Token);
                 task.ContinueWith(taskc => EndShrinker(pbw));
             }
@@ -269,28 +275,8 @@ namespace GiaImport
         {
             pbw.Invoke((MethodInvoker)(() => { pbw.Close(); }));
             Invoke(new Action(() => { MessageShowControl.ShowPrepareSuccess(); }));
-            foreach (var files in actualCheckedFiles)
-            {
-                // имя*.расширение
-                string regexPattern = Path.GetFileNameWithoutExtension(files.Key) + @"_\d+.*$";
-                string filePattern = Path.GetFileNameWithoutExtension(files.Key) + @"*";
-                string[] allFiles = Directory.GetFiles(Globals.TEMP_DIR, filePattern);
-                if (allFiles.Length > 1)
-                {
-                    foreach (var af in allFiles)
-                    {
-                        if (!Path.GetFileName(af).Equals(files.Value.Name))
-                        {
-                            FileInfo fi = new FileInfo(af);
-                            preparedFiles.Add(af, fi);
-                        }
-                    }
-                }
-                else if (allFiles.Length == 1)
-                {
-                    preparedFiles.Add(files.Key, files.Value);
-                }
-            }
+            // поищем вообще все файлы, даже те что кусками нарезаны
+            FindShrinkedFiles();
             Invoke(new Action(() =>
             {
                 openFilesButton.Enabled = true;
@@ -298,6 +284,56 @@ namespace GiaImport
                 validateButton.Enabled = true;
                 importButton.Enabled = true;
             }));
+        }
+
+        private void FindShrinkedFiles()
+        {
+            foreach (var file in actualCheckedFiles)
+            {
+                // имя_файла_без_расширения_1
+                string regexPattern = Path.GetFileNameWithoutExtension(file.Key) + @"_\d+.*$";
+                Regex regex = new Regex(regexPattern, RegexOptions.IgnoreCase);
+                // имя*.расширение
+                string filePattern = Path.GetFileNameWithoutExtension(file.Key) + @"*";
+                string rootFileName = Path.GetFileNameWithoutExtension(file.Key);
+                string[] allFiles = Directory.GetFiles(Globals.TEMP_DIR, filePattern);
+                if (allFiles.Length > 1)
+                {
+                    List<string> resultList = allFiles.Where(f => regex.IsMatch(f)).ToList();
+                    if (resultList.Count != 0)
+                    {
+                        foreach (var rl in resultList)
+                        {
+                            string fileName = Path.GetFileNameWithoutExtension(rl);
+                            string tableName = BulkManager.tablesList.Where(x => x.Equals(rootFileName, StringComparison.OrdinalIgnoreCase)).Single().ToString();
+                            if (!preparedFilesTables.Keys.Contains(rl))
+                            {
+                                preparedFilesTables.Add(rl, tableName);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (var af in allFiles)
+                        {
+                            string fileName = Path.GetFileNameWithoutExtension(af);
+                            string tableName = BulkManager.tablesList.Where(x => x.Equals(fileName, StringComparison.OrdinalIgnoreCase)).Single().ToString();
+                            if (!preparedFilesTables.Keys.Contains(af))
+                            {
+                                preparedFilesTables.Add(af, tableName);
+                            }
+                        }
+                    }
+                }
+                else if (allFiles.Length == 1)
+                {
+                    string tableName = BulkManager.tablesList.Where(x => x.Equals(rootFileName, StringComparison.OrdinalIgnoreCase)).Single().ToString();
+                    if (!preparedFilesTables.Keys.Contains(file.Key))
+                    {
+                        preparedFilesTables.Add(file.Key, tableName);
+                    }
+                }
+            }
         }
 
         private void Import()
@@ -308,12 +344,27 @@ namespace GiaImport
                 MessageBox.Show("Внимание", "Ни одного файла не выбрано!");
                 return;
             }
+            FindShrinkedFiles();
+            List<string> guf = GetUnpreparedFiles();
+            if (guf.Count != 0)
+            {
+                MessageShowControl.ShowImportPrepareErrors(guf);
+                return;
+            }
             ProgressBarWindow pbw = new ProgressBarWindow();
             pbw.SetTitle("Импорт выполняется...");
             ProgressBar pbarTotal = pbw.GetProgressBarTotal();
             ProgressBar pbarLine = pbw.GetProgressBarLine();
-            // на 1 больше для запуска хранимки
-            pbarTotal.Maximum = actualCheckedFiles.Count;
+            // если порезали файлы
+            if (preparedFilesTables.Any())
+            {
+                pbarTotal.Maximum = preparedFilesTables.Count;
+            }
+            else
+            {
+                // на 1 больше для запуска хранимки
+                pbarTotal.Maximum = actualCheckedFiles.Count;
+            }
             Label plabel = pbw.GetLabel();
             CancellationTokenSource source = new CancellationTokenSource();
             IProgress<int> progress = new Progress<int>(value =>
@@ -342,6 +393,34 @@ namespace GiaImport
             {
                 MessageBox.Show("Операция отменена!");
             }
+        }
+
+        /// <summary>
+        /// Проверка выбранных файлов
+        /// </summary>
+        /// <param name="actualCheckedFiles"></param>
+        /// <returns></returns>
+        private List<string> GetUnpreparedFiles()
+        {
+            List<string> result = new List<string>();
+            IEnumerable<string> notIn = actualCheckedFiles.Keys.Where(p => !preparedFilesTables.Keys.Any(p1 => p1.Equals(p)));
+            if (notIn != null && notIn.Any())
+            {
+                foreach (string ni in notIn)
+                {
+                    if (!preparedFilesTables.ContainsValue(Path.GetFileNameWithoutExtension(ni)))
+                    {
+                        long threshold = GetAvailableRAM() / 20;
+                        FileInfo fi = new FileInfo(ni);
+                        long fsizemb = fi.Length / (1024 * 1024);
+                        if (fsizemb >= threshold)
+                        {
+                            result.Add(fi.Name);
+                        }
+                    }
+                }
+            }
+            return result;
         }
 
         private void EndImport(Task taskc, ProgressBarWindow pbw)
@@ -379,15 +458,15 @@ namespace GiaImport
             try
             {
                 int i = 0;
-                for (; i <= actualCheckedFiles.Count - 1; i++)
+                for (; i <= preparedFilesTables.Count - 1; i++)
                 {
                     progress.Report(i);
                     ct.ThrowIfCancellationRequested();
-                    string fileName = actualCheckedFiles[actualCheckedFiles.Keys.ElementAt(i)].Name;
-                    string xmlFilePath = actualCheckedFiles[actualCheckedFiles.Keys.ElementAt(i)].FullName;
+                    string tableName = preparedFilesTables.ElementAt(i).Value;
+                    string xmlFilePath = preparedFilesTables.ElementAt(i).Key;
                     if (!plabel.IsDisposed)
                     {
-                        plabel.Invoke((MethodInvoker)(() => plabel.Text = fileName));
+                        plabel.Invoke((MethodInvoker)(() => plabel.Text = tableName));
                     }
                     pbarLine.Invoke((MethodInvoker)(() =>
                     {
@@ -395,11 +474,11 @@ namespace GiaImport
                         pbarLine.MarqueeAnimationSpeed = 30;
                         pbarLine.Visible = true;
                     }));
-                    BulkManager.BulkStart(xmlFilePath, ((rows) => 
+                    BulkManager.BulkStart(tableName, xmlFilePath, ((rows) =>
                     {
                         if (!plabel.IsDisposed)
                         {
-                            plabel.Invoke((MethodInvoker)(() => plabel.Text = string.Format("{0} - {1}", fileName, rows.RowsCopied.ToString()) ));
+                            plabel.Invoke((MethodInvoker)(() => plabel.Text = string.Format("{0} - {1}", tableName, rows.RowsCopied.ToString())));
                         }
                     }));
                     pbarLine.Invoke((MethodInvoker)(() =>
@@ -498,7 +577,8 @@ namespace GiaImport
                     tempDir = Globals.TEMP_DIR;
 
                 }
-                long threshold = GetAvailableRAM() / 10;
+                // TODO: хардкод - исправить
+                long threshold = GetAvailableRAM() / 20;
                 FileInfo fi = new FileInfo(xmlFilePath);
                 long fsizemb = fi.Length / (1024 * 1024);
                 if (fsizemb >= threshold)
@@ -513,8 +593,8 @@ namespace GiaImport
                         pbarLine.MarqueeAnimationSpeed = 30;
                         pbarLine.Visible = true;
                     }));
-                    prepare.ShrinkSingleFile(xmlFilePath, threshold, tempDir, ct);
-                    //Thread.Sleep(2000);
+                    prepare.Shrinker(xmlFilePath, threshold);
+                    //prepare.ShrinkSingleFile(xmlFilePath, threshold, tempDir, ct);
                     pbarLine.Invoke((MethodInvoker)(() =>
                     {
                         pbarLine.Style = ProgressBarStyle.Continuous;

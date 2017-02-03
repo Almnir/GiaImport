@@ -7,6 +7,9 @@ using System.IO.Compression;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Threading;
+using System.Xml.Linq;
+using System.Linq;
+using System.Text;
 
 namespace GiaImport
 {
@@ -170,13 +173,109 @@ namespace GiaImport
             return error;
         }
 
+        public bool Shrinker(string filepath, long chunksize)
+        {
+            bool error = false;
+            int countElements = 0;
+            int countFiles = 1;
+            string filename = Path.GetFileNameWithoutExtension(filepath);
+            string newfilepath = Path.Combine(Path.GetDirectoryName(filepath), filename + "_" + countFiles.ToString() + ".xml");
+            FileStream fs = new FileStream(newfilepath, FileMode.Create, FileAccess.Write);
+            WriteStartRoot(fs);
+            string innerXML;
+            try
+            {
+                using (XmlReader reader = XmlReader.Create(filepath))
+                {
+                    reader.ReadToFollowing(Globals.ROOT_ELEMENT);
+                    reader.Read();
+                    string sss = reader.Name;
+                    do
+                    {
+                        if (reader.NodeType == XmlNodeType.Element && reader.Name == sss)
+                        {
+                            using (var subReader = reader.ReadSubtree())
+                            {
+                                var element = XElement.Load(subReader);
+                                innerXML = element.ToString();
+                            }
+                            countElements += innerXML.Length;
+                            byte[] innerBytes = new UTF8Encoding(true).GetBytes(innerXML);
+                            fs.Write(innerBytes, 0, innerBytes.Length);
+                            if ((countElements / (1024 * 1024)) >= chunksize)
+                            {
+                                countFiles += 1;
+                                countElements = 0;
+                                WriteEndRoot(fs);
+                                fs.Close();
+                                newfilepath = Path.Combine(Path.GetDirectoryName(filepath), filename + "_" + countFiles.ToString() + ".xml");
+                                fs = new FileStream(newfilepath, FileMode.Create, FileAccess.Write, FileShare.None);
+                                WriteStartRoot(fs);
+                            }
+                        }
+                    } while (reader.Read());
+                }
+                // конец последнего куска
+                WriteEndRoot(fs);
+                fs.Close();
+            }
+            catch (Exception ex)
+            {
+                throw new ShrinkFilesException(string.Format("Не удалось разбить файл {0} на части по причине: {1}", filename, ex.ToString()));
+            }
+            return error;
+        }
+
+        private void WriteStartRoot(FileStream fs)
+        {
+            string giadbsetStart = @"<ns1:GIADBSet xmlns:ns1=""http://www.rustest.ru/giadbset"">";
+            byte[] innerBytes = new UTF8Encoding(true).GetBytes(giadbsetStart);
+            fs.Write(innerBytes, 0, innerBytes.Length);
+        }
+
+        private void WriteEndRoot(FileStream fs)
+        {
+            string giadbsetStart = @"</ns1:GIADBSet>";
+            byte[] innerBytes = new UTF8Encoding(true).GetBytes(giadbsetStart);
+            fs.Write(innerBytes, 0, innerBytes.Length);
+        }
+
+        private static XElement RemoveAllNamespaces(XElement xmlDocument)
+        {
+            XElement xmlDocumentWithoutNs = removeAllNamespaces(xmlDocument);
+            return xmlDocumentWithoutNs;
+        }
+
+        private static XElement removeAllNamespaces(XElement xmlDocument)
+        {
+            var stripped = new XElement(xmlDocument.Name.LocalName);
+            foreach (var attribute in
+                    xmlDocument.Attributes().Where(
+                    attribute =>
+                        !attribute.IsNamespaceDeclaration &&
+                        String.IsNullOrEmpty(attribute.Name.NamespaceName)))
+            {
+                stripped.Add(new XAttribute(attribute.Name.LocalName, attribute.Value));
+            }
+            if (!xmlDocument.HasElements)
+            {
+                stripped.Value = xmlDocument.Value;
+                return stripped;
+            }
+            stripped.Add(xmlDocument.Elements().Select(
+                el =>
+                    RemoveAllNamespaces(el)));
+            return stripped;
+        }
+
         internal void ShrinkSingleFile(string xmlFilePath, long partSizeMB, string tempDir, CancellationToken ct)
         {
             ProcessStartInfo startInfo = new ProcessStartInfo();
             //startInfo.CreateNoWindow = true;
             //startInfo.UseShellExecute = false;
             startInfo.FileName = Path.Combine(Globals.TEMP_DIR, "XMLcut.exe");
-            //startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            startInfo.CreateNoWindow = true;
+            startInfo.WindowStyle = ProcessWindowStyle.Hidden;
             FileInfo fi = new FileInfo(xmlFilePath);
             startInfo.Arguments = partSizeMB.ToString() + " " + fi.Name;
             startInfo.WorkingDirectory = Globals.TEMP_DIR;

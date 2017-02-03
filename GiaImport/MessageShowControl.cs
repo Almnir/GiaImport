@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Text;
 
 namespace GiaImport
@@ -12,7 +13,7 @@ namespace GiaImport
             MessageForm frm = new MessageForm();
             frm.SetTitle("Результаты верификации");
             frm.SetStyling(MessageForm.EnumMessageStyle.Error);
-            frm.SetContent("Файлы, не прошедшие проверку и причина ошибки");
+            //frm.SetContent("Файлы, не прошедшие проверку и причина ошибки");
             StringBuilder fileErrorText = new StringBuilder();
             foreach (var fe in filesErrors)
             {
@@ -20,20 +21,6 @@ namespace GiaImport
             }
             frm.SetExtendedContent(fileErrorText.ToString());
             MessageForm.ShowDialog("Результаты верификации", "Файлы, не прошедшие проверку и причина ошибки", fileErrorText.ToString(), MessageForm.EnumMessageStyle.Error);
-            //TaskDialog taskDialog = new TaskDialog();
-            //taskDialog.WindowTitle = "Результаты верификации";
-            //taskDialog.MainIcon = TaskDialogIcon.Warning;
-            //taskDialog.MainInstruction = "Результаты верификации";
-            //taskDialog.Content = "Файлы, не прошедшие проверку и причина ошибки";
-            //taskDialog.ExpandedByDefault = true;
-            //StringBuilder fileErrorText = new StringBuilder();
-            //foreach (var fe in filesErrors)
-            //{
-            //    fileErrorText.Append(string.Format("{0} - {1}", fe.Key, fe.Value)).Append(Environment.NewLine);
-            //}
-            //taskDialog.ExpandedInformation = fileErrorText.ToString();
-            //taskDialog.CommonButtons = TaskDialogCommonButtons.Close;
-            //int result = taskDialog.Show();
         }
         public static void ShowValidationSuccess()
         {
@@ -58,6 +45,16 @@ namespace GiaImport
         internal static void ShowPrepareErrors(string v)
         {
             MessageForm.ShowDialog("Подготовка", "В процессе подготовки произошли ошибки!", v, MessageForm.EnumMessageStyle.Error);
+        }
+
+        internal static void ShowImportPrepareErrors(List<string> guf)
+        {
+            StringBuilder errorText = new StringBuilder();
+            foreach (var fe in guf)
+            {
+                errorText.Append(string.Format("{0}", fe)).Append(Environment.NewLine);
+            }
+            MessageForm.ShowDialog("Проверка", "Импорт невозможен, так как указаны файлы, которые имеют слишком большой размер для импорта без подготовки.", errorText.ToString(), MessageForm.EnumMessageStyle.Warning);
         }
     }
 }

@@ -462,8 +462,37 @@ namespace DataModels
         [Column, Nullable]
         public DateTime? UpdateTime { get; set; } // datetime
 
+        //[Column, Nullable]
+        //public DateTime? InProcess { get; set; } // datetime
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime? _InProcess;
+
+        [XmlElement("InProcess")]
+        [NotColumn]
+        public string InProcessString
+        {
+            get
+            {
+                if (!_InProcess.HasValue)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _InProcess.ToString();
+                }
+            }
+            set { }
+        }
+
+        [XmlIgnore]
         [Column, Nullable]
-        public DateTime? InProcess { get; set; } // datetime
+        public DateTime? InProcess
+        {
+            get { return _InProcess; }
+            set { _InProcess = value; }
+        }
 
         [Column, NotNull]
         public int AppealCondition { get; set; } // int

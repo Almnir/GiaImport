@@ -1,11 +1,5 @@
-﻿using DataModels;
-using linq2dbpro.DataModels;
-using LinqToDB;
-using LinqToDB.Data;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 
@@ -38,47 +32,9 @@ namespace GiaImport
             }
             catch (Exception ex)
             {
-                throw new DeserializeException(ex.ToString());
+                throw new DeserializeException(string.Format("При десериализации файла {0} произошла ошибка: {1}.", XmlFilename, ex.ToString()));
             }
             return returnObject;
-        }
-
-
-        private static void BulkLoad_rbd_Address(IEnumerable<rbd_AddressSet> obj)
-        {
-            try
-            {
-                using (GIA_DB db = new GIA_DB())
-                {
-                    using (DataConnection dc = new DataConnection(ProviderName.SqlServer, "Data Source=YARNYKH;Initial Catalog=ftc_test;Integrated Security=True;"))
-                    {
-
-                        var sp = db.DataProvider.GetSchemaProvider();
-                        var dbSchema = sp.GetSchema(db);
-                        if (!dbSchema.Tables.Any(t => t.TableName == "rbd_Address"))
-                        {
-                            db.CreateTable<rbd_Address>();
-                        }
-                        //db.DataProvider.GetSchemaProvider();
-                        BulkCopyOptions bco = new BulkCopyOptions();
-                        bco.BulkCopyType = BulkCopyType.Default;
-                        bco.MaxBatchSize = 1000;
-                        bco.RowsCopiedCallback += Handler;
-                        bco.NotifyAfter = 1;
-                        db.DataProvider.BulkCopy(dc, bco, obj);
-                    }
-                }
-
-            }
-            catch (Exception ex)
-            {
-                throw new MyBulkException(ex.ToString());
-            }
-        }
-
-        private static void Handler(BulkCopyRowsCopied obj)
-        {
-            
         }
     }
 }
