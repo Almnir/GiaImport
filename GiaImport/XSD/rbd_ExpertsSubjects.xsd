@@ -12,7 +12,7 @@
               <xs:element name="SubjectCode" type="xs:int" />
               <xs:element name="IsDeleted" type="xs:anyType" minOccurs="0" />
               <xs:element name="CheckForm" type="xs:int" />
-              <xs:element name="ExpertCategoryID" type="xs:anyType" />
+              <xs:element name="ExpertCategoryID" type="xs:int" />
               <xs:element name="ThirdVerifyAcc" type="xs:boolean" />
             </xs:sequence>
           </xs:complexType>

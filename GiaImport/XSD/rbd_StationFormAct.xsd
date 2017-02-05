@@ -31,8 +31,20 @@
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="StartTime" type="xs:string" />
-              <xs:element name="EndTime" type="xs:string" />
+              <xs:element name="StartTime"> 
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="5" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="EndTime" type="xs:string"> 
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="5" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
               <xs:element name="IDCode">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">

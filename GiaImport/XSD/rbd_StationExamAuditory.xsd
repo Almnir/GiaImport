@@ -43,7 +43,7 @@
               <xs:element name="IsDeleted" type="xs:anyType" minOccurs="0" />
               <xs:element name="IsPreparation" type="xs:boolean" minOccurs="0" />
               <xs:element name="ExamFormatCode" type="xs:int" minOccurs="0" />
-              <xs:element name="IsAutoAppoint" type="xs:anyType" />
+              <xs:element name="IsAutoAppoint" type="xs:boolean" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
