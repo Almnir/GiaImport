@@ -3,11 +3,18 @@ using System.IO;
 
 namespace GiaImport
 {
-    class Globals
+    public static class Globals
     {
         public static string ROOT_ELEMENT = "ns1:GIADBSet";
 
         public static string TEMP_DIR = Directory.GetCurrentDirectory() + @"\Tempdir\";
+
+        public static FormSettings frmSettings = new FormSettings();
+
+        public static string GetConnectionString()
+        {
+            return string.Format("Server={0};Database={1};User Id={2};Password={3};", frmSettings.ServerText, frmSettings.DatabaseText, frmSettings.LoginText, frmSettings.PasswordText);
+        }
 
         public static List<string> TABLES_NAMES = new List<string>()
         {

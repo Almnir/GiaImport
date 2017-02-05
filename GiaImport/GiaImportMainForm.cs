@@ -753,5 +753,11 @@ namespace GiaImport
                 File.Delete(file);
             }
         }
+
+        private void settingsButton_Click(object sender, EventArgs e)
+        {
+            SettingsWindow sw = new SettingsWindow();
+            sw.ShowDialog(); 
+        }
     }
 }

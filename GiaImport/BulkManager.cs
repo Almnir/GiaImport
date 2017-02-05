@@ -6,13 +6,11 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.IO;
 
 namespace GiaImport
 {
     class BulkManager
     {
-
         public static List<string> tablesList = new List<string>()
         {
             "ac_Appeals",
@@ -81,9 +79,9 @@ namespace GiaImport
                 {
                     using (GIA_DB db = new GIA_DB())
                     {
-                        using (DataConnection dc = new DataConnection(ProviderName.SqlServer, System.Configuration.ConfigurationManager.ConnectionStrings["gia"].ConnectionString))
+                        using (DataConnection dc = new DataConnection(ProviderName.SqlServer, Globals.GetConnectionString()))
                         {
-                            if (!DatabaseHelper.IsDataTableExists(System.Configuration.ConfigurationManager.ConnectionStrings["gia"].ConnectionString, "loader", tablename))
+                            if (!DatabaseHelper.IsDataTableExists(Globals.GetConnectionString(), "loader", tablename))
                             {
                                 throw new MyBulkException(string.Format("Таблицы {0} нет в базе данных.", tablename));
                             }
@@ -95,7 +93,6 @@ namespace GiaImport
                             db.DataProvider.BulkCopy(dc, bco, obj);
                         }
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -110,7 +107,7 @@ namespace GiaImport
             int errorCount = 0;
             try
             {
-                using (var conn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["gia"].ConnectionString))
+                using (var conn = new SqlConnection(Globals.GetConnectionString()))
                 using (var command = new SqlCommand("loader.Synchronize", conn)
                 {
                     CommandType = CommandType.StoredProcedure
@@ -633,6 +630,5 @@ namespace GiaImport
         {
             new Bulkload<sht_Sheets_RSet, sht_Sheets_R>().Load(MainStage.DeserializeXMLFileToObject<sht_Sheets_RSet>(xmlfilename).Items, "sht_Sheets_R", handler);
         }
-
     }
 }
