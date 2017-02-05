@@ -14,6 +14,10 @@ namespace GiaImport
             string data = base.ReadElementString();
             DateTime dt;
 
+            if (data.Equals("NULL"))
+            {
+                return DBNull.Value.ToString();
+            }
             if (DateTime.TryParse(data, null, DateTimeStyles.AdjustToUniversal, out dt))
             {
                 var ret = dt.ToString("o");

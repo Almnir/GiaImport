@@ -40,6 +40,7 @@ namespace GiaImport
             this.prepareFilesButton = new MetroFramework.Controls.MetroButton();
             this.validateButton = new MetroFramework.Controls.MetroButton();
             this.importButton = new MetroFramework.Controls.MetroButton();
+            this.clearListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.metroContextMenu1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -66,21 +67,22 @@ namespace GiaImport
             // 
             this.metroContextMenu1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.checkAllToolStripMenuItem,
-            this.uncheckAllToolStripMenuItem});
+            this.uncheckAllToolStripMenuItem,
+            this.clearListToolStripMenuItem});
             this.metroContextMenu1.Name = "metroContextMenu1";
-            this.metroContextMenu1.Size = new System.Drawing.Size(146, 48);
+            this.metroContextMenu1.Size = new System.Drawing.Size(169, 92);
             // 
             // checkAllToolStripMenuItem
             // 
             this.checkAllToolStripMenuItem.Name = "checkAllToolStripMenuItem";
-            this.checkAllToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.checkAllToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.checkAllToolStripMenuItem.Text = "Выделить все";
             this.checkAllToolStripMenuItem.Click += new System.EventHandler(this.checkAllToolStripMenuItem_Click_1);
             // 
             // uncheckAllToolStripMenuItem
             // 
             this.uncheckAllToolStripMenuItem.Name = "uncheckAllToolStripMenuItem";
-            this.uncheckAllToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.uncheckAllToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.uncheckAllToolStripMenuItem.Text = "Снять все";
             this.uncheckAllToolStripMenuItem.Click += new System.EventHandler(this.uncheckAllToolStripMenuItem_Click);
             // 
@@ -124,6 +126,13 @@ namespace GiaImport
             this.importButton.UseSelectable = true;
             this.importButton.Click += new System.EventHandler(this.importButton_Click);
             // 
+            // clearListToolStripMenuItem
+            // 
+            this.clearListToolStripMenuItem.Name = "clearListToolStripMenuItem";
+            this.clearListToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.clearListToolStripMenuItem.Text = "Очистить список";
+            this.clearListToolStripMenuItem.Click += new System.EventHandler(this.clearListToolStripMenuItem_Click);
+            // 
             // GiaImportMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -152,6 +161,7 @@ namespace GiaImport
         private MetroFramework.Controls.MetroContextMenu metroContextMenu1;
         private System.Windows.Forms.ToolStripMenuItem checkAllToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem uncheckAllToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem clearListToolStripMenuItem;
     }
 }
 

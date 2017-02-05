@@ -91,6 +91,7 @@
     <Compile Include="BulkManager.cs" />
     <Compile Include="CustomDateTimeReader.cs" />
     <Compile Include="DatabaseHelper.cs" />
+    <Compile Include="DataModels\DateTimeException.cs" />
     <Compile Include="DataModels\gia.generated.cs" />
     <Compile Include="DataModels\GIADBSet.cs" />
     <Compile Include="DeserializeException.cs" />

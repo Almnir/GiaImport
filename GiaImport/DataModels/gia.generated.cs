@@ -12,6 +12,7 @@ using LinqToDB;
 using LinqToDB.DataProvider.SqlServer;
 using LinqToDB.Mapping;
 using System.Xml.Serialization;
+using System.Globalization;
 
 namespace DataModels
 {
@@ -456,11 +457,75 @@ namespace DataModels
         [Column, NotNull]
         public bool DeclinedByCommittee { get; set; } // bit
 
-        [Column, Nullable]
-        public DateTime? CreateTime { get; set; } // datetime
+        //[Column, Nullable]
+        //public DateTime? CreateTime { get; set; } // datetime
 
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime? _CreateTime;
+
+        [XmlElement("CreateTime")]
+        [NotColumn]
+        public string CreateTimeString
+        {
+            get
+            {
+                if (!_CreateTime.HasValue)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _CreateTime.Value.ToString("o");
+                }
+            }
+            set
+            {
+                this._CreateTime = DateTime.Parse(value);
+            }
+        }
+
+        [XmlIgnore]
         [Column, Nullable]
-        public DateTime? UpdateTime { get; set; } // datetime
+        public DateTime? CreateTime
+        {
+            get { return _CreateTime; }
+            set { _CreateTime = value; }
+        }
+
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime? _UpdateTime;
+
+        [XmlElement("UpdateTime")]
+        [NotColumn]
+        public string UpdateTimeString
+        {
+            get
+            {
+                if (!_UpdateTime.HasValue)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _UpdateTime.Value.ToString("o");
+                }
+
+            }
+            set
+            {
+                this._UpdateTime = DateTime.Parse(value);
+            }
+        }
+
+        [XmlIgnore]
+        [Column, Nullable]
+        public DateTime? UpdateTime
+        {
+            get { return _UpdateTime; }
+            set { _UpdateTime = value; }
+        }
 
         //[Column, Nullable]
         //public DateTime? InProcess { get; set; } // datetime
@@ -483,7 +548,17 @@ namespace DataModels
                     return _InProcess.ToString();
                 }
             }
-            set { }
+            set {
+                DateTime dt;
+                if (DateTime.TryParse(value, null, DateTimeStyles.AdjustToUniversal, out dt))
+                {
+                    this._InProcess = dt;
+                }
+                else
+                {
+                    this._InProcess = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -589,7 +664,17 @@ namespace DataModels
                     return _ScalingGroupFK.ToString();
                 }
             }
-            set { }
+            set {
+                Guid guid;
+                if (Guid.TryParse(value, out guid))
+                {
+                    this._ScalingGroupFK = guid;
+                }
+                else
+                {
+                    this._ScalingGroupFK = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -641,7 +726,17 @@ namespace DataModels
                     return _GroupMarkMinimum.ToString();
                 }
             }
-            set { }
+            set {
+                int tni;
+                if (int.TryParse(value, out tni))
+                {
+                    this._GroupMarkMinimum = tni;
+                }
+                else
+                {
+                    this._GroupMarkMinimum = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -657,13 +752,13 @@ namespace DataModels
     public partial class prnf_CertificatePrintMain
     {
         /// <summary>
-        ///  Ó‰ ÒÛ·˙ÂÍÚ‡ –‘
+        /// √ä√Æ√§ √±√≥√°√∫√•√™√≤√† √ê√î
         /// </summary>
         [PrimaryKey(1), NotNull]
         public int REGION { get; set; } // int
 
         /// <summary>
-        /// ID Á‡ÔËÒË
+        /// ID √ß√†√Ø√®√±√®
         /// </summary>
         [PrimaryKey(2), NotNull]
         public Guid CertificatePrintMainID { get; set; } // uniqueidentifier
@@ -672,13 +767,13 @@ namespace DataModels
         public Guid ParticipantFK { get; set; } // uniqueidentifier
 
         /// <summary>
-        /// ƒ‡ÌÌ˚Â ‰Îˇ ÔÂ˜‡ÚË Ò‚Ë‰ÂÚÂÎ¸ÒÚ‚‡
+        /// √Ñ√†√≠√≠√ª√• √§√´√ø √Ø√•√∑√†√≤√® √±√¢√®√§√•√≤√•√´√º√±√≤√¢√†
         /// </summary>
         [Column, Nullable]
         public byte[] CertificateBlob { get; set; } // image
 
         /// <summary>
-        ///  Ó‰ ¿“≈, ‚ ÍÓÚÓÓÏ Ì‡ıÓ‰ËÚÒˇ Œ” ‚˚ÔÛÒÍÌËÍ‡
+        /// √ä√Æ√§ √Ä√í√Ö, √¢ √™√Æ√≤√Æ√∞√Æ√¨ √≠√†√µ√Æ√§√®√≤√±√ø √é√ì √¢√ª√Ø√≥√±√™√≠√®√™√†
         /// </summary>
         [XmlIgnore]
         [NotColumn]
@@ -699,7 +794,17 @@ namespace DataModels
                     return _AreaCode.ToString();
                 }
             }
-            set { }
+            set {
+                int tni;
+                if (int.TryParse(value, out tni))
+                {
+                    this._AreaCode = tni;
+                }
+                else
+                {
+                    this._AreaCode = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -711,7 +816,7 @@ namespace DataModels
         }
 
         /// <summary>
-        ///  Ó‰ Œ”, ‚ ÍÓÚÓÓÏ Ó·Û˜‡ÂÚÒˇ ‚˚ÔÛÒÍÌËÍ
+        /// √ä√Æ√§ √é√ì, √¢ √™√Æ√≤√Æ√∞√Æ√¨ √Æ√°√≥√∑√†√•√≤√±√ø √¢√ª√Ø√≥√±√™√≠√®√™
         /// </summary>
         [XmlIgnore]
         [NotColumn]
@@ -732,7 +837,17 @@ namespace DataModels
                     return _SchoolCode.ToString();
                 }
             }
-            set { }
+            set {
+                int tni;
+                if (int.TryParse(value, out tni))
+                {
+                    this._SchoolCode = tni;
+                }
+                else
+                {
+                    this._SchoolCode = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -744,103 +859,103 @@ namespace DataModels
         }
 
         /// <summary>
-        ///  Ó‰ ÔÛÌÍÚ‡, ‚ ÍÓÚÓÓÏ Ò‰‡‚‡Î ‚˚ÔÛÒÍÌËÍ
+        /// √ä√Æ√§ √Ø√≥√≠√™√≤√†, √¢ √™√Æ√≤√Æ√∞√Æ√¨ √±√§√†√¢√†√´ √¢√ª√Ø√≥√±√™√≠√®√™
         /// </summary>
         [Column, Nullable]
         public string Punkt { get; set; } // varchar(50)
 
         /// <summary>
-        ///  Ó‰ ˝Ú‡Ô‡
+        /// √ä√Æ√§ √Ω√≤√†√Ø√†
         /// </summary>
         [Column, NotNull]
         public int Wave { get; set; } // int
 
         /// <summary>
-        /// ÕÓÏÂ Ò‚Ë‰ÂÚÂÎ¸ÒÚ‚‡
+        /// √ç√Æ√¨√•√∞ √±√¢√®√§√•√≤√•√´√º√±√≤√¢√†
         /// </summary>
         [Column, NotNull]
         public string LicenseNumber { get; set; } // varchar(50)
 
         /// <summary>
-        /// ¬ÂÏˇ ÒÓÁ‰‡ÌËˇ
+        /// √Ç√∞√•√¨√ø √±√Æ√ß√§√†√≠√®√ø
         /// </summary>
         [Column, Nullable]
         public string PrintTime { get; set; } // varchar(50)
 
         /// <summary>
-        /// ‘‡ÏËÎËˇ
+        /// √î√†√¨√®√´√®√ø
         /// </summary>
         [Column, Nullable]
         public string Surname { get; set; } // varchar(50)
 
         /// <summary>
-        /// »Ïˇ
+        /// √à√¨√ø
         /// </summary>
         [Column, Nullable]
         public string Name { get; set; } // varchar(50)
 
         /// <summary>
-        /// ŒÚ˜ÂÒÚ‚Ó
+        /// √é√≤√∑√•√±√≤√¢√Æ
         /// </summary>
         [Column, Nullable]
         public string SecondName { get; set; } // varchar(50)
 
         /// <summary>
-        /// —ÂËˇ ‰ÓÍÛÏÂÌÚ‡
+        /// √ë√•√∞√®√ø √§√Æ√™√≥√¨√•√≠√≤√†
         /// </summary>
         [Column, Nullable]
         public string DocumentSeries { get; set; } // varchar(50)
 
         /// <summary>
-        /// ÕÓÏÂ ‰ÓÍÛÏÂÌÚ‡
+        /// √ç√Æ√¨√•√∞ √§√Æ√™√≥√¨√•√≠√≤√†
         /// </summary>
         [Column, Nullable]
         public string DocumentNumber { get; set; } // varchar(50)
 
         /// <summary>
-        /// œÓÎ
+        /// √è√Æ√´
         /// </summary>
         [Column, NotNull]
         public bool Sex { get; set; } // bit
 
         /// <summary>
-        /// ‘Î‡„ ‚˚ÔÛÒÍÌËÍ‡ ˝ÚÓ„Ó „Ó‰‡
+        /// √î√´√†√£ √¢√ª√Ø√≥√±√™√≠√®√™√† √Ω√≤√Æ√£√Æ √£√Æ√§√†
         /// </summary>
         [Column, NotNull]
         public bool Graduate { get; set; } // bit
 
         /// <summary>
-        /// ‘Î‡„ ‰Û·ÎËÍ‡Ú‡
+        /// √î√´√†√£ √§√≥√°√´√®√™√†√≤√†
         /// </summary>
         [Column, NotNull]
         public bool LicenseDouble { get; set; } // bit
 
         /// <summary>
-        /// –ÂÁÂ‚ÌÓÂ ÔÓÎÂ
+        /// √ê√•√ß√•√∞√¢√≠√Æ√• √Ø√Æ√´√•
         /// </summary>
         [Column, NotNull]
         public string Reserve1 { get; set; } // varchar(255)
 
         /// <summary>
-        /// –ÂÁÂ‚ÌÓÂ ÔÓÎÂ
+        /// √ê√•√ß√•√∞√¢√≠√Æ√• √Ø√Æ√´√•
         /// </summary>
         [Column, Nullable]
         public string Reserve2 { get; set; } // varchar(255)
 
         /// <summary>
-        /// –ÂÁÂ‚ÌÓÂ ÔÓÎÂ
+        /// √ê√•√ß√•√∞√¢√≠√Æ√• √Ø√Æ√´√•
         /// </summary>
         [Column, Nullable]
         public string Reserve3 { get; set; } // varchar(255)
 
         /// <summary>
-        /// –ÂÁÂ‚ÌÓÂ ÔÓÎÂ
+        /// √ê√•√ß√•√∞√¢√≠√Æ√• √Ø√Æ√´√•
         /// </summary>
         [Column, Nullable]
         public string Reserve4 { get; set; } // varchar(255)
 
         /// <summary>
-        /// –ÂÁÂ‚ÌÓÂ ÔÓÎÂ
+        /// √ê√•√ß√•√∞√¢√≠√Æ√• √Ø√Æ√´√•
         /// </summary>
         [Column, NotNull]
         public string Reserve5 { get; set; } // varchar(255)
@@ -879,17 +994,140 @@ namespace DataModels
         [Column, NotNull]
         public int TownshipID { get; set; } // int
 
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime _CreateDate;
+
+        [XmlElement("CreateDate")]
+        [NotColumn]
+        public string CreateDateString
+        {
+            get
+            {
+                return _CreateDate.ToString("o");
+            }
+            set
+            {
+                this._CreateDate = DateTime.Parse(value);
+            }
+        }
+
+        [XmlIgnore]
         [Column, NotNull]
-        public DateTime CreateDate { get; set; } // datetime
+        public DateTime CreateDate
+        {
+            get { return _CreateDate; }
+            set { _CreateDate = value; }
+        }
 
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime _UpdateDate;
+
+        [XmlElement("UpdateDate")]
+        [NotColumn]
+        public string UpdateDateString
+        {
+            get
+            {
+                return _UpdateDate.ToString("o");
+            }
+            set
+            {
+                this._UpdateDate = DateTime.Parse(value);
+            }
+        }
+
+        [XmlIgnore]
         [Column, NotNull]
-        public DateTime UpdateDate { get; set; } // datetime
+        public DateTime UpdateDate
+        {
+            get { return _UpdateDate; }
+            set { _UpdateDate = value; }
+        }
 
-        [Column, Nullable]
-        public DateTime? ImportCreateDate { get; set; } // datetime
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime? _ImportCreateDate;
 
+        [XmlElement("ImportCreateDate")]
+        [NotColumn]
+        public string ImportCreateDateString
+        {
+            get
+            {
+                if (!_ImportCreateDate.HasValue)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _ImportCreateDate.Value.ToString("o");
+                }
+            }
+            set
+            {
+                DateTime dt;
+                if (DateTime.TryParse(value, null, DateTimeStyles.AdjustToUniversal, out dt))
+                {
+                    this._ImportCreateDate = dt;
+                }
+                else
+                {
+                    this._ImportCreateDate = null;
+                }
+            }
+        }
+
+        [XmlIgnore]
         [Column, Nullable]
-        public DateTime? ImportUpdateDate { get; set; } // datetime
+        public DateTime? ImportCreateDate
+        {
+            get { return _ImportCreateDate; }
+            set { _ImportCreateDate = value; }
+        }
+
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime? _ImportUpdateDate;
+
+        [XmlElement("ImportUpdateDate")]
+        [NotColumn]
+        public string ImportUpdateDateString
+        {
+            get
+            {
+                if (!_ImportUpdateDate.HasValue)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _ImportUpdateDate.Value.ToString("o");
+                }
+            }
+            set
+            {
+                DateTime dt;
+                if (DateTime.TryParse(value, null, DateTimeStyles.AdjustToUniversal, out dt))
+                {
+                    this._ImportUpdateDate = dt;
+                }
+                else
+                {
+                    this._ImportUpdateDate = null;
+                }
+            }
+        }
+
+        [XmlIgnore]
+        [Column, Nullable]
+        public DateTime? ImportUpdateDate
+        {
+            get { return _ImportUpdateDate; }
+            set { _ImportUpdateDate = value; }
+        }
+
 
         [XmlIgnore]
         [NotColumn]
@@ -910,7 +1148,18 @@ namespace DataModels
                     return _IsDeleted.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._IsDeleted = val;
+                }
+                else
+                {
+                    this._IsDeleted = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -1011,7 +1260,18 @@ namespace DataModels
                     return _Imported.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._Imported = val;
+                }
+                else
+                {
+                    this._Imported = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -1022,17 +1282,143 @@ namespace DataModels
             set { _Imported = value; }
         }
 
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime _CreateDate;
+
+        [XmlElement("CreateDate")]
+        [NotColumn]
+        public string CreateDateString
+        {
+            get
+            {
+                return _CreateDate.ToString("o");
+            }
+            set
+            {
+                this._CreateDate = DateTime.Parse(value);
+            }
+        }
+
+        [XmlIgnore]
         [Column, NotNull]
-        public DateTime CreateDate { get; set; } // datetime
+        public DateTime CreateDate
+        {
+            get { return _CreateDate; }
+            set { _CreateDate = value; }
+        }
 
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime _UpdateDate;
+
+        [XmlElement("UpdateDate")]
+        [NotColumn]
+        public string UpdateDateString
+        {
+            get
+            {
+                return _UpdateDate.ToString("o");
+            }
+            set
+            {
+                this._UpdateDate = DateTime.Parse(value);
+            }
+        }
+
+        [XmlIgnore]
         [Column, NotNull]
-        public DateTime UpdateDate { get; set; } // datetime
+        public DateTime UpdateDate
+        {
+            get { return _UpdateDate; }
+            set { _UpdateDate = value; }
+        }
 
-        [Column, Nullable]
-        public DateTime? ImportCreateDate { get; set; } // datetime
+  
 
+        
+  	    [XmlIgnore]
+        [NotColumn]
+        private DateTime? _ImportCreateDate;
+
+        [XmlElement("ImportCreateDate")]
+        [NotColumn]
+        public string ImportCreateDateString
+        {
+            get
+            {
+                if (!_ImportCreateDate.HasValue)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _ImportCreateDate.Value.ToString("o");
+                }
+            }
+            set
+            {
+                DateTime dt;
+                if (DateTime.TryParse(value, null, DateTimeStyles.AdjustToUniversal, out dt))
+                {
+                    this._ImportCreateDate = dt;
+                }
+                else
+                {
+                    this._ImportCreateDate = null;
+                }
+            }
+        }
+
+        [XmlIgnore]
         [Column, Nullable]
-        public DateTime? ImportUpdateDate { get; set; } // datetime
+        public DateTime? ImportCreateDate
+        {
+            get { return _ImportCreateDate; }
+            set { _ImportCreateDate = value; }
+        }
+
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime? _ImportUpdateDate;
+
+        [XmlElement("ImportUpdateDate")]
+        [NotColumn]
+        public string ImportUpdateDateString
+        {
+            get
+            {
+                if (!_ImportUpdateDate.HasValue)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _ImportUpdateDate.Value.ToString("o");
+                }
+            }
+            set
+            {
+                DateTime dt;
+                if (DateTime.TryParse(value, null, DateTimeStyles.AdjustToUniversal, out dt))
+                {
+                    this._ImportUpdateDate = dt;
+                }
+                else
+                {
+                    this._ImportUpdateDate = null;
+                }
+            }
+        }
+
+        [XmlIgnore]
+        [Column, Nullable]
+        public DateTime? ImportUpdateDate
+        {
+            get { return _ImportUpdateDate; }
+            set { _ImportUpdateDate = value; }
+        }
+  
 
         [Column, NotNull]
         public int ExamForm { get; set; } // int
@@ -1059,6 +1445,7 @@ namespace DataModels
         [PrimaryKey(1), NotNull]
         public int REGION { get; set; } // int
 
+
         [XmlIgnore]
         [NotColumn]
         private bool? _IsDeleted;
@@ -1078,7 +1465,18 @@ namespace DataModels
                     return _IsDeleted.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._IsDeleted = val;
+                }
+                else
+                {
+                    this._IsDeleted = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -1185,7 +1583,17 @@ namespace DataModels
                     return _AddressKind.ToString();
                 }
             }
-            set { }
+            set {
+                int tni;
+                if (int.TryParse(value, out tni))
+                {
+                    this._AddressKind = tni;
+                }
+                else
+                {
+                    this._AddressKind = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -1196,17 +1604,144 @@ namespace DataModels
             set { _AddressKind = value; }
         }
 
+        
+
+  	    [XmlIgnore]
+        [NotColumn]
+        private DateTime _CreateDate;
+
+        [XmlElement("CreateDate")]
+        [NotColumn]
+        public string CreateDateString
+        {
+            get
+            {
+                return _CreateDate.ToString("o");
+            }
+            set
+            {
+                this._CreateDate = DateTime.Parse(value);
+            }
+        }
+
+        [XmlIgnore]
         [Column, NotNull]
-        public DateTime CreateDate { get; set; } // datetime
+        public DateTime CreateDate
+        {
+            get { return _CreateDate; }
+            set { _CreateDate = value; }
+        }
 
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime _UpdateDate;
+
+        [XmlElement("UpdateDate")]
+        [NotColumn]
+        public string UpdateDateString
+        {
+            get
+            {
+                return _UpdateDate.ToString("o");
+            }
+            set
+            {
+                this._UpdateDate = DateTime.Parse(value);
+            }
+        }
+
+        [XmlIgnore]
         [Column, NotNull]
-        public DateTime UpdateDate { get; set; } // datetime
+        public DateTime UpdateDate
+        {
+            get { return _UpdateDate; }
+            set { _UpdateDate = value; }
+        }
 
-        [Column, Nullable]
-        public DateTime? ImportCreateDate { get; set; } // datetime
+  
 
+        
+  	    [XmlIgnore]
+        [NotColumn]
+        private DateTime? _ImportCreateDate;
+
+        [XmlElement("ImportCreateDate")]
+        [NotColumn]
+        public string ImportCreateDateString
+        {
+            get
+            {
+                if (!_ImportCreateDate.HasValue)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _ImportCreateDate.Value.ToString("o");
+                }
+            }
+            set
+            {
+                DateTime dt;
+                if (DateTime.TryParse(value, null, DateTimeStyles.AdjustToUniversal, out dt))
+                {
+                    this._ImportCreateDate = dt;
+                }
+                else
+                {
+                    this._ImportCreateDate = null;
+                }
+            }
+        }
+
+        [XmlIgnore]
         [Column, Nullable]
-        public DateTime? ImportUpdateDate { get; set; } // datetime
+        public DateTime? ImportCreateDate
+        {
+            get { return _ImportCreateDate; }
+            set { _ImportCreateDate = value; }
+        }
+
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime? _ImportUpdateDate;
+
+        [XmlElement("ImportUpdateDate")]
+        [NotColumn]
+        public string ImportUpdateDateString
+        {
+            get
+            {
+                if (!_ImportUpdateDate.HasValue)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _ImportUpdateDate.Value.ToString("o");
+                }
+            }
+            set
+            {
+                DateTime dt;
+                if (DateTime.TryParse(value, null, DateTimeStyles.AdjustToUniversal, out dt))
+                {
+                    this._ImportUpdateDate = dt;
+                }
+                else
+                {
+                    this._ImportUpdateDate = null;
+                }
+            }
+        }
+
+        [XmlIgnore]
+        [Column, Nullable]
+        public DateTime? ImportUpdateDate
+        {
+            get { return _ImportUpdateDate; }
+            set { _ImportUpdateDate = value; }
+        }
 
         [XmlIgnore]
         [NotColumn]
@@ -1227,7 +1762,18 @@ namespace DataModels
                     return _IsDeleted.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._IsDeleted = val;
+                }
+                else
+                {
+                    this._IsDeleted = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -1288,7 +1834,17 @@ namespace DataModels
                     return _Sex.ToString();
                 }
             }
-            set { }
+            set {
+                bool loob;
+                if (bool.TryParse(value, out loob))
+                {
+                    this._Sex = loob;
+                }
+                else
+                {
+                    this._Sex = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -1318,7 +1874,18 @@ namespace DataModels
                     return _EduTypeFK.ToString();
                 }
             }
-            set { }
+            set
+            {
+                int val;
+                if (int.TryParse(value, out val))
+                {
+                    this._EduTypeFK = val;
+                }
+                else
+                {
+                    this._EduTypeFK = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -1348,7 +1915,18 @@ namespace DataModels
                     return _EduKindFK.ToString();
                 }
             }
-            set { }
+            set
+            {
+                int val;
+                if (int.TryParse(value, out val))
+                {
+                    this._EduKindFK = val;
+                }
+                else
+                {
+                    this._EduKindFK = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -1393,7 +1971,17 @@ namespace DataModels
                     return _SchoolID.ToString();
                 }
             }
-            set { }
+            set {
+                Guid guid;
+                if (Guid.TryParse(value, out guid))
+                {
+                    this._SchoolID = guid;
+                }
+                else
+                {
+                    this._SchoolID = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -1410,17 +1998,145 @@ namespace DataModels
         [Column, NotNull]
         public bool ThirdVerifyAcc { get; set; } // bit
 
+        
+
+  	    [XmlIgnore]
+        [NotColumn]
+        private DateTime _CreateDate;
+
+        [XmlElement("CreateDate")]
+        [NotColumn]
+        public string CreateDateString
+        {
+            get
+            {
+                return _CreateDate.ToString("o");
+            }
+            set
+            {
+                this._CreateDate = DateTime.Parse(value);
+            }
+        }
+
+        [XmlIgnore]
         [Column, NotNull]
-        public DateTime CreateDate { get; set; } // datetime
+        public DateTime CreateDate
+        {
+            get { return _CreateDate; }
+            set { _CreateDate = value; }
+        }
 
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime _UpdateDate;
+
+        [XmlElement("UpdateDate")]
+        [NotColumn]
+        public string UpdateDateString
+        {
+            get
+            {
+                return _UpdateDate.ToString("o");
+            }
+            set
+            {
+                this._UpdateDate = DateTime.Parse(value);
+            }
+        }
+
+        [XmlIgnore]
         [Column, NotNull]
-        public DateTime UpdateDate { get; set; } // datetime
+        public DateTime UpdateDate
+        {
+            get { return _UpdateDate; }
+            set { _UpdateDate = value; }
+        }
 
-        [Column, Nullable]
-        public DateTime? ImportCreateDate { get; set; } // datetime
+  
 
+        
+  	    [XmlIgnore]
+        [NotColumn]
+        private DateTime? _ImportCreateDate;
+
+        [XmlElement("ImportCreateDate")]
+        [NotColumn]
+        public string ImportCreateDateString
+        {
+            get
+            {
+                if (!_ImportCreateDate.HasValue)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _ImportCreateDate.Value.ToString("o");
+                }
+            }
+            set
+            {
+                DateTime dt;
+                if (DateTime.TryParse(value, null, DateTimeStyles.AdjustToUniversal, out dt))
+                {
+                    this._ImportCreateDate = dt;
+                }
+                else
+                {
+                    this._ImportCreateDate = null;
+                }
+            }
+        }
+
+        [XmlIgnore]
         [Column, Nullable]
-        public DateTime? ImportUpdateDate { get; set; } // datetime
+        public DateTime? ImportCreateDate
+        {
+            get { return _ImportCreateDate; }
+            set { _ImportCreateDate = value; }
+        }
+
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime? _ImportUpdateDate;
+
+        [XmlElement("ImportUpdateDate")]
+        [NotColumn]
+        public string ImportUpdateDateString
+        {
+            get
+            {
+                if (!_ImportUpdateDate.HasValue)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _ImportUpdateDate.Value.ToString("o");
+                }
+            }
+            set
+            {
+                DateTime dt;
+                if (DateTime.TryParse(value, null, DateTimeStyles.AdjustToUniversal, out dt))
+                {
+                    this._ImportUpdateDate = dt;
+                }
+                else
+                {
+                    this._ImportUpdateDate = null;
+                }
+            }
+        }
+
+        [XmlIgnore]
+        [Column, Nullable]
+        public DateTime? ImportUpdateDate
+        {
+            get { return _ImportUpdateDate; }
+            set { _ImportUpdateDate = value; }
+        }
+  
 
         [XmlIgnore]
         [NotColumn]
@@ -1441,7 +2157,17 @@ namespace DataModels
                     return _GovernmentID.ToString();
                 }
             }
-            set { }
+            set {
+                Guid guid;
+                if (Guid.TryParse(value, out guid))
+                {
+                    this._GovernmentID = guid;
+                }
+                else
+                {
+                    this._GovernmentID = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -1477,17 +2203,155 @@ namespace DataModels
         [Column, NotNull]
         public int ExamGlobalID { get; set; } // int
 
+  	    [XmlIgnore]
+        [NotColumn]
+        private DateTime _CreateDate;
+
+        [XmlElement("CreateDate")]
+        [NotColumn]
+        public string CreateDateString
+        {
+            get
+            {
+                return _CreateDate.ToString("o");
+            }
+            set
+            {
+                DateTime dt;
+                if (DateTime.TryParse(value, null, DateTimeStyles.AdjustToUniversal, out dt))
+                {
+                    this._CreateDate = dt;
+                }
+                else
+                {
+                    throw new DateTimeException(string.Format("‘ÓÏ‡Ú ‰‡Ú˚ ÌÂ‚ÂÂÌ: {0}", value));
+                }
+            }
+        }
+
+        [XmlIgnore]
         [Column, NotNull]
-        public DateTime CreateDate { get; set; } // datetime
+        public DateTime CreateDate
+        {
+            get { return _CreateDate; }
+            set { _CreateDate = value; }
+        }
 
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime _UpdateDate;
+
+        [XmlElement("UpdateDate")]
+        [NotColumn]
+        public string UpdateDateString
+        {
+            get
+            {
+                return _UpdateDate.ToString("o");
+            }
+            set
+            {
+                DateTime dt;
+                if (DateTime.TryParse(value, null, DateTimeStyles.AdjustToUniversal, out dt))
+                {
+                    this._UpdateDate = dt;
+                }
+                else
+                {
+                    throw new DateTimeException(string.Format("‘ÓÏ‡Ú ‰‡Ú˚ ÌÂ‚ÂÂÌ: {0}", value));
+                }
+            }
+        }
+
+        [XmlIgnore]
         [Column, NotNull]
-        public DateTime UpdateDate { get; set; } // datetime
+        public DateTime UpdateDate
+        {
+            get { return _UpdateDate; }
+            set { _UpdateDate = value; }
+        }
+         
+  	    [XmlIgnore]
+        [NotColumn]
+        private DateTime? _ImportCreateDate;
 
-        [Column, Nullable]
-        public DateTime? ImportCreateDate { get; set; } // datetime
+        [XmlElement("ImportCreateDate")]
+        [NotColumn]
+        public string ImportCreateDateString
+        {
+            get
+            {
+                if (!_ImportCreateDate.HasValue)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _ImportCreateDate.Value.ToString("o");
+                }
+            }
+            set
+            {
+                DateTime dt;
+                if (DateTime.TryParse(value, null, DateTimeStyles.AdjustToUniversal, out dt))
+                {
+                    this._ImportCreateDate = dt;
+                }
+                else
+                {
+                    this._ImportCreateDate = null;
+                }
+            }
+        }
 
+        [XmlIgnore]
         [Column, Nullable]
-        public DateTime? ImportUpdateDate { get; set; } // datetime
+        public DateTime? ImportCreateDate
+        {
+            get { return _ImportCreateDate; }
+            set { _ImportCreateDate = value; }
+        }
+
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime? _ImportUpdateDate;
+
+        [XmlElement("ImportUpdateDate")]
+        [NotColumn]
+        public string ImportUpdateDateString
+        {
+            get
+            {
+                if (!_ImportUpdateDate.HasValue)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _ImportUpdateDate.Value.ToString("o");
+                }
+            }
+            set
+            {
+                DateTime dt;
+                if (DateTime.TryParse(value, null, DateTimeStyles.AdjustToUniversal, out dt))
+                {
+                    this._ImportUpdateDate = dt;
+                }
+                else
+                {
+                    this._ImportUpdateDate = null;
+                }
+            }
+        }
+
+        [XmlIgnore]
+        [Column, Nullable]
+        public DateTime? ImportUpdateDate
+        {
+            get { return _ImportUpdateDate; }
+            set { _ImportUpdateDate = value; }
+        }
 
         [XmlIgnore]
         [NotColumn]
@@ -1508,7 +2372,18 @@ namespace DataModels
                     return _IsDeleted.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._IsDeleted = val;
+                }
+                else
+                {
+                    this._IsDeleted = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -1538,7 +2413,17 @@ namespace DataModels
                     return _StationsExamsID.ToString();
                 }
             }
-            set { }
+            set {
+                Guid guid;
+                if (Guid.TryParse(value, out guid))
+                {
+                    this._StationsExamsID = guid;
+                }
+                else
+                {
+                    this._StationsExamsID = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -1587,7 +2472,18 @@ namespace DataModels
                     return _IsDeleted.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._IsDeleted = val;
+                }
+                else
+                {
+                    this._IsDeleted = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -1665,17 +2561,141 @@ namespace DataModels
         [Column, NotNull]
         public int DeleteType { get; set; } // int
 
+        
+
+  	    [XmlIgnore]
+        [NotColumn]
+        private DateTime _CreateDate;
+
+        [XmlElement("CreateDate")]
+        [NotColumn]
+        public string CreateDateString
+        {
+            get
+            {
+                return _CreateDate.ToString("o");
+            }
+            set
+            {
+                this._CreateDate = DateTime.Parse(value);
+            }
+        }
+
+        [XmlIgnore]
         [Column, NotNull]
-        public DateTime CreateDate { get; set; } // datetime
+        public DateTime CreateDate
+        {
+            get { return _CreateDate; }
+            set { _CreateDate = value; }
+        }
 
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime _UpdateDate;
+
+        [XmlElement("UpdateDate")]
+        [NotColumn]
+        public string UpdateDateString
+        {
+            get
+            {
+                return _UpdateDate.ToString("o");
+            }
+            set
+            {
+                this._UpdateDate = DateTime.Parse(value);
+            }
+        }
+
+        [XmlIgnore]
         [Column, NotNull]
-        public DateTime UpdateDate { get; set; } // datetime
+        public DateTime UpdateDate
+        {
+            get { return _UpdateDate; }
+            set { _UpdateDate = value; }
+        }
+        
+  	    [XmlIgnore]
+        [NotColumn]
+        private DateTime? _ImportCreateDate;
 
-        [Column, Nullable]
-        public DateTime? ImportCreateDate { get; set; } // datetime
+        [XmlElement("ImportCreateDate")]
+        [NotColumn]
+        public string ImportCreateDateString
+        {
+            get
+            {
+                if (!_ImportCreateDate.HasValue)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _ImportCreateDate.Value.ToString("o");
+                }
+            }
+            set
+            {
+                DateTime dt;
+                if (DateTime.TryParse(value, null, DateTimeStyles.AdjustToUniversal, out dt))
+                {
+                    this._ImportCreateDate = dt;
+                }
+                else
+                {
+                    this._ImportCreateDate = null;
+                }
+            }
+        }
 
+        [XmlIgnore]
         [Column, Nullable]
-        public DateTime? ImportUpdateDate { get; set; } // datetime
+        public DateTime? ImportCreateDate
+        {
+            get { return _ImportCreateDate; }
+            set { _ImportCreateDate = value; }
+        }
+
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime? _ImportUpdateDate;
+
+        [XmlElement("ImportUpdateDate")]
+        [NotColumn]
+        public string ImportUpdateDateString
+        {
+            get
+            {
+                if (!_ImportUpdateDate.HasValue)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _ImportUpdateDate.Value.ToString("o");
+                }
+            }
+            set
+            {
+                DateTime dt;
+                if (DateTime.TryParse(value, null, DateTimeStyles.AdjustToUniversal, out dt))
+                {
+                    this._ImportUpdateDate = dt;
+                }
+                else
+                {
+                    this._ImportUpdateDate = null;
+                }
+            }
+        }
+
+        [XmlIgnore]
+        [Column, Nullable]
+        public DateTime? ImportUpdateDate
+        {
+            get { return _ImportUpdateDate; }
+            set { _ImportUpdateDate = value; }
+        }
 
         [XmlIgnore]
         [NotColumn]
@@ -1696,7 +2716,18 @@ namespace DataModels
                     return _TimeZoneId.ToString();
                 }
             }
-            set { }
+            set
+            {
+                int val;
+                if (int.TryParse(value, out val))
+                {
+                    this._TimeZoneId = val;
+                }
+                else
+                {
+                    this._TimeZoneId = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -1750,8 +2781,31 @@ namespace DataModels
         [Column, NotNull]
         public string pClass { get; set; } // varchar(50)
 
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime _BirthDay;
+
+        [XmlElement("BirthDay")]
+        [NotColumn]
+        public string BirthDayString
+        {
+            get
+            {
+                return _BirthDay.ToString("o");
+            }
+            set
+            {
+                this._BirthDay = DateTime.Parse(value);
+            }
+        }
+
+        [XmlIgnore]
         [Column, NotNull]
-        public DateTime BirthDay { get; set; } // datetime
+        public DateTime BirthDay
+        {
+            get { return _BirthDay; }
+            set { _BirthDay = value; }
+        }
 
         [Column, Nullable]
         public string Reserve1 { get; set; } // varchar(255)
@@ -1784,7 +2838,17 @@ namespace DataModels
                     return _ParticipantDouble.ToString();
                 }
             }
-            set { }
+            set {
+                Guid guid;
+                if (Guid.TryParse(value, out guid))
+                {
+                    this._ParticipantDouble = guid;
+                }
+                else
+                {
+                    this._ParticipantDouble = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -1814,7 +2878,18 @@ namespace DataModels
                     return _FinishRegion.ToString();
                 }
             }
-            set { }
+            set
+            {
+                int val;
+                if (int.TryParse(value, out val))
+                {
+                    this._FinishRegion = val;
+                }
+                else
+                {
+                    this._FinishRegion = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -1850,7 +2925,17 @@ namespace DataModels
                     return _SchoolOutcoming.ToString();
                 }
             }
-            set { }
+            set {
+                Guid guid;
+                if (Guid.TryParse(value, out guid))
+                {
+                    this._SchoolOutcoming = guid;
+                }
+                else
+                {
+                    this._SchoolOutcoming = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -1864,17 +2949,140 @@ namespace DataModels
         [Column, NotNull]
         public int Study { get; set; } // int
 
+  	    [XmlIgnore]
+        [NotColumn]
+        private DateTime _CreateDate;
+
+        [XmlElement("CreateDate")]
+        [NotColumn]
+        public string CreateDateString
+        {
+            get
+            {
+                return _CreateDate.ToString("o");
+            }
+            set
+            {
+                this._CreateDate = DateTime.Parse(value);
+            }
+        }
+
+        [XmlIgnore]
         [Column, NotNull]
-        public DateTime CreateDate { get; set; } // datetime
+        public DateTime CreateDate
+        {
+            get { return _CreateDate; }
+            set { _CreateDate = value; }
+        }
 
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime _UpdateDate;
+
+        [XmlElement("UpdateDate")]
+        [NotColumn]
+        public string UpdateDateString
+        {
+            get
+            {
+                return _UpdateDate.ToString("o");
+            }
+            set
+            {
+                this._UpdateDate = DateTime.Parse(value);
+            }
+        }
+
+        [XmlIgnore]
         [Column, NotNull]
-        public DateTime UpdateDate { get; set; } // datetime
+        public DateTime UpdateDate
+        {
+            get { return _UpdateDate; }
+            set { _UpdateDate = value; }
+        }
+    
+  	    [XmlIgnore]
+        [NotColumn]
+        private DateTime? _ImportCreateDate;
 
-        [Column, Nullable]
-        public DateTime? ImportCreateDate { get; set; } // datetime
+        [XmlElement("ImportCreateDate")]
+        [NotColumn]
+        public string ImportCreateDateString
+        {
+            get
+            {
+                if (!_ImportCreateDate.HasValue)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _ImportCreateDate.Value.ToString("o");
+                }
+            }
+            set
+            {
+                DateTime dt;
+                if (DateTime.TryParse(value, null, DateTimeStyles.AdjustToUniversal, out dt))
+                {
+                    this._ImportCreateDate = dt;
+                }
+                else
+                {
+                    this._ImportCreateDate = null;
+                }
+            }
+        }
 
+        [XmlIgnore]
         [Column, Nullable]
-        public DateTime? ImportUpdateDate { get; set; } // datetime
+        public DateTime? ImportCreateDate
+        {
+            get { return _ImportCreateDate; }
+            set { _ImportCreateDate = value; }
+        }
+
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime? _ImportUpdateDate;
+
+        [XmlElement("ImportUpdateDate")]
+        [NotColumn]
+        public string ImportUpdateDateString
+        {
+            get
+            {
+                if (!_ImportUpdateDate.HasValue)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _ImportUpdateDate.Value.ToString("o");
+                }
+            }
+            set
+            {
+                DateTime dt;
+                if (DateTime.TryParse(value, null, DateTimeStyles.AdjustToUniversal, out dt))
+                {
+                    this._ImportUpdateDate = dt;
+                }
+                else
+                {
+                    this._ImportUpdateDate = null;
+                }
+            }
+        }
+
+        [XmlIgnore]
+        [Column, Nullable]
+        public DateTime? ImportUpdateDate
+        {
+            get { return _ImportUpdateDate; }
+            set { _ImportUpdateDate = value; }
+        }
+  
 
         [Column, NotNull]
         public int CitizenshipID { get; set; } // int
@@ -1920,7 +3128,18 @@ namespace DataModels
                     return _IsDeleted.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._IsDeleted = val;
+                }
+                else
+                {
+                    this._IsDeleted = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -1947,17 +3166,144 @@ namespace DataModels
         [PrimaryKey, NotNull]
         public Guid ParticipantsExamsID { get; set; } // uniqueidentifier
 
+        
+
+  	    [XmlIgnore]
+        [NotColumn]
+        private DateTime _CreateDate;
+
+        [XmlElement("CreateDate")]
+        [NotColumn]
+        public string CreateDateString
+        {
+            get
+            {
+                return _CreateDate.ToString("o");
+            }
+            set
+            {
+                this._CreateDate = DateTime.Parse(value);
+            }
+        }
+
+        [XmlIgnore]
         [Column, NotNull]
-        public DateTime CreateDate { get; set; } // datetime
+        public DateTime CreateDate
+        {
+            get { return _CreateDate; }
+            set { _CreateDate = value; }
+        }
 
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime _UpdateDate;
+
+        [XmlElement("UpdateDate")]
+        [NotColumn]
+        public string UpdateDateString
+        {
+            get
+            {
+                return _UpdateDate.ToString("o");
+            }
+            set
+            {
+                this._UpdateDate = DateTime.Parse(value);
+            }
+        }
+
+        [XmlIgnore]
         [Column, NotNull]
-        public DateTime UpdateDate { get; set; } // datetime
+        public DateTime UpdateDate
+        {
+            get { return _UpdateDate; }
+            set { _UpdateDate = value; }
+        }
 
-        [Column, Nullable]
-        public DateTime? ImportCreateDate { get; set; } // datetime
+  
 
+        
+  	    [XmlIgnore]
+        [NotColumn]
+        private DateTime? _ImportCreateDate;
+
+        [XmlElement("ImportCreateDate")]
+        [NotColumn]
+        public string ImportCreateDateString
+        {
+            get
+            {
+                if (!_ImportCreateDate.HasValue)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _ImportCreateDate.Value.ToString("o");
+                }
+            }
+            set
+            {
+                DateTime dt;
+                if (DateTime.TryParse(value, null, DateTimeStyles.AdjustToUniversal, out dt))
+                {
+                    this._ImportCreateDate = dt;
+                }
+                else
+                {
+                    this._ImportCreateDate = null;
+                }
+            }
+        }
+
+        [XmlIgnore]
         [Column, Nullable]
-        public DateTime? ImportUpdateDate { get; set; } // datetime
+        public DateTime? ImportCreateDate
+        {
+            get { return _ImportCreateDate; }
+            set { _ImportCreateDate = value; }
+        }
+
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime? _ImportUpdateDate;
+
+        [XmlElement("ImportUpdateDate")]
+        [NotColumn]
+        public string ImportUpdateDateString
+        {
+            get
+            {
+                if (!_ImportUpdateDate.HasValue)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _ImportUpdateDate.Value.ToString("o");
+                }
+            }
+            set
+            {
+                DateTime dt;
+                if (DateTime.TryParse(value, null, DateTimeStyles.AdjustToUniversal, out dt))
+                {
+                    this._ImportUpdateDate = dt;
+                }
+                else
+                {
+                    this._ImportUpdateDate = null;
+                }
+            }
+        }
+
+        [XmlIgnore]
+        [Column, Nullable]
+        public DateTime? ImportUpdateDate
+        {
+            get { return _ImportUpdateDate; }
+            set { _ImportUpdateDate = value; }
+        }
 
         [XmlIgnore]
         [NotColumn]
@@ -1978,7 +3324,18 @@ namespace DataModels
                     return _IsDeleted.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._IsDeleted = val;
+                }
+                else
+                {
+                    this._IsDeleted = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -2036,7 +3393,18 @@ namespace DataModels
                     return _IsManual.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._IsManual = val;
+                }
+                else
+                {
+                    this._IsManual = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -2066,7 +3434,18 @@ namespace DataModels
                     return _IsDeleted.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._IsDeleted = val;
+                }
+                else
+                {
+                    this._IsDeleted = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -2096,17 +3475,144 @@ namespace DataModels
         [PrimaryKey(2), NotNull]
         public int Region { get; set; } // int
 
+        
+
+  	    [XmlIgnore]
+        [NotColumn]
+        private DateTime _CreateDate;
+
+        [XmlElement("CreateDate")]
+        [NotColumn]
+        public string CreateDateString
+        {
+            get
+            {
+                return _CreateDate.ToString("o");
+            }
+            set
+            {
+                this._CreateDate = DateTime.Parse(value);
+            }
+        }
+
+        [XmlIgnore]
         [Column, NotNull]
-        public DateTime CreateDate { get; set; } // datetime
+        public DateTime CreateDate
+        {
+            get { return _CreateDate; }
+            set { _CreateDate = value; }
+        }
 
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime _UpdateDate;
+
+        [XmlElement("UpdateDate")]
+        [NotColumn]
+        public string UpdateDateString
+        {
+            get
+            {
+                return _UpdateDate.ToString("o");
+            }
+            set
+            {
+                this._UpdateDate = DateTime.Parse(value);
+            }
+        }
+
+        [XmlIgnore]
         [Column, NotNull]
-        public DateTime UpdateDate { get; set; } // datetime
+        public DateTime UpdateDate
+        {
+            get { return _UpdateDate; }
+            set { _UpdateDate = value; }
+        }
 
-        [Column, Nullable]
-        public DateTime? ImportCreateDate { get; set; } // datetime
+  
 
+        
+  	    [XmlIgnore]
+        [NotColumn]
+        private DateTime? _ImportCreateDate;
+
+        [XmlElement("ImportCreateDate")]
+        [NotColumn]
+        public string ImportCreateDateString
+        {
+            get
+            {
+                if (!_ImportCreateDate.HasValue)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _ImportCreateDate.Value.ToString("o");
+                }
+            }
+            set
+            {
+                DateTime dt;
+                if (DateTime.TryParse(value, null, DateTimeStyles.AdjustToUniversal, out dt))
+                {
+                    this._ImportCreateDate = dt;
+                }
+                else
+                {
+                    this._ImportCreateDate = null;
+                }
+            }
+        }
+
+        [XmlIgnore]
         [Column, Nullable]
-        public DateTime? ImportUpdateDate { get; set; } // datetime
+        public DateTime? ImportCreateDate
+        {
+            get { return _ImportCreateDate; }
+            set { _ImportCreateDate = value; }
+        }
+
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime? _ImportUpdateDate;
+
+        [XmlElement("ImportUpdateDate")]
+        [NotColumn]
+        public string ImportUpdateDateString
+        {
+            get
+            {
+                if (!_ImportUpdateDate.HasValue)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _ImportUpdateDate.Value.ToString("o");
+                }
+            }
+            set
+            {
+                DateTime dt;
+                if (DateTime.TryParse(value, null, DateTimeStyles.AdjustToUniversal, out dt))
+                {
+                    this._ImportUpdateDate = dt;
+                }
+                else
+                {
+                    this._ImportUpdateDate = null;
+                }
+            }
+        }
+
+        [XmlIgnore]
+        [Column, Nullable]
+        public DateTime? ImportUpdateDate
+        {
+            get { return _ImportUpdateDate; }
+            set { _ImportUpdateDate = value; }
+        }
 
         [XmlIgnore]
         [NotColumn]
@@ -2127,7 +3633,18 @@ namespace DataModels
                     return _IsDeleted.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._IsDeleted = val;
+                }
+                else
+                {
+                    this._IsDeleted = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -2157,7 +3674,17 @@ namespace DataModels
                     return _SessionID.ToString();
                 }
             }
-            set { }
+            set {
+                Guid guid;
+                if (Guid.TryParse(value, out guid))
+                {
+                    this._SessionID = guid;
+                }
+                else
+                {
+                    this._SessionID = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -2203,7 +3730,18 @@ namespace DataModels
                     return _IsDeleted.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._IsDeleted = val;
+                }
+                else
+                {
+                    this._IsDeleted = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -2249,7 +3787,18 @@ namespace DataModels
                     return _IsDeleted.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._IsDeleted = val;
+                }
+                else
+                {
+                    this._IsDeleted = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -2301,7 +3850,18 @@ namespace DataModels
                     return _IsDeleted.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._IsDeleted = val;
+                }
+                else
+                {
+                    this._IsDeleted = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -2419,7 +3979,18 @@ namespace DataModels
                     return _isVirtualSchool.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._isVirtualSchool = val;
+                }
+                else
+                {
+                    this._isVirtualSchool = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -2451,17 +4022,145 @@ namespace DataModels
         [Column, NotNull]
         public int TownshipFK { get; set; } // int
 
+        
+
+  	    [XmlIgnore]
+        [NotColumn]
+        private DateTime _CreateDate;
+
+        [XmlElement("CreateDate")]
+        [NotColumn]
+        public string CreateDateString
+        {
+            get
+            {
+                return _CreateDate.ToString("o");
+            }
+            set
+            {
+                this._CreateDate = DateTime.Parse(value);
+            }
+        }
+
+        [XmlIgnore]
         [Column, NotNull]
-        public DateTime CreateDate { get; set; } // datetime
+        public DateTime CreateDate
+        {
+            get { return _CreateDate; }
+            set { _CreateDate = value; }
+        }
 
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime _UpdateDate;
+
+        [XmlElement("UpdateDate")]
+        [NotColumn]
+        public string UpdateDateString
+        {
+            get
+            {
+                return _UpdateDate.ToString("o");
+            }
+            set
+            {
+                this._UpdateDate = DateTime.Parse(value);
+            }
+        }
+
+        [XmlIgnore]
         [Column, NotNull]
-        public DateTime UpdateDate { get; set; } // datetime
+        public DateTime UpdateDate
+        {
+            get { return _UpdateDate; }
+            set { _UpdateDate = value; }
+        }
 
-        [Column, Nullable]
-        public DateTime? ImportCreateDate { get; set; } // datetime
+  
 
+        
+  	    [XmlIgnore]
+        [NotColumn]
+        private DateTime? _ImportCreateDate;
+
+        [XmlElement("ImportCreateDate")]
+        [NotColumn]
+        public string ImportCreateDateString
+        {
+            get
+            {
+                if (!_ImportCreateDate.HasValue)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _ImportCreateDate.Value.ToString("o");
+                }
+            }
+            set
+            {
+                DateTime dt;
+                if (DateTime.TryParse(value, null, DateTimeStyles.AdjustToUniversal, out dt))
+                {
+                    this._ImportCreateDate = dt;
+                }
+                else
+                {
+                    this._ImportCreateDate = null;
+                }
+            }
+        }
+
+        [XmlIgnore]
         [Column, Nullable]
-        public DateTime? ImportUpdateDate { get; set; } // datetime
+        public DateTime? ImportCreateDate
+        {
+            get { return _ImportCreateDate; }
+            set { _ImportCreateDate = value; }
+        }
+
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime? _ImportUpdateDate;
+
+        [XmlElement("ImportUpdateDate")]
+        [NotColumn]
+        public string ImportUpdateDateString
+        {
+            get
+            {
+                if (!_ImportUpdateDate.HasValue)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _ImportUpdateDate.Value.ToString("o");
+                }
+            }
+            set
+            {
+                DateTime dt;
+                if (DateTime.TryParse(value, null, DateTimeStyles.AdjustToUniversal, out dt))
+                {
+                    this._ImportUpdateDate = dt;
+                }
+                else
+                {
+                    this._ImportUpdateDate = null;
+                }
+            }
+        }
+
+        [XmlIgnore]
+        [Column, Nullable]
+        public DateTime? ImportUpdateDate
+        {
+            get { return _ImportUpdateDate; }
+            set { _ImportUpdateDate = value; }
+        }
+  
 
         [Column, NotNull]
         public int SchoolFlags { get; set; } // int
@@ -2504,7 +4203,18 @@ namespace DataModels
                     return _AddressKind.ToString();
                 }
             }
-            set { }
+            set
+            {
+                int val;
+                if (int.TryParse(value, out val))
+                {
+                    this._AddressKind = val;
+                }
+                else
+                {
+                    this._AddressKind = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -2515,17 +4225,142 @@ namespace DataModels
             set { _AddressKind = value; }
         }
 
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime _CreateDate;
+
+        [XmlElement("CreateDate")]
+        [NotColumn]
+        public string CreateDateString
+        {
+            get
+            {
+                return _CreateDate.ToString("o");
+            }
+            set
+            {
+                this._CreateDate = DateTime.Parse(value);
+            }
+        }
+
+        [XmlIgnore]
         [Column, NotNull]
-        public DateTime CreateDate { get; set; } // datetime
+        public DateTime CreateDate
+        {
+            get { return _CreateDate; }
+            set { _CreateDate = value; }
+        }
 
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime _UpdateDate;
+
+        [XmlElement("UpdateDate")]
+        [NotColumn]
+        public string UpdateDateString
+        {
+            get
+            {
+                return _UpdateDate.ToString("o");
+            }
+            set
+            {
+                this._UpdateDate = DateTime.Parse(value);
+            }
+        }
+
+        [XmlIgnore]
         [Column, NotNull]
-        public DateTime UpdateDate { get; set; } // datetime
+        public DateTime UpdateDate
+        {
+            get { return _UpdateDate; }
+            set { _UpdateDate = value; }
+        }
 
-        [Column, Nullable]
-        public DateTime? ImportCreateDate { get; set; } // datetime
+  
 
+        
+  	    [XmlIgnore]
+        [NotColumn]
+        private DateTime? _ImportCreateDate;
+
+        [XmlElement("ImportCreateDate")]
+        [NotColumn]
+        public string ImportCreateDateString
+        {
+            get
+            {
+                if (!_ImportCreateDate.HasValue)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _ImportCreateDate.Value.ToString("o");
+                }
+            }
+            set
+            {
+                DateTime dt;
+                if (DateTime.TryParse(value, null, DateTimeStyles.AdjustToUniversal, out dt))
+                {
+                    this._ImportCreateDate = dt;
+                }
+                else
+                {
+                    this._ImportCreateDate = null;
+                }
+            }
+        }
+
+        [XmlIgnore]
         [Column, Nullable]
-        public DateTime? ImportUpdateDate { get; set; } // datetime
+        public DateTime? ImportCreateDate
+        {
+            get { return _ImportCreateDate; }
+            set { _ImportCreateDate = value; }
+        }
+
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime? _ImportUpdateDate;
+
+        [XmlElement("ImportUpdateDate")]
+        [NotColumn]
+        public string ImportUpdateDateString
+        {
+            get
+            {
+                if (!_ImportUpdateDate.HasValue)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _ImportUpdateDate.Value.ToString("o");
+                }
+            }
+            set
+            {
+                DateTime dt;
+                if (DateTime.TryParse(value, null, DateTimeStyles.AdjustToUniversal, out dt))
+                {
+                    this._ImportUpdateDate = dt;
+                }
+                else
+                {
+                    this._ImportUpdateDate = null;
+                }
+            }
+        }
+
+        [XmlIgnore]
+        [Column, Nullable]
+        public DateTime? ImportUpdateDate
+        {
+            get { return _ImportUpdateDate; }
+            set { _ImportUpdateDate = value; }
+        }
 
         [XmlIgnore]
         [NotColumn]
@@ -2546,7 +4381,18 @@ namespace DataModels
                     return _IsDeleted.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._IsDeleted = val;
+                }
+                else
+                {
+                    this._IsDeleted = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -2598,7 +4444,17 @@ namespace DataModels
                     return _SchoolFK.ToString();
                 }
             }
-            set { }
+            set {
+                Guid guid;
+                if (Guid.TryParse(value, out guid))
+                {
+                    this._SchoolFK = guid;
+                }
+                else
+                {
+                    this._SchoolFK = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -2634,7 +4490,18 @@ namespace DataModels
                     return _IsActive.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._IsActive = val;
+                }
+                else
+                {
+                    this._IsActive = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -2670,7 +4537,17 @@ namespace DataModels
                     return _PCenterID.ToString();
                 }
             }
-            set { }
+            set {
+                Guid guid;
+                if (Guid.TryParse(value, out guid))
+                {
+                    this._PCenterID = guid;
+                }
+                else
+                {
+                    this._PCenterID = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -2706,7 +4583,17 @@ namespace DataModels
                     return _AuditoriumsCount.ToString();
                 }
             }
-            set { }
+            set {
+                int tni;
+                if (int.TryParse(value, out tni))
+                {
+                    this._AuditoriumsCount = tni;
+                }
+                else
+                {
+                    this._AuditoriumsCount = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -2717,17 +4604,145 @@ namespace DataModels
             set { _AuditoriumsCount = value; }
         }
 
+        
+
+  	    [XmlIgnore]
+        [NotColumn]
+        private DateTime _CreateDate;
+
+        [XmlElement("CreateDate")]
+        [NotColumn]
+        public string CreateDateString
+        {
+            get
+            {
+                return _CreateDate.ToString("o");
+            }
+            set
+            {
+                this._CreateDate = DateTime.Parse(value);
+            }
+        }
+
+        [XmlIgnore]
         [Column, NotNull]
-        public DateTime CreateDate { get; set; } // datetime
+        public DateTime CreateDate
+        {
+            get { return _CreateDate; }
+            set { _CreateDate = value; }
+        }
 
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime _UpdateDate;
+
+        [XmlElement("UpdateDate")]
+        [NotColumn]
+        public string UpdateDateString
+        {
+            get
+            {
+                return _UpdateDate.ToString("o");
+            }
+            set
+            {
+                this._UpdateDate = DateTime.Parse(value);
+            }
+        }
+
+        [XmlIgnore]
         [Column, NotNull]
-        public DateTime UpdateDate { get; set; } // datetime
+        public DateTime UpdateDate
+        {
+            get { return _UpdateDate; }
+            set { _UpdateDate = value; }
+        }
 
-        [Column, Nullable]
-        public DateTime? ImportCreateDate { get; set; } // datetime
+  
 
+        
+  	    [XmlIgnore]
+        [NotColumn]
+        private DateTime? _ImportCreateDate;
+
+        [XmlElement("ImportCreateDate")]
+        [NotColumn]
+        public string ImportCreateDateString
+        {
+            get
+            {
+                if (!_ImportCreateDate.HasValue)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _ImportCreateDate.Value.ToString("o");
+                }
+            }
+            set
+            {
+                DateTime dt;
+                if (DateTime.TryParse(value, null, DateTimeStyles.AdjustToUniversal, out dt))
+                {
+                    this._ImportCreateDate = dt;
+                }
+                else
+                {
+                    this._ImportCreateDate = null;
+                }
+            }
+        }
+
+        [XmlIgnore]
         [Column, Nullable]
-        public DateTime? ImportUpdateDate { get; set; } // datetime
+        public DateTime? ImportCreateDate
+        {
+            get { return _ImportCreateDate; }
+            set { _ImportCreateDate = value; }
+        }
+
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime? _ImportUpdateDate;
+
+        [XmlElement("ImportUpdateDate")]
+        [NotColumn]
+        public string ImportUpdateDateString
+        {
+            get
+            {
+                if (!_ImportUpdateDate.HasValue)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _ImportUpdateDate.Value.ToString("o");
+                }
+            }
+            set
+            {
+                DateTime dt;
+                if (DateTime.TryParse(value, null, DateTimeStyles.AdjustToUniversal, out dt))
+                {
+                    this._ImportUpdateDate = dt;
+                }
+                else
+                {
+                    this._ImportUpdateDate = null;
+                }
+            }
+        }
+
+        [XmlIgnore]
+        [Column, Nullable]
+        public DateTime? ImportUpdateDate
+        {
+            get { return _ImportUpdateDate; }
+            set { _ImportUpdateDate = value; }
+        }
+  
 
         [Column, NotNull]
         public int ExamForm { get; set; } // int
@@ -2754,7 +4769,17 @@ namespace DataModels
                     return _AddressID.ToString();
                 }
             }
-            set { }
+            set {
+                Guid guid;
+                if (Guid.TryParse(value, out guid))
+                {
+                    this._AddressID = guid;
+                }
+                else
+                {
+                    this._AddressID = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -2787,7 +4812,17 @@ namespace DataModels
                     return _TimeZoneId.ToString();
                 }
             }
-            set { }
+            set {
+                int tni;
+                if (int.TryParse(value, out tni))
+                {
+                    this._TimeZoneId = tni;
+                }
+                else
+                {
+                    this._TimeZoneId = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -2820,17 +4855,144 @@ namespace DataModels
         [Column, NotNull]
         public int PlacesCount { get; set; } // int
 
+        
+
+  	    [XmlIgnore]
+        [NotColumn]
+        private DateTime _CreateDate;
+
+        [XmlElement("CreateDate")]
+        [NotColumn]
+        public string CreateDateString
+        {
+            get
+            {
+                return _CreateDate.ToString("o");
+            }
+            set
+            {
+                this._CreateDate = DateTime.Parse(value);
+            }
+        }
+
+        [XmlIgnore]
         [Column, NotNull]
-        public DateTime CreateDate { get; set; } // datetime
+        public DateTime CreateDate
+        {
+            get { return _CreateDate; }
+            set { _CreateDate = value; }
+        }
 
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime _UpdateDate;
+
+        [XmlElement("UpdateDate")]
+        [NotColumn]
+        public string UpdateDateString
+        {
+            get
+            {
+                return _UpdateDate.ToString("o");
+            }
+            set
+            {
+                this._UpdateDate = DateTime.Parse(value);
+            }
+        }
+
+        [XmlIgnore]
         [Column, NotNull]
-        public DateTime UpdateDate { get; set; } // datetime
+        public DateTime UpdateDate
+        {
+            get { return _UpdateDate; }
+            set { _UpdateDate = value; }
+        }
 
-        [Column, Nullable]
-        public DateTime? ImportCreateDate { get; set; } // datetime
+  
 
+        
+  	    [XmlIgnore]
+        [NotColumn]
+        private DateTime? _ImportCreateDate;
+
+        [XmlElement("ImportCreateDate")]
+        [NotColumn]
+        public string ImportCreateDateString
+        {
+            get
+            {
+                if (!_ImportCreateDate.HasValue)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _ImportCreateDate.Value.ToString("o");
+                }
+            }
+            set
+            {
+                DateTime dt;
+                if (DateTime.TryParse(value, null, DateTimeStyles.AdjustToUniversal, out dt))
+                {
+                    this._ImportCreateDate = dt;
+                }
+                else
+                {
+                    this._ImportCreateDate = null;
+                }
+            }
+        }
+
+        [XmlIgnore]
         [Column, Nullable]
-        public DateTime? ImportUpdateDate { get; set; } // datetime
+        public DateTime? ImportCreateDate
+        {
+            get { return _ImportCreateDate; }
+            set { _ImportCreateDate = value; }
+        }
+
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime? _ImportUpdateDate;
+
+        [XmlElement("ImportUpdateDate")]
+        [NotColumn]
+        public string ImportUpdateDateString
+        {
+            get
+            {
+                if (!_ImportUpdateDate.HasValue)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _ImportUpdateDate.Value.ToString("o");
+                }
+            }
+            set
+            {
+                DateTime dt;
+                if (DateTime.TryParse(value, null, DateTimeStyles.AdjustToUniversal, out dt))
+                {
+                    this._ImportUpdateDate = dt;
+                }
+                else
+                {
+                    this._ImportUpdateDate = null;
+                }
+            }
+        }
+
+        [XmlIgnore]
+        [Column, Nullable]
+        public DateTime? ImportUpdateDate
+        {
+            get { return _ImportUpdateDate; }
+            set { _ImportUpdateDate = value; }
+        }
 
         [XmlIgnore]
         [NotColumn]
@@ -2851,7 +5013,18 @@ namespace DataModels
                     return _IsDeleted.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._IsDeleted = val;
+                }
+                else
+                {
+                    this._IsDeleted = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -2881,7 +5054,18 @@ namespace DataModels
                     return _IsPreparation.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._IsPreparation = val;
+                }
+                else
+                {
+                    this._IsPreparation = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -2911,7 +5095,17 @@ namespace DataModels
                     return _ExamFormatCode.ToString();
                 }
             }
-            set { }
+            set {
+                int tni;
+                if (int.TryParse(value, out tni))
+                {
+                    this._ExamFormatCode = tni;
+                }
+                else
+                {
+                    this._ExamFormatCode = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -2978,7 +5172,17 @@ namespace DataModels
                     return _GovermentID.ToString();
                 }
             }
-            set { }
+            set {
+                Guid guid;
+                if (Guid.TryParse(value, out guid))
+                {
+                    this._GovermentID = guid;
+                }
+                else
+                {
+                    this._GovermentID = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -3008,7 +5212,17 @@ namespace DataModels
                     return _StationID.ToString();
                 }
             }
-            set { }
+            set {
+                Guid guid;
+                if (Guid.TryParse(value, out guid))
+                {
+                    this._StationID = guid;
+                }
+                else
+                {
+                    this._StationID = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -3038,7 +5252,17 @@ namespace DataModels
                     return _ExamGlobalID.ToString();
                 }
             }
-            set { }
+            set {
+                int tni;
+                if (int.TryParse(value, out tni))
+                {
+                    this._ExamGlobalID = tni;
+                }
+                else
+                {
+                    this._ExamGlobalID = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -3090,7 +5314,17 @@ namespace DataModels
                     return _RegistrationCode.ToString();
                 }
             }
-            set { }
+            set {
+                int tni;
+                if (int.TryParse(value, out tni))
+                {
+                    this._RegistrationCode = tni;
+                }
+                else
+                {
+                    this._RegistrationCode = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -3132,7 +5366,17 @@ namespace DataModels
                     return _GovermentID.ToString();
                 }
             }
-            set { }
+            set {
+                Guid guid;
+                if (Guid.TryParse(value, out guid))
+                {
+                    this._GovermentID = guid;
+                }
+                else
+                {
+                    this._GovermentID = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -3162,7 +5406,17 @@ namespace DataModels
                     return _StationID.ToString();
                 }
             }
-            set { }
+            set {
+                Guid guid;
+                if (Guid.TryParse(value, out guid))
+                {
+                    this._StationID = guid;
+                }
+                else
+                {
+                    this._StationID = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -3192,7 +5446,17 @@ namespace DataModels
                     return _ExamGlobalID.ToString();
                 }
             }
-            set { }
+            set {
+                int tni;
+                if (int.TryParse(value, out tni))
+                {
+                    this._ExamGlobalID = tni;
+                }
+                else
+                {
+                    this._ExamGlobalID = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -3240,7 +5504,18 @@ namespace DataModels
                     return _B01.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._B01 = val;
+                }
+                else
+                {
+                    this._B01 = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -3270,7 +5545,18 @@ namespace DataModels
                     return _B02.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._B02 = val;
+                }
+                else
+                {
+                    this._B02 = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -3300,7 +5586,18 @@ namespace DataModels
                     return _B03.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._B03 = val;
+                }
+                else
+                {
+                    this._B03 = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -3330,7 +5627,18 @@ namespace DataModels
                     return _B04.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._B04 = val;
+                }
+                else
+                {
+                    this._B04 = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -3360,7 +5668,18 @@ namespace DataModels
                     return _B05.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._B05 = val;
+                }
+                else
+                {
+                    this._B05 = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -3370,6 +5689,7 @@ namespace DataModels
             get { return _B05; }
             set { _B05 = value; }
         }
+
 
         [XmlIgnore]
         [NotColumn]
@@ -3390,7 +5710,18 @@ namespace DataModels
                     return _B01Other.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._B01Other = val;
+                }
+                else
+                {
+                    this._B01Other = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -3420,7 +5751,18 @@ namespace DataModels
                     return _B02Other.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._B02Other = val;
+                }
+                else
+                {
+                    this._B02Other = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -3450,7 +5792,18 @@ namespace DataModels
                     return _B03Other.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._B03Other = val;
+                }
+                else
+                {
+                    this._B03Other = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -3480,7 +5833,18 @@ namespace DataModels
                     return _B04Other.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._B04Other = val;
+                }
+                else
+                {
+                    this._B04Other = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -3510,7 +5874,18 @@ namespace DataModels
                     return _B05Other.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._B05Other = val;
+                }
+                else
+                {
+                    this._B05Other = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -3520,6 +5895,7 @@ namespace DataModels
             get { return _B05Other; }
             set { _B05Other = value; }
         }
+
 
         [XmlIgnore]
         [NotColumn]
@@ -3540,7 +5916,18 @@ namespace DataModels
                     return _B1.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._B1 = val;
+                }
+                else
+                {
+                    this._B1 = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -3570,7 +5957,18 @@ namespace DataModels
                     return _B2.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._B2 = val;
+                }
+                else
+                {
+                    this._B2 = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -3600,7 +5998,18 @@ namespace DataModels
                     return _B3.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._B3 = val;
+                }
+                else
+                {
+                    this._B3 = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -3630,7 +6039,18 @@ namespace DataModels
                     return _B4.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._B4 = val;
+                }
+                else
+                {
+                    this._B4 = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -3660,7 +6080,18 @@ namespace DataModels
                     return _B5.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._B5 = val;
+                }
+                else
+                {
+                    this._B5 = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -3690,7 +6121,18 @@ namespace DataModels
                     return _B6.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._B6 = val;
+                }
+                else
+                {
+                    this._B6 = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -3720,7 +6162,18 @@ namespace DataModels
                     return _B7.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._B7 = val;
+                }
+                else
+                {
+                    this._B7 = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -3750,7 +6203,18 @@ namespace DataModels
                     return _B8.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._B8 = val;
+                }
+                else
+                {
+                    this._B8 = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -3780,7 +6244,18 @@ namespace DataModels
                     return _B9.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._B9 = val;
+                }
+                else
+                {
+                    this._B9 = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -3810,7 +6285,18 @@ namespace DataModels
                     return _B10.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._B10 = val;
+                }
+                else
+                {
+                    this._B10 = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -3840,7 +6326,18 @@ namespace DataModels
                     return _B11.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._B11 = val;
+                }
+                else
+                {
+                    this._B11 = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -3870,7 +6367,18 @@ namespace DataModels
                     return _B12.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._B12 = val;
+                }
+                else
+                {
+                    this._B12 = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -3900,7 +6408,18 @@ namespace DataModels
                     return _B13.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._B13 = val;
+                }
+                else
+                {
+                    this._B13 = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -3930,7 +6449,18 @@ namespace DataModels
                     return _B14.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._B14 = val;
+                }
+                else
+                {
+                    this._B14 = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -3960,7 +6490,18 @@ namespace DataModels
                     return _B15.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._B15 = val;
+                }
+                else
+                {
+                    this._B15 = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -3990,7 +6531,18 @@ namespace DataModels
                     return _B16.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._B16 = val;
+                }
+                else
+                {
+                    this._B16 = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -4020,7 +6572,18 @@ namespace DataModels
                     return _B17.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._B17 = val;
+                }
+                else
+                {
+                    this._B17 = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -4050,7 +6613,18 @@ namespace DataModels
                     return _B18.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._B18 = val;
+                }
+                else
+                {
+                    this._B18 = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -4080,7 +6654,18 @@ namespace DataModels
                     return _B19.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._B19 = val;
+                }
+                else
+                {
+                    this._B19 = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -4110,7 +6695,18 @@ namespace DataModels
                     return _B20.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._B20 = val;
+                }
+                else
+                {
+                    this._B20 = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -4140,7 +6736,18 @@ namespace DataModels
                     return _B21.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._B21 = val;
+                }
+                else
+                {
+                    this._B21 = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -4170,7 +6777,18 @@ namespace DataModels
                     return _B22.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._B22 = val;
+                }
+                else
+                {
+                    this._B22 = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -4200,7 +6818,18 @@ namespace DataModels
                     return _B23.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._B23 = val;
+                }
+                else
+                {
+                    this._B23 = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -4230,7 +6859,18 @@ namespace DataModels
                     return _B24.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._B24 = val;
+                }
+                else
+                {
+                    this._B24 = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -4260,7 +6900,18 @@ namespace DataModels
                     return _B25.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._B25 = val;
+                }
+                else
+                {
+                    this._B25 = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -4290,7 +6941,18 @@ namespace DataModels
                     return _B26.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._B26 = val;
+                }
+                else
+                {
+                    this._B26 = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -4320,7 +6982,18 @@ namespace DataModels
                     return _B27.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._B27 = val;
+                }
+                else
+                {
+                    this._B27 = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -4350,7 +7023,18 @@ namespace DataModels
                     return _B28.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._B28 = val;
+                }
+                else
+                {
+                    this._B28 = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -4380,7 +7064,18 @@ namespace DataModels
                     return _B29.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._B29 = val;
+                }
+                else
+                {
+                    this._B29 = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -4410,7 +7105,18 @@ namespace DataModels
                     return _B30.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._B30 = val;
+                }
+                else
+                {
+                    this._B30 = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -4440,7 +7146,18 @@ namespace DataModels
                     return _Comments.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._Comments = val;
+                }
+                else
+                {
+                    this._Comments = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -4490,7 +7207,17 @@ namespace DataModels
                     return _AuditoriumID.ToString();
                 }
             }
-            set { }
+            set {
+                Guid guid;
+                if (Guid.TryParse(value, out guid))
+                {
+                    this._AuditoriumID = guid;
+                }
+                else
+                {
+                    this._AuditoriumID = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -4520,7 +7247,17 @@ namespace DataModels
                     return _FieldValue1.ToString();
                 }
             }
-            set { }
+            set {
+                int tni;
+                if (int.TryParse(value, out tni))
+                {
+                    this._FieldValue1 = tni;
+                }
+                else
+                {
+                    this._FieldValue1 = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -4572,7 +7309,17 @@ namespace DataModels
                     return _FieldValue.ToString();
                 }
             }
-            set { }
+            set {
+                int tni;
+                if (int.TryParse(value, out tni))
+                {
+                    this._FieldValue = tni;
+                }
+                else
+                {
+                    this._FieldValue = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -4621,7 +7368,17 @@ namespace DataModels
                     return _PlacesCount.ToString();
                 }
             }
-            set { }
+            set {
+                int tni;
+                if (int.TryParse(value, out tni))
+                {
+                    this._PlacesCount = tni;
+                }
+                else
+                {
+                    this._PlacesCount = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -4635,17 +7392,144 @@ namespace DataModels
         [Column, NotNull]
         public bool LockOnStation { get; set; } // bit
 
+        
+
+  	    [XmlIgnore]
+        [NotColumn]
+        private DateTime _CreateDate;
+
+        [XmlElement("CreateDate")]
+        [NotColumn]
+        public string CreateDateString
+        {
+            get
+            {
+                return _CreateDate.ToString("o");
+            }
+            set
+            {
+                this._CreateDate = DateTime.Parse(value);
+            }
+        }
+
+        [XmlIgnore]
         [Column, NotNull]
-        public DateTime CreateDate { get; set; } // datetime
+        public DateTime CreateDate
+        {
+            get { return _CreateDate; }
+            set { _CreateDate = value; }
+        }
 
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime _UpdateDate;
+
+        [XmlElement("UpdateDate")]
+        [NotColumn]
+        public string UpdateDateString
+        {
+            get
+            {
+                return _UpdateDate.ToString("o");
+            }
+            set
+            {
+                this._UpdateDate = DateTime.Parse(value);
+            }
+        }
+
+        [XmlIgnore]
         [Column, NotNull]
-        public DateTime UpdateDate { get; set; } // datetime
+        public DateTime UpdateDate
+        {
+            get { return _UpdateDate; }
+            set { _UpdateDate = value; }
+        }
 
-        [Column, Nullable]
-        public DateTime? ImportCreateDate { get; set; } // datetime
+  
 
+        
+  	    [XmlIgnore]
+        [NotColumn]
+        private DateTime? _ImportCreateDate;
+
+        [XmlElement("ImportCreateDate")]
+        [NotColumn]
+        public string ImportCreateDateString
+        {
+            get
+            {
+                if (!_ImportCreateDate.HasValue)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _ImportCreateDate.Value.ToString("o");
+                }
+            }
+            set
+            {
+                DateTime dt;
+                if (DateTime.TryParse(value, null, DateTimeStyles.AdjustToUniversal, out dt))
+                {
+                    this._ImportCreateDate = dt;
+                }
+                else
+                {
+                    this._ImportCreateDate = null;
+                }
+            }
+        }
+
+        [XmlIgnore]
         [Column, Nullable]
-        public DateTime? ImportUpdateDate { get; set; } // datetime
+        public DateTime? ImportCreateDate
+        {
+            get { return _ImportCreateDate; }
+            set { _ImportCreateDate = value; }
+        }
+
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime? _ImportUpdateDate;
+
+        [XmlElement("ImportUpdateDate")]
+        [NotColumn]
+        public string ImportUpdateDateString
+        {
+            get
+            {
+                if (!_ImportUpdateDate.HasValue)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _ImportUpdateDate.Value.ToString("o");
+                }
+            }
+            set
+            {
+                DateTime dt;
+                if (DateTime.TryParse(value, null, DateTimeStyles.AdjustToUniversal, out dt))
+                {
+                    this._ImportUpdateDate = dt;
+                }
+                else
+                {
+                    this._ImportUpdateDate = null;
+                }
+            }
+        }
+
+        [XmlIgnore]
+        [Column, Nullable]
+        public DateTime? ImportUpdateDate
+        {
+            get { return _ImportUpdateDate; }
+            set { _ImportUpdateDate = value; }
+        }
 
         [XmlIgnore]
         [NotColumn]
@@ -4666,7 +7550,18 @@ namespace DataModels
                     return _IsDeleted.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._IsDeleted = val;
+                }
+                else
+                {
+                    this._IsDeleted = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -4709,7 +7604,17 @@ namespace DataModels
                     return _DocumentTypeCode.ToString();
                 }
             }
-            set { }
+            set {
+                int tni;
+                if (int.TryParse(value, out tni))
+                {
+                    this._DocumentTypeCode = tni;
+                }
+                else
+                {
+                    this._DocumentTypeCode = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -4739,7 +7644,17 @@ namespace DataModels
                     return _StationWorkerCode.ToString();
                 }
             }
-            set { }
+            set {
+                int tni;
+                if (int.TryParse(value, out tni))
+                {
+                    this._StationWorkerCode = tni;
+                }
+                else
+                {
+                    this._StationWorkerCode = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -4784,7 +7699,18 @@ namespace DataModels
                     return _Sex.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._Sex = val;
+                }
+                else
+                {
+                    this._Sex = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -4826,7 +7752,17 @@ namespace DataModels
                     return _GovernmentID.ToString();
                 }
             }
-            set { }
+            set {
+                Guid guid;
+                if (Guid.TryParse(value, out guid))
+                {
+                    this._GovernmentID = guid;
+                }
+                else
+                {
+                    this._GovernmentID = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -4856,7 +7792,17 @@ namespace DataModels
                     return _SchoolID.ToString();
                 }
             }
-            set { }
+            set {
+                Guid guid;
+                if (Guid.TryParse(value, out guid))
+                {
+                    this._SchoolID = guid;
+                }
+                else
+                {
+                    this._SchoolID = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -4886,7 +7832,17 @@ namespace DataModels
                     return _WorkerPositionID.ToString();
                 }
             }
-            set { }
+            set {
+                int tni;
+                if (int.TryParse(value, out tni))
+                {
+                    this._WorkerPositionID = tni;
+                }
+                else
+                {
+                    this._WorkerPositionID = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -4916,7 +7872,18 @@ namespace DataModels
                     return _Imported.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._Imported = val;
+                }
+                else
+                {
+                    this._Imported = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -4927,17 +7894,143 @@ namespace DataModels
             set { _Imported = value; }
         }
 
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime _CreateDate;
+
+        [XmlElement("CreateDate")]
+        [NotColumn]
+        public string CreateDateString
+        {
+            get
+            {
+                return _CreateDate.ToString("o");
+            }
+            set
+            {
+                this._CreateDate = DateTime.Parse(value);
+            }
+        }
+
+        [XmlIgnore]
         [Column, NotNull]
-        public DateTime CreateDate { get; set; } // datetime
+        public DateTime CreateDate
+        {
+            get { return _CreateDate; }
+            set { _CreateDate = value; }
+        }
 
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime _UpdateDate;
+
+        [XmlElement("UpdateDate")]
+        [NotColumn]
+        public string UpdateDateString
+        {
+            get
+            {
+                return _UpdateDate.ToString("o");
+            }
+            set
+            {
+                this._UpdateDate = DateTime.Parse(value);
+            }
+        }
+
+        [XmlIgnore]
         [Column, NotNull]
-        public DateTime UpdateDate { get; set; } // datetime
+        public DateTime UpdateDate
+        {
+            get { return _UpdateDate; }
+            set { _UpdateDate = value; }
+        }
 
-        [Column, Nullable]
-        public DateTime? ImportCreateDate { get; set; } // datetime
+  
 
+        
+  	    [XmlIgnore]
+        [NotColumn]
+        private DateTime? _ImportCreateDate;
+
+        [XmlElement("ImportCreateDate")]
+        [NotColumn]
+        public string ImportCreateDateString
+        {
+            get
+            {
+                if (!_ImportCreateDate.HasValue)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _ImportCreateDate.Value.ToString("o");
+                }
+            }
+            set
+            {
+                DateTime dt;
+                if (DateTime.TryParse(value, null, DateTimeStyles.AdjustToUniversal, out dt))
+                {
+                    this._ImportCreateDate = dt;
+                }
+                else
+                {
+                    this._ImportCreateDate = null;
+                }
+            }
+        }
+
+        [XmlIgnore]
         [Column, Nullable]
-        public DateTime? ImportUpdateDate { get; set; } // datetime
+        public DateTime? ImportCreateDate
+        {
+            get { return _ImportCreateDate; }
+            set { _ImportCreateDate = value; }
+        }
+
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime? _ImportUpdateDate;
+
+        [XmlElement("ImportUpdateDate")]
+        [NotColumn]
+        public string ImportUpdateDateString
+        {
+            get
+            {
+                if (!_ImportUpdateDate.HasValue)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _ImportUpdateDate.Value.ToString("o");
+                }
+            }
+            set
+            {
+                DateTime dt;
+                if (DateTime.TryParse(value, null, DateTimeStyles.AdjustToUniversal, out dt))
+                {
+                    this._ImportUpdateDate = dt;
+                }
+                else
+                {
+                    this._ImportUpdateDate = null;
+                }
+            }
+        }
+
+        [XmlIgnore]
+        [Column, Nullable]
+        public DateTime? ImportUpdateDate
+        {
+            get { return _ImportUpdateDate; }
+            set { _ImportUpdateDate = value; }
+        }
+  
 
         [XmlIgnore]
         [NotColumn]
@@ -4958,7 +8051,17 @@ namespace DataModels
                     return _PrecedingYear.ToString();
                 }
             }
-            set { }
+            set {
+                int tni;
+                if (int.TryParse(value, out tni))
+                {
+                    this._PrecedingYear = tni;
+                }
+                else
+                {
+                    this._PrecedingYear = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -4988,7 +8091,17 @@ namespace DataModels
                     return _Seniority.ToString();
                 }
             }
-            set { }
+            set {
+                int tni;
+                if (int.TryParse(value, out tni))
+                {
+                    this._Seniority = tni;
+                }
+                else
+                {
+                    this._Seniority = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -5018,7 +8131,17 @@ namespace DataModels
                     return _EducationTypeID.ToString();
                 }
             }
-            set { }
+            set {
+                int tni;
+                if (int.TryParse(value, out tni))
+                {
+                    this._EducationTypeID = tni;
+                }
+                else
+                {
+                    this._EducationTypeID = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -5051,7 +8174,17 @@ namespace DataModels
                     return _CertificateKeyID.ToString();
                 }
             }
-            set { }
+            set {
+                Guid guid;
+                if (Guid.TryParse(value, out guid))
+                {
+                    this._CertificateKeyID = guid;
+                }
+                else
+                {
+                    this._CertificateKeyID = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -5103,7 +8236,17 @@ namespace DataModels
                     return _AuditoriumID.ToString();
                 }
             }
-            set { }
+            set {
+                Guid guid;
+                if (Guid.TryParse(value, out guid))
+                {
+                    this._AuditoriumID = guid;
+                }
+                else
+                {
+                    this._AuditoriumID = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -5133,7 +8276,17 @@ namespace DataModels
                     return _StationExamAuditoryID.ToString();
                 }
             }
-            set { }
+            set {
+                Guid guid;
+                if (Guid.TryParse(value, out guid))
+                {
+                    this._StationExamAuditoryID = guid;
+                }
+                else
+                {
+                    this._StationExamAuditoryID = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -5153,17 +8306,144 @@ namespace DataModels
         [Column, NotNull]
         public Guid StationWorkerId { get; set; } // uniqueidentifier
 
+        
+
+  	    [XmlIgnore]
+        [NotColumn]
+        private DateTime _CreateDate;
+
+        [XmlElement("CreateDate")]
+        [NotColumn]
+        public string CreateDateString
+        {
+            get
+            {
+                return _CreateDate.ToString("o");
+            }
+            set
+            {
+                this._CreateDate = DateTime.Parse(value);
+            }
+        }
+
+        [XmlIgnore]
         [Column, NotNull]
-        public DateTime CreateDate { get; set; } // datetime
+        public DateTime CreateDate
+        {
+            get { return _CreateDate; }
+            set { _CreateDate = value; }
+        }
 
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime _UpdateDate;
+
+        [XmlElement("UpdateDate")]
+        [NotColumn]
+        public string UpdateDateString
+        {
+            get
+            {
+                return _UpdateDate.ToString("o");
+            }
+            set
+            {
+                this._UpdateDate = DateTime.Parse(value);
+            }
+        }
+
+        [XmlIgnore]
         [Column, NotNull]
-        public DateTime UpdateDate { get; set; } // datetime
+        public DateTime UpdateDate
+        {
+            get { return _UpdateDate; }
+            set { _UpdateDate = value; }
+        }
 
-        [Column, Nullable]
-        public DateTime? ImportCreateDate { get; set; } // datetime
+  
 
+        
+  	    [XmlIgnore]
+        [NotColumn]
+        private DateTime? _ImportCreateDate;
+
+        [XmlElement("ImportCreateDate")]
+        [NotColumn]
+        public string ImportCreateDateString
+        {
+            get
+            {
+                if (!_ImportCreateDate.HasValue)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _ImportCreateDate.Value.ToString("o");
+                }
+            }
+            set
+            {
+                DateTime dt;
+                if (DateTime.TryParse(value, null, DateTimeStyles.AdjustToUniversal, out dt))
+                {
+                    this._ImportCreateDate = dt;
+                }
+                else
+                {
+                    this._ImportCreateDate = null;
+                }
+            }
+        }
+
+        [XmlIgnore]
         [Column, Nullable]
-        public DateTime? ImportUpdateDate { get; set; } // datetime
+        public DateTime? ImportCreateDate
+        {
+            get { return _ImportCreateDate; }
+            set { _ImportCreateDate = value; }
+        }
+
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime? _ImportUpdateDate;
+
+        [XmlElement("ImportUpdateDate")]
+        [NotColumn]
+        public string ImportUpdateDateString
+        {
+            get
+            {
+                if (!_ImportUpdateDate.HasValue)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _ImportUpdateDate.Value.ToString("o");
+                }
+            }
+            set
+            {
+                DateTime dt;
+                if (DateTime.TryParse(value, null, DateTimeStyles.AdjustToUniversal, out dt))
+                {
+                    this._ImportUpdateDate = dt;
+                }
+                else
+                {
+                    this._ImportUpdateDate = null;
+                }
+            }
+        }
+
+        [XmlIgnore]
+        [Column, Nullable]
+        public DateTime? ImportUpdateDate
+        {
+            get { return _ImportUpdateDate; }
+            set { _ImportUpdateDate = value; }
+        }
 
         [XmlIgnore]
         [NotColumn]
@@ -5184,7 +8464,18 @@ namespace DataModels
                     return _IsDeleted.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._IsDeleted = val;
+                }
+                else
+                {
+                    this._IsDeleted = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -5214,7 +8505,17 @@ namespace DataModels
                     return _OrganizationRolesID.ToString();
                 }
             }
-            set { }
+            set {
+                Guid guid;
+                if (Guid.TryParse(value, out guid))
+                {
+                    this._OrganizationRolesID = guid;
+                }
+                else
+                {
+                    this._OrganizationRolesID = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -5244,7 +8545,17 @@ namespace DataModels
                     return _SWorkerRoleID.ToString();
                 }
             }
-            set { }
+            set {
+                int tni;
+                if (int.TryParse(value, out tni))
+                {
+                    this._SWorkerRoleID = tni;
+                }
+                else
+                {
+                    this._SWorkerRoleID = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -5277,17 +8588,139 @@ namespace DataModels
         [Column, NotNull]
         public int Region { get; set; } // int
 
+  	    [XmlIgnore]
+        [NotColumn]
+        private DateTime _CreateDate;
+
+        [XmlElement("CreateDate")]
+        [NotColumn]
+        public string CreateDateString
+        {
+            get
+            {
+                return _CreateDate.ToString("o");
+            }
+            set
+            {
+                this._CreateDate = DateTime.Parse(value);
+            }
+        }
+
+        [XmlIgnore]
         [Column, NotNull]
-        public DateTime CreateDate { get; set; } // datetime
+        public DateTime CreateDate
+        {
+            get { return _CreateDate; }
+            set { _CreateDate = value; }
+        }
 
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime _UpdateDate;
+
+        [XmlElement("UpdateDate")]
+        [NotColumn]
+        public string UpdateDateString
+        {
+            get
+            {
+                return _UpdateDate.ToString("o");
+            }
+            set
+            {
+                this._UpdateDate = DateTime.Parse(value);
+            }
+        }
+
+        [XmlIgnore]
         [Column, NotNull]
-        public DateTime UpdateDate { get; set; } // datetime
+        public DateTime UpdateDate
+        {
+            get { return _UpdateDate; }
+            set { _UpdateDate = value; }
+        }
+        
+  	    [XmlIgnore]
+        [NotColumn]
+        private DateTime? _ImportCreateDate;
 
-        [Column, Nullable]
-        public DateTime? ImportCreateDate { get; set; } // datetime
+        [XmlElement("ImportCreateDate")]
+        [NotColumn]
+        public string ImportCreateDateString
+        {
+            get
+            {
+                if (!_ImportCreateDate.HasValue)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _ImportCreateDate.Value.ToString("o");
+                }
+            }
+            set
+            {
+                DateTime dt;
+                if (DateTime.TryParse(value, null, DateTimeStyles.AdjustToUniversal, out dt))
+                {
+                    this._ImportCreateDate = dt;
+                }
+                else
+                {
+                    this._ImportCreateDate = null;
+                }
+            }
+        }
 
+        [XmlIgnore]
         [Column, Nullable]
-        public DateTime? ImportUpdateDate { get; set; } // datetime
+        public DateTime? ImportCreateDate
+        {
+            get { return _ImportCreateDate; }
+            set { _ImportCreateDate = value; }
+        }
+
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime? _ImportUpdateDate;
+
+        [XmlElement("ImportUpdateDate")]
+        [NotColumn]
+        public string ImportUpdateDateString
+        {
+            get
+            {
+                if (!_ImportUpdateDate.HasValue)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _ImportUpdateDate.Value.ToString("o");
+                }
+            }
+            set
+            {
+                DateTime dt;
+                if (DateTime.TryParse(value, null, DateTimeStyles.AdjustToUniversal, out dt))
+                {
+                    this._ImportUpdateDate = dt;
+                }
+                else
+                {
+                    this._ImportUpdateDate = null;
+                }
+            }
+        }
+
+        [XmlIgnore]
+        [Column, Nullable]
+        public DateTime? ImportUpdateDate
+        {
+            get { return _ImportUpdateDate; }
+            set { _ImportUpdateDate = value; }
+        }
 
         [XmlIgnore]
         [NotColumn]
@@ -5308,7 +8741,18 @@ namespace DataModels
                     return _IsDeleted.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._IsDeleted = val;
+                }
+                else
+                {
+                    this._IsDeleted = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -5351,7 +8795,17 @@ namespace DataModels
                     return _GovernmentID.ToString();
                 }
             }
-            set { }
+            set {
+                Guid guid;
+                if (Guid.TryParse(value, out guid))
+                {
+                    this._GovernmentID = guid;
+                }
+                else
+                {
+                    this._GovernmentID = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -5371,23 +8825,207 @@ namespace DataModels
         [Column, NotNull]
         public int IsFamily { get; set; } // int
 
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime _DateFrom;
+
+        [XmlElement("DateFrom")]
+        [NotColumn]
+        public string DateFromString
+        {
+            get
+            {
+                return _DateFrom.ToString("o");
+            }
+            set
+            {
+                this._DateFrom = DateTime.Parse(value);
+            }
+        }
+
+        [XmlIgnore]
         [Column, NotNull]
-        public DateTime DateFrom { get; set; } // datetime
+        public DateTime DateFrom
+        {
+            get { return _DateFrom; }
+            set { _DateFrom = value; }
+        }
 
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime? _DateTo;
+
+        [XmlElement("DateTo")]
+        [NotColumn]
+        public string DateToString
+        {
+            get
+            {
+                if (!_DateTo.HasValue)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _DateTo.Value.ToString("o");
+                }
+            }
+            set
+            {
+                DateTime dt;
+                if (DateTime.TryParse(value, null, DateTimeStyles.AdjustToUniversal, out dt))
+                {
+                    this._DateTo = dt;
+                }
+                else
+                {
+                    this._DateTo = null;
+                }
+            }
+        }
+
+        [XmlIgnore]
         [Column, Nullable]
-        public DateTime? DateTo { get; set; } // datetime
+        public DateTime? DateTo
+        {
+            get { return _DateTo; }
+            set { _DateTo = value; }
+        }
 
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime _CreateDate;
+
+        [XmlElement("CreateDate")]
+        [NotColumn]
+        public string CreateDateString
+        {
+            get
+            {
+                return _CreateDate.ToString("o");
+            }
+            set
+            {
+                this._CreateDate = DateTime.Parse(value);
+            }
+        }
+
+        [XmlIgnore]
         [Column, NotNull]
-        public DateTime CreateDate { get; set; } // datetime
+        public DateTime CreateDate
+        {
+            get { return _CreateDate; }
+            set { _CreateDate = value; }
+        }
 
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime _UpdateDate;
+
+        [XmlElement("UpdateDate")]
+        [NotColumn]
+        public string UpdateDateString
+        {
+            get
+            {
+                return _UpdateDate.ToString("o");
+            }
+            set
+            {
+                this._UpdateDate = DateTime.Parse(value);
+            }
+        }
+
+        [XmlIgnore]
         [Column, NotNull]
-        public DateTime UpdateDate { get; set; } // datetime
+        public DateTime UpdateDate
+        {
+            get { return _UpdateDate; }
+            set { _UpdateDate = value; }
+        }
+        
+  	    [XmlIgnore]
+        [NotColumn]
+        private DateTime? _ImportCreateDate;
 
-        [Column, Nullable]
-        public DateTime? ImportCreateDate { get; set; } // datetime
+        [XmlElement("ImportCreateDate")]
+        [NotColumn]
+        public string ImportCreateDateString
+        {
+            get
+            {
+                if (!_ImportCreateDate.HasValue)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _ImportCreateDate.Value.ToString("o");
+                }
+            }
+            set
+            {
+                DateTime dt;
+                if (DateTime.TryParse(value, null, DateTimeStyles.AdjustToUniversal, out dt))
+                {
+                    this._ImportCreateDate = dt;
+                }
+                else
+                {
+                    this._ImportCreateDate = null;
+                }
+            }
+        }
 
+        [XmlIgnore]
         [Column, Nullable]
-        public DateTime? ImportUpdateDate { get; set; } // datetime
+        public DateTime? ImportCreateDate
+        {
+            get { return _ImportCreateDate; }
+            set { _ImportCreateDate = value; }
+        }
+
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime? _ImportUpdateDate;
+
+        [XmlElement("ImportUpdateDate")]
+        [NotColumn]
+        public string ImportUpdateDateString
+        {
+            get
+            {
+                if (!_ImportUpdateDate.HasValue)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _ImportUpdateDate.Value.ToString("o");
+                }
+            }
+            set
+            {
+                DateTime dt;
+                if (DateTime.TryParse(value, null, DateTimeStyles.AdjustToUniversal, out dt))
+                {
+                    this._ImportUpdateDate = dt;
+                }
+                else
+                {
+                    this._ImportUpdateDate = null;
+                }
+            }
+        }
+
+        [XmlIgnore]
+        [Column, Nullable]
+        public DateTime? ImportUpdateDate
+        {
+            get { return _ImportUpdateDate; }
+            set { _ImportUpdateDate = value; }
+        }
+  
     }
 
     [Table(Schema = "loader", Name = "rbd_StationWorkersSubjects")]
@@ -5424,7 +9062,18 @@ namespace DataModels
                     return _IsDeleted.ToString();
                 }
             }
-            set { }
+            set
+            {
+                bool val;
+                if (bool.TryParse(value, out val))
+                {
+                    this._IsDeleted = val;
+                }
+                else
+                {
+                    this._IsDeleted = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -5504,7 +9153,17 @@ namespace DataModels
                     return _SheetFK_AB.ToString();
                 }
             }
-            set { }
+            set {
+                Guid guid;
+                if (Guid.TryParse(value, out guid))
+                {
+                    this._SheetFK_AB = guid;
+                }
+                else
+                {
+                    this._SheetFK_AB = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -5534,7 +9193,17 @@ namespace DataModels
                     return _SheetFK_C.ToString();
                 }
             }
-            set { }
+            set {
+                Guid guid;
+                if (Guid.TryParse(value, out guid))
+                {
+                    this._SheetFK_C = guid;
+                }
+                else
+                {
+                    this._SheetFK_C = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -5564,7 +9233,17 @@ namespace DataModels
                     return _SheetFK_R.ToString();
                 }
             }
-            set { }
+            set {
+                Guid guid;
+                if (Guid.TryParse(value, out guid))
+                {
+                    this._SheetFK_R = guid;
+                }
+                else
+                {
+                    this._SheetFK_R = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -5594,7 +9273,17 @@ namespace DataModels
                     return _SheetFK_D.ToString();
                 }
             }
-            set { }
+            set {
+                Guid guid;
+                if (Guid.TryParse(value, out guid))
+                {
+                    this._SheetFK_D = guid;
+                }
+                else
+                {
+                    this._SheetFK_D = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -5651,7 +9340,18 @@ namespace DataModels
                     return _ComplectType.ToString();
                 }
             }
-            set { }
+            set
+            {
+                byte val;
+                if (byte.TryParse(value, out val))
+                {
+                    this._ComplectType = val;
+                }
+                else
+                {
+                    this._ComplectType = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -5681,7 +9381,17 @@ namespace DataModels
                     return _ExchangedID.ToString();
                 }
             }
-            set { }
+            set {
+                Guid guid;
+                if (Guid.TryParse(value, out guid))
+                {
+                    this._ExchangedID = guid;
+                }
+                else
+                {
+                    this._ExchangedID = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -5864,7 +9574,17 @@ namespace DataModels
                     return _SheetFK_R.ToString();
                 }
             }
-            set { }
+            set {
+                Guid guid;
+                if (Guid.TryParse(value, out guid))
+                {
+                    this._SheetFK_R = guid;
+                }
+                else
+                {
+                    this._SheetFK_R = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -5894,7 +9614,17 @@ namespace DataModels
                     return _SheetFK_D.ToString();
                 }
             }
-            set { }
+            set {
+                Guid guid;
+                if (Guid.TryParse(value, out guid))
+                {
+                    this._SheetFK_D = guid;
+                }
+                else
+                {
+                    this._SheetFK_D = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -5967,7 +9697,17 @@ namespace DataModels
                     return _PackageFK.ToString();
                 }
             }
-            set { }
+            set {
+                Guid guid;
+                if (Guid.TryParse(value, out guid))
+                {
+                    this._PackageFK = guid;
+                }
+                else
+                {
+                    this._PackageFK = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -6002,8 +9742,39 @@ namespace DataModels
         [Column, NotNull]
         public int ReplicationCondition { get; set; } // int
 
+        [XmlIgnore]
+        [NotColumn]
+        private DateTime _UpdateDate;
+
+        [XmlElement("UpdateDate")]
+        [NotColumn]
+        public string UpdateDateString
+        {
+            get
+            {
+                return _UpdateDate.ToString("o");
+            }
+            set
+            {
+                DateTime dt;
+                if (DateTime.TryParse(value, null, DateTimeStyles.AdjustToUniversal, out dt))
+                {
+                    this._UpdateDate = dt;
+                }
+                else
+                {
+                    throw new DateTimeException(string.Format("‘ÓÏ‡Ú ‰‡Ú˚ ÌÂ‚ÂÂÌ: {0}", value));
+                }
+            }
+        }
+
+        [XmlIgnore]
         [Column, NotNull]
-        public DateTime UpdateDate { get; set; } // datetime
+        public DateTime UpdateDate
+        {
+            get { return _UpdateDate; }
+            set { _UpdateDate = value; }
+        }
 
         [Column, Nullable]
         public byte[] Tasks { get; set; } // varbinary(256)
@@ -6027,7 +9798,17 @@ namespace DataModels
                     return _PrimaryMark.ToString();
                 }
             }
-            set { }
+            set {
+                int tni;
+                if (int.TryParse(value, out tni))
+                {
+                    this._PrimaryMark = tni;
+                }
+                else
+                {
+                    this._PrimaryMark = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -6057,7 +9838,17 @@ namespace DataModels
                     return _Mark.ToString();
                 }
             }
-            set { }
+            set {
+                int tni;
+                if (int.TryParse(value, out tni))
+                {
+                    this._Mark = tni;
+                }
+                else
+                {
+                    this._Mark = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -6087,7 +9878,17 @@ namespace DataModels
                     return _Minimum.ToString();
                 }
             }
-            set { }
+            set {
+                int tni;
+                if (int.TryParse(value, out tni))
+                {
+                    this._Minimum = tni;
+                }
+                else
+                {
+                    this._Minimum = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -6136,7 +9937,17 @@ namespace DataModels
                     return _ExpertFK.ToString();
                 }
             }
-            set { }
+            set {
+                Guid guid;
+                if (Guid.TryParse(value, out guid))
+                {
+                    this._ExpertFK = guid;
+                }
+                else
+                {
+                    this._ExpertFK = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -6169,7 +9980,18 @@ namespace DataModels
                     return _IsThird.ToString();
                 }
             }
-            set { }
+            set
+            {
+                short val;
+                if (short.TryParse(value, out val))
+                {
+                    this._IsThird = val;
+                }
+                else
+                {
+                    this._IsThird = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -6199,7 +10021,18 @@ namespace DataModels
                     return _Alt.ToString();
                 }
             }
-            set { }
+            set
+            {
+                short val;
+                if (short.TryParse(value, out val))
+                {
+                    this._Alt = val;
+                }
+                else
+                {
+                    this._Alt = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -6229,7 +10062,18 @@ namespace DataModels
                     return _DeleteType.ToString();
                 }
             }
-            set { }
+            set
+            {
+                short val;
+                if (short.TryParse(value, out val))
+                {
+                    this._DeleteType = val;
+                }
+                else
+                {
+                    this._DeleteType = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -6313,7 +10157,17 @@ namespace DataModels
                     return _SheetFK.ToString();
                 }
             }
-            set { }
+            set {
+                Guid guid;
+                if (Guid.TryParse(value, out guid))
+                {
+                    this._SheetFK = guid;
+                }
+                else
+                {
+                    this._SheetFK = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -6491,7 +10345,17 @@ namespace DataModels
                     return _PackageFK.ToString();
                 }
             }
-            set { }
+            set {
+                Guid guid;
+                if (Guid.TryParse(value, out guid))
+                {
+                    this._PackageFK = guid;
+                }
+                else
+                {
+                    this._PackageFK = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -6666,7 +10530,18 @@ namespace DataModels
                     return _DeleteType.ToString();
                 }
             }
-            set { }
+            set
+            {
+                short val;
+                if (short.TryParse(value, out val))
+                {
+                    this._DeleteType = val;
+                }
+                else
+                {
+                    this._DeleteType = null;
+                }
+            }
         }
 
         [XmlIgnore]
@@ -6796,7 +10671,18 @@ namespace DataModels
                     return _DeleteType.ToString();
                 }
             }
-            set { }
+            set
+            {
+                short val;
+                if (short.TryParse(value, out val))
+                {
+                    this._DeleteType = val;
+                }
+                else
+                {
+                    this._DeleteType = null;
+                }
+            }
         }
 
         [XmlIgnore]

@@ -27,6 +27,25 @@ namespace GiaImport
         public GiaImportMainForm()
         {
             InitializeComponent();
+            Load += new EventHandler(LoadForm);
+        }
+
+        private void LoadForm(object sender, EventArgs e)
+        {
+            if (Directory.Exists(Globals.TEMP_DIR))
+            {
+                var files = Directory.GetFiles(Globals.TEMP_DIR);
+                foreach (var file in files)
+                {
+                    FileInfo fi = new FileInfo(file);
+                    if (!loadedFiles.Keys.Contains(file) && !loadedFiles.Values.Contains(fi))
+                    {
+                        loadedFiles.Add(file, fi);
+                        ListViewItem lvi = new ListViewItem(fi.Name);
+                        metroListView1.Items.Add(lvi);
+                    }
+                }
+            }
         }
 
         private void SetActualCheckedFiles()
@@ -288,7 +307,8 @@ namespace GiaImport
 
         private void FindShrinkedFiles()
         {
-            foreach (var file in actualCheckedFiles)
+            this.preparedFilesTables.Clear();
+            foreach (var file in this.actualCheckedFiles)
             {
                 // имя_файла_без_расширения_1
                 string regexPattern = Path.GetFileNameWithoutExtension(file.Key) + @"_\d+.*$";
@@ -318,7 +338,8 @@ namespace GiaImport
                         {
                             string fileName = Path.GetFileNameWithoutExtension(af);
                             string tableName = BulkManager.tablesList.Where(x => x.Equals(fileName, StringComparison.OrdinalIgnoreCase)).Single().ToString();
-                            if (!preparedFilesTables.Keys.Contains(af))
+                            // если нет в списке подготовки и есть в списке актуально выбранных
+                            if (!preparedFilesTables.Keys.Contains(af) && this.actualCheckedFiles.Keys.Contains(af))
                             {
                                 preparedFilesTables.Add(af, tableName);
                             }
@@ -717,6 +738,20 @@ namespace GiaImport
         private void uncheckAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
             UncheckAll();
+        }
+
+        private void clearListToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.loadedFiles.Clear();
+            this.actualCheckedFiles.Clear();
+            this.preparedFilesTables.Clear();
+            this.metroListView1.Clear();
+            this.metroListView1.Refresh();
+            string[] files = Directory.GetFiles(Globals.TEMP_DIR);
+            foreach (var file in files)
+            {
+                File.Delete(file);
+            }
         }
     }
 }
