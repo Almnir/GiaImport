@@ -115,6 +115,7 @@ namespace GiaImport
                 {
                     command.Parameters.Add("@TableGroup", SqlDbType.SmallInt).Value = 0;
                     command.Parameters.Add("@SkipErrors", SqlDbType.Bit).Value = 0;
+                    command.CommandTimeout = 3600;
                     SqlParameter returnParameter = command.Parameters.Add("@error_count", SqlDbType.Int);
                     returnParameter.Direction = ParameterDirection.ReturnValue;
                     conn.Open();

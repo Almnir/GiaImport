@@ -42,6 +42,7 @@ namespace GiaImport
             this.validateButton = new MetroFramework.Controls.MetroButton();
             this.importButton = new MetroFramework.Controls.MetroButton();
             this.settingsButton = new MetroFramework.Controls.MetroButton();
+            this.eraseButton = new MetroFramework.Controls.MetroButton();
             this.metroContextMenu1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -58,8 +59,9 @@ namespace GiaImport
             this.metroListView1.Location = new System.Drawing.Point(20, 112);
             this.metroListView1.Name = "metroListView1";
             this.metroListView1.OwnerDraw = true;
-            this.metroListView1.Size = new System.Drawing.Size(676, 378);
-            this.metroListView1.TabIndex = 5;
+            this.metroListView1.Size = new System.Drawing.Size(918, 378);
+            this.metroListView1.Sorting = System.Windows.Forms.SortOrder.Ascending;
+            this.metroListView1.TabIndex = 7;
             this.metroListView1.UseCompatibleStateImageBehavior = false;
             this.metroListView1.UseSelectable = true;
             this.metroListView1.View = System.Windows.Forms.View.List;
@@ -71,26 +73,26 @@ namespace GiaImport
             this.uncheckAllToolStripMenuItem,
             this.clearListToolStripMenuItem});
             this.metroContextMenu1.Name = "metroContextMenu1";
-            this.metroContextMenu1.Size = new System.Drawing.Size(169, 70);
+            this.metroContextMenu1.Size = new System.Drawing.Size(166, 70);
             // 
             // checkAllToolStripMenuItem
             // 
             this.checkAllToolStripMenuItem.Name = "checkAllToolStripMenuItem";
-            this.checkAllToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.checkAllToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.checkAllToolStripMenuItem.Text = "Выделить все";
             this.checkAllToolStripMenuItem.Click += new System.EventHandler(this.checkAllToolStripMenuItem_Click_1);
             // 
             // uncheckAllToolStripMenuItem
             // 
             this.uncheckAllToolStripMenuItem.Name = "uncheckAllToolStripMenuItem";
-            this.uncheckAllToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.uncheckAllToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.uncheckAllToolStripMenuItem.Text = "Снять все";
             this.uncheckAllToolStripMenuItem.Click += new System.EventHandler(this.uncheckAllToolStripMenuItem_Click);
             // 
             // clearListToolStripMenuItem
             // 
             this.clearListToolStripMenuItem.Name = "clearListToolStripMenuItem";
-            this.clearListToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.clearListToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.clearListToolStripMenuItem.Text = "Очистить список";
             this.clearListToolStripMenuItem.Click += new System.EventHandler(this.clearListToolStripMenuItem_Click);
             // 
@@ -99,7 +101,7 @@ namespace GiaImport
             this.openFilesButton.Location = new System.Drawing.Point(20, 64);
             this.openFilesButton.Name = "openFilesButton";
             this.openFilesButton.Size = new System.Drawing.Size(115, 42);
-            this.openFilesButton.TabIndex = 6;
+            this.openFilesButton.TabIndex = 1;
             this.openFilesButton.Text = "Выбрать Архив";
             this.openFilesButton.UseSelectable = true;
             this.openFilesButton.Click += new System.EventHandler(this.openFilesButton_Click);
@@ -109,7 +111,7 @@ namespace GiaImport
             this.prepareFilesButton.Location = new System.Drawing.Point(262, 64);
             this.prepareFilesButton.Name = "prepareFilesButton";
             this.prepareFilesButton.Size = new System.Drawing.Size(115, 42);
-            this.prepareFilesButton.TabIndex = 7;
+            this.prepareFilesButton.TabIndex = 3;
             this.prepareFilesButton.Text = "Подготовить";
             this.prepareFilesButton.UseSelectable = true;
             this.prepareFilesButton.Click += new System.EventHandler(this.prepareFilesButton_Click);
@@ -119,36 +121,48 @@ namespace GiaImport
             this.validateButton.Location = new System.Drawing.Point(141, 64);
             this.validateButton.Name = "validateButton";
             this.validateButton.Size = new System.Drawing.Size(115, 42);
-            this.validateButton.TabIndex = 8;
+            this.validateButton.TabIndex = 2;
             this.validateButton.Text = "Валидировать";
             this.validateButton.UseSelectable = true;
             this.validateButton.Click += new System.EventHandler(this.validateButton_Click);
             // 
             // importButton
             // 
-            this.importButton.Location = new System.Drawing.Point(383, 64);
+            this.importButton.Location = new System.Drawing.Point(504, 64);
             this.importButton.Name = "importButton";
             this.importButton.Size = new System.Drawing.Size(115, 42);
-            this.importButton.TabIndex = 9;
+            this.importButton.TabIndex = 5;
             this.importButton.Text = "Импортировать";
             this.importButton.UseSelectable = true;
             this.importButton.Click += new System.EventHandler(this.importButton_Click);
             // 
             // settingsButton
             // 
-            this.settingsButton.Location = new System.Drawing.Point(581, 64);
+            this.settingsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.settingsButton.Location = new System.Drawing.Point(823, 64);
             this.settingsButton.Name = "settingsButton";
             this.settingsButton.Size = new System.Drawing.Size(115, 42);
-            this.settingsButton.TabIndex = 10;
+            this.settingsButton.TabIndex = 6;
             this.settingsButton.Text = "Настройки";
             this.settingsButton.UseSelectable = true;
             this.settingsButton.Click += new System.EventHandler(this.settingsButton_Click);
+            // 
+            // eraseButton
+            // 
+            this.eraseButton.Location = new System.Drawing.Point(383, 64);
+            this.eraseButton.Name = "eraseButton";
+            this.eraseButton.Size = new System.Drawing.Size(115, 42);
+            this.eraseButton.TabIndex = 4;
+            this.eraseButton.Text = "Удалить таблицы";
+            this.eraseButton.UseSelectable = true;
+            this.eraseButton.Click += new System.EventHandler(this.eraseButton_Click);
             // 
             // GiaImportMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(719, 513);
+            this.ClientSize = new System.Drawing.Size(961, 513);
+            this.Controls.Add(this.eraseButton);
             this.Controls.Add(this.settingsButton);
             this.Controls.Add(this.importButton);
             this.Controls.Add(this.validateButton);
@@ -156,7 +170,7 @@ namespace GiaImport
             this.Controls.Add(this.openFilesButton);
             this.Controls.Add(this.metroListView1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(182, 39);
+            this.MinimumSize = new System.Drawing.Size(762, 200);
             this.Name = "GiaImportMainForm";
             this.Text = "Импорт ГИА";
             this.metroContextMenu1.ResumeLayout(false);
@@ -175,6 +189,7 @@ namespace GiaImport
         private System.Windows.Forms.ToolStripMenuItem uncheckAllToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem clearListToolStripMenuItem;
         private MetroFramework.Controls.MetroButton settingsButton;
+        private MetroFramework.Controls.MetroButton eraseButton;
     }
 }
 

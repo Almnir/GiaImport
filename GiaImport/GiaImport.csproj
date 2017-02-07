@@ -47,6 +47,10 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>
+    </ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="linq2db, Version=1.0.7.5, Culture=neutral, PublicKeyToken=f19f8aed7feff67e, processorArchitecture=MSIL">
       <HintPath>..\packages\linq2db.1.7.5\lib\net45\linq2db.dll</HintPath>
@@ -131,6 +135,7 @@
     </Compile>
     <Compile Include="ShrinkFilesException.cs" />
     <Compile Include="SyncException.cs" />
+    <Compile Include="TruncateException.cs" />
     <Compile Include="Verifier.cs" />
     <Compile Include="XmlBatchReader.cs" />
     <EmbeddedResource Include="AboutBox.resx">
@@ -187,7 +192,6 @@
   <ItemGroup>
     <None Include="Resources\256.png" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

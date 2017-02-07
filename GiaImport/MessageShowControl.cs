@@ -56,5 +56,10 @@ namespace GiaImport
             }
             MessageForm.ShowDialog("Проверка", "Импорт невозможен, так как указаны файлы, которые имеют слишком большой размер для импорта без подготовки.", errorText.ToString(), MessageForm.EnumMessageStyle.Warning);
         }
+
+        internal static void ShowTruncateSuccess()
+        {
+            MessageForm.ShowDialog("Очистка", "Очистка таблиц завершена!", "Очищено", MessageForm.EnumMessageStyle.Information);
+        }
     }
 }

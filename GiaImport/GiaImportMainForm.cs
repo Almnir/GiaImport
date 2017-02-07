@@ -184,7 +184,12 @@ namespace GiaImport
             SetActualCheckedFiles();
             if (!this.actualCheckedFiles.Any())
             {
-                MessageBox.Show("Внимание", "Ни одного файла не выбрано!");
+                MessageBox.Show("Ни одного файла не выбрано!", "Внимание!");
+                return;
+            }
+            if (!Globals.frmSettings.ServerText.Any() || !Globals.frmSettings.DatabaseText.Any() || !Globals.frmSettings.LoginText.Any())
+            {
+                MessageBox.Show("Настройки базы данных не установлены!", "Внимание!");
                 return;
             }
             ProgressBarWindow pbw = new ProgressBarWindow();
@@ -248,7 +253,7 @@ namespace GiaImport
             SetActualCheckedFiles();
             if (!this.actualCheckedFiles.Any())
             {
-                MessageBox.Show("Внимание", "Ни одного файла не выбрано!");
+                MessageBox.Show("Ни одного файла не выбрано!", "Внимание!");
                 return;
             }
             ProgressBarWindow pbw = new ProgressBarWindow();
@@ -362,7 +367,12 @@ namespace GiaImport
             SetActualCheckedFiles();
             if (!this.actualCheckedFiles.Any())
             {
-                MessageBox.Show("Внимание", "Ни одного файла не выбрано!");
+                MessageBox.Show("Ни одного файла не выбрано!", "Внимание!");
+                return;
+            }
+            if (!Globals.frmSettings.ServerText.Any() || !Globals.frmSettings.DatabaseText.Any() || !Globals.frmSettings.LoginText.Any())
+            {
+                MessageBox.Show("Настройки базы данных не установлены!", "Внимание!");
                 return;
             }
             FindShrinkedFiles();
@@ -758,6 +768,21 @@ namespace GiaImport
         {
             SettingsWindow sw = new SettingsWindow();
             sw.ShowDialog(); 
+        }
+
+        private void eraseButton_Click(object sender, EventArgs e)
+        {
+            if (!Globals.frmSettings.ServerText.Any() || !Globals.frmSettings.DatabaseText.Any() || !Globals.frmSettings.LoginText.Any())
+            {
+                MessageBox.Show("Настройки базы данных не установлены!", "Внимание!");
+                return;
+            }
+            DialogResult result = MessageBox.Show("Данная операция очистит содержимое таблиц предварительной загрузки. \n Подтвердите или отклоните операцию.", "Внимание!", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
+            if (result == DialogResult.OK)
+            {
+                DatabaseHelper.DeleteLoaderTables(Globals.GetConnectionString());
+                MessageShowControl.ShowTruncateSuccess();
+            }
         }
     }
 }

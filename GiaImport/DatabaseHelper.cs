@@ -1,4 +1,9 @@
-﻿using System.Data.SqlClient;
+﻿using DataModels;
+using LinqToDB;
+using LinqToDB.Data;
+using System;
+using System.Data.SqlClient;
+using System.Windows.Forms;
 
 namespace GiaImport
 {
@@ -21,6 +26,27 @@ namespace GiaImport
                 result = (int)command.ExecuteScalar() > 0;
             }
             return result;
+        }
+
+        public static void DeleteLoaderTables(string connectionString)
+        {
+            string sqlTrunc = string.Empty;
+            try
+            {
+                using (var connection = new SqlConnection(connectionString))
+                {
+                    foreach (var table in BulkManager.tablesList)
+                    {
+                        sqlTrunc = "TRUNCATE TABLE loader." + table;
+                        SqlCommand cmd = new SqlCommand(sqlTrunc, connection);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new TruncateException(string.Format("При выполнении {0}, ошибка {1}", sqlTrunc, ex));
+            }
         }
     }
 }
