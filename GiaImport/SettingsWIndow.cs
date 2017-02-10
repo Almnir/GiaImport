@@ -138,6 +138,7 @@ namespace GiaImport
             {
                 using (var connection = new SqlConnection(Globals.GetConnectionString()))
                 {
+                    connection.Open();
                     query = "DELETE FROM dbo." + tableName;
                     SqlCommand cmd = new SqlCommand(query, connection);
                     cmd.ExecuteNonQuery();
