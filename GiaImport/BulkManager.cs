@@ -108,7 +108,7 @@ namespace GiaImport
                 }
                 catch (Exception ex)
                 {
-                    string status = string.Format("При импорте таблицы произошла ошибка {1}.", ex.ToString());
+                    string status = string.Format("При импорте таблицы произошла ошибка {0}.", ex.ToString());
                     this.errorDict.TryAdd(tablename, new Tuple<string, long, TimeSpan>(status, bcrc != null ? bcrc.RowsCopied : 0, TimeSpan.Zero));
                     log.Error(status);
                 }
