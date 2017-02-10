@@ -28,7 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsWindow));
             this.metroPanel1 = new MetroFramework.Controls.MetroPanel();
+            this.checkConnectionButton = new MetroFramework.Controls.MetroButton();
             this.passwordTextBox = new MetroFramework.Controls.MetroTextBox();
             this.loginTextBox = new MetroFramework.Controls.MetroTextBox();
             this.databaseTextBox = new MetroFramework.Controls.MetroTextBox();
@@ -39,11 +41,17 @@
             this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
             this.okButton = new MetroFramework.Controls.MetroButton();
             this.cancelButton = new MetroFramework.Controls.MetroButton();
+            this.metroPanel2 = new MetroFramework.Controls.MetroPanel();
+            this.clearMainTablesButton = new MetroFramework.Controls.MetroButton();
+            this.metroLabel5 = new MetroFramework.Controls.MetroLabel();
             this.metroPanel1.SuspendLayout();
+            this.metroPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // metroPanel1
             // 
+            this.metroPanel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.metroPanel1.Controls.Add(this.checkConnectionButton);
             this.metroPanel1.Controls.Add(this.passwordTextBox);
             this.metroPanel1.Controls.Add(this.loginTextBox);
             this.metroPanel1.Controls.Add(this.databaseTextBox);
@@ -57,11 +65,21 @@
             this.metroPanel1.HorizontalScrollbarSize = 10;
             this.metroPanel1.Location = new System.Drawing.Point(10, 64);
             this.metroPanel1.Name = "metroPanel1";
-            this.metroPanel1.Size = new System.Drawing.Size(517, 145);
+            this.metroPanel1.Size = new System.Drawing.Size(517, 135);
             this.metroPanel1.TabIndex = 0;
             this.metroPanel1.VerticalScrollbarBarColor = true;
             this.metroPanel1.VerticalScrollbarHighlightOnWheel = false;
             this.metroPanel1.VerticalScrollbarSize = 10;
+            // 
+            // checkConnectionButton
+            // 
+            this.checkConnectionButton.Location = new System.Drawing.Point(105, 102);
+            this.checkConnectionButton.Name = "checkConnectionButton";
+            this.checkConnectionButton.Size = new System.Drawing.Size(201, 23);
+            this.checkConnectionButton.TabIndex = 10;
+            this.checkConnectionButton.Text = "Проверить соединение";
+            this.checkConnectionButton.UseSelectable = true;
+            this.checkConnectionButton.Click += new System.EventHandler(this.checkConnectionButton_Click);
             // 
             // passwordTextBox
             // 
@@ -230,7 +248,7 @@
             // 
             // okButton
             // 
-            this.okButton.Location = new System.Drawing.Point(115, 225);
+            this.okButton.Location = new System.Drawing.Point(114, 238);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(118, 43);
             this.okButton.TabIndex = 1;
@@ -240,7 +258,7 @@
             // 
             // cancelButton
             // 
-            this.cancelButton.Location = new System.Drawing.Point(300, 225);
+            this.cancelButton.Location = new System.Drawing.Point(299, 238);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(118, 43);
             this.cancelButton.TabIndex = 2;
@@ -248,15 +266,53 @@
             this.cancelButton.UseSelectable = true;
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
+            // metroPanel2
+            // 
+            this.metroPanel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.metroPanel2.Controls.Add(this.clearMainTablesButton);
+            this.metroPanel2.Controls.Add(this.metroLabel5);
+            this.metroPanel2.HorizontalScrollbarBarColor = true;
+            this.metroPanel2.HorizontalScrollbarHighlightOnWheel = false;
+            this.metroPanel2.HorizontalScrollbarSize = 10;
+            this.metroPanel2.Location = new System.Drawing.Point(10, 205);
+            this.metroPanel2.Name = "metroPanel2";
+            this.metroPanel2.Size = new System.Drawing.Size(517, 21);
+            this.metroPanel2.TabIndex = 3;
+            this.metroPanel2.VerticalScrollbarBarColor = true;
+            this.metroPanel2.VerticalScrollbarHighlightOnWheel = false;
+            this.metroPanel2.VerticalScrollbarSize = 10;
+            // 
+            // clearMainTablesButton
+            // 
+            this.clearMainTablesButton.Location = new System.Drawing.Point(375, -1);
+            this.clearMainTablesButton.Name = "clearMainTablesButton";
+            this.clearMainTablesButton.Size = new System.Drawing.Size(139, 20);
+            this.clearMainTablesButton.TabIndex = 3;
+            this.clearMainTablesButton.Text = "Очистить таблицы";
+            this.clearMainTablesButton.UseSelectable = true;
+            this.clearMainTablesButton.Click += new System.EventHandler(this.clearMainTablesButton_Click);
+            // 
+            // metroLabel5
+            // 
+            this.metroLabel5.AutoSize = true;
+            this.metroLabel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.metroLabel5.Location = new System.Drawing.Point(0, 0);
+            this.metroLabel5.Name = "metroLabel5";
+            this.metroLabel5.Size = new System.Drawing.Size(170, 19);
+            this.metroLabel5.TabIndex = 2;
+            this.metroLabel5.Text = "Очистка основных таблиц";
+            // 
             // SettingsWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(537, 283);
+            this.ClientSize = new System.Drawing.Size(537, 297);
             this.ControlBox = false;
+            this.Controls.Add(this.metroPanel2);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.okButton);
             this.Controls.Add(this.metroPanel1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SettingsWindow";
@@ -266,6 +322,8 @@
             this.Text = "Настройки";
             this.metroPanel1.ResumeLayout(false);
             this.metroPanel1.PerformLayout();
+            this.metroPanel2.ResumeLayout(false);
+            this.metroPanel2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -283,5 +341,9 @@
         private MetroFramework.Controls.MetroTextBox passwordTextBox;
         private MetroFramework.Controls.MetroTextBox loginTextBox;
         private MetroFramework.Controls.MetroTextBox databaseTextBox;
+        private MetroFramework.Controls.MetroButton checkConnectionButton;
+        private MetroFramework.Controls.MetroPanel metroPanel2;
+        private MetroFramework.Controls.MetroButton clearMainTablesButton;
+        private MetroFramework.Controls.MetroLabel metroLabel5;
     }
 }

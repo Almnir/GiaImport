@@ -109,15 +109,14 @@ namespace GiaImport
         public void VerifySingleFile(string xsdFileName, string xmlFileName, CancellationToken ct)
         {
             XmlReaderSettings readerSettings = new XmlReaderSettings();
-            readerSettings.Async = true;
+            readerSettings.Async = false;
             // TODO: хардкод, вынести в константы
             readerSettings.Schemas.Add("http://www.rustest.ru/giadbset", xsdFileName);
             readerSettings.ValidationType = ValidationType.Schema;
-            readerSettings.ValidationEventHandler += (sender, e) => ValidationEventHandler(sender, e, xmlFileName);
+            string tableName = Path.GetFileNameWithoutExtension(xmlFileName);
+            readerSettings.ValidationEventHandler += (sender, e) => ValidationEventHandler(sender, e, tableName);
 
             XmlReader xml = XmlReader.Create(xmlFileName, readerSettings);
-            //int progressCounter = 0;
-            //Thread.Sleep(10);
             while (xml.Read())
             {
                 ct.ThrowIfCancellationRequested();
@@ -126,7 +125,7 @@ namespace GiaImport
             }
         }
 
-        public void ValidationEventHandler(object sender, ValidationEventArgs e, string xsdFileName)
+        public void ValidationEventHandler(object sender, ValidationEventArgs e, string tableName)
         {
             if (e.Severity == XmlSeverityType.Warning)
             {
@@ -139,24 +138,8 @@ namespace GiaImport
                 this.errorState = true;
                 this.errorString += e.Message;
                 this.errorString += Environment.NewLine;
-                this.errorDict.TryAdd(xsdFileName, this.errorString);
+                this.errorDict.TryAdd(tableName, this.errorString);
             }
-        }
-
-        public static void VerifyMostNewAll()
-        {
-            //foreach (var table in tablesList)
-            //{
-            //    try
-            //    {
-            //        VerifyMostNew(table);
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        log.Fatal(string.Format("************* {0} ************", table));
-            //        log.Fatal(ex.ToString());
-            //    }
-            //}
         }
 
     }

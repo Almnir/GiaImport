@@ -1,9 +1,6 @@
-﻿using DataModels;
-using LinqToDB;
-using LinqToDB.Data;
-using System;
+﻿using System;
+using System.Data;
 using System.Data.SqlClient;
-using System.Windows.Forms;
 
 namespace GiaImport
 {
@@ -31,22 +28,50 @@ namespace GiaImport
         public static void DeleteLoaderTables(string connectionString)
         {
             string sqlTrunc = string.Empty;
+            SqlConnection con = new SqlConnection(connectionString);
+            con.Open();
+
+            SqlTransaction trans = con.BeginTransaction(IsolationLevel.ReadCommitted);
+
             try
             {
-                using (var connection = new SqlConnection(connectionString))
+                foreach (var table in BulkManager.tablesList)
                 {
-                    foreach (var table in BulkManager.tablesList)
-                    {
-                        sqlTrunc = "TRUNCATE TABLE loader." + table;
-                        SqlCommand cmd = new SqlCommand(sqlTrunc, connection);
-                        cmd.ExecuteNonQuery();
-                    }
+                    sqlTrunc = "TRUNCATE TABLE loader." + table;
+                    SqlCommand cmd = new SqlCommand(sqlTrunc, con, trans);
+                    cmd.ExecuteNonQuery();
+                    trans.Commit();
+                    con.Close();
+                    trans.Dispose();
                 }
             }
             catch (Exception ex)
             {
-                throw new TruncateException(string.Format("При выполнении {0}, ошибка {1}", sqlTrunc, ex));
+                trans.Rollback();
+                con.Close();
+                throw new TruncateException(string.Format("При выполнении {0}, ошибка {1}", sqlTrunc, ex.ToString()));
             }
+        }
+
+        internal static bool CheckConnection()
+        {
+            bool result = false;
+            try
+            {
+                using (var connection = new SqlConnection(Globals.GetConnectionString()))
+                {
+                    var query = "select 1";
+                    var command = new SqlCommand(query, connection);
+                    connection.Open();
+                    command.ExecuteScalar();
+                    result = true;
+                }
+            }
+            catch (Exception)
+            {
+                result = false;
+            }
+            return result;
         }
     }
 }

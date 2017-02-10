@@ -1,8 +1,10 @@
 ﻿using Microsoft.VisualBasic.Devices;
+using NLog;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -15,6 +17,8 @@ namespace GiaImport
 {
     public partial class GiaImportMainForm : MetroFramework.Forms.MetroForm
     {
+        private static Logger log = LogManager.GetCurrentClassLogger();
+
         Dictionary<string, FileInfo> loadedFiles = new Dictionary<string, FileInfo>();
 
         /// <summary>
@@ -32,13 +36,16 @@ namespace GiaImport
 
         private void LoadForm(object sender, EventArgs e)
         {
+            string regexPattern = @"_\d+.*$";
+            Regex regex = new Regex(regexPattern, RegexOptions.IgnoreCase);
             if (Directory.Exists(Globals.TEMP_DIR))
             {
                 var files = Directory.GetFiles(Globals.TEMP_DIR);
                 foreach (var file in files)
                 {
                     FileInfo fi = new FileInfo(file);
-                    if (!loadedFiles.Keys.Contains(file) && !loadedFiles.Values.Contains(fi))
+                    string fname = Path.GetFileNameWithoutExtension(file);
+                    if (!loadedFiles.Keys.Contains(file) && !loadedFiles.Values.Contains(fi) && !regex.IsMatch(fname))
                     {
                         loadedFiles.Add(file, fi);
                         ListViewItem lvi = new ListViewItem(fi.Name);
@@ -99,11 +106,6 @@ namespace GiaImport
             this.metroListView1.Items.OfType<ListViewItem>().ToList().ForEach(item => item.Checked = true);
         }
 
-        private void simpleImportToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
         private void validationToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ValidateFiles();
@@ -157,6 +159,7 @@ namespace GiaImport
             {
                 error = true;
                 MessageBox.Show(string.Format("Ошибка: ", ex.ToString()));
+                log.Error(ex.ToString());
             }
             return error;
         }
@@ -187,13 +190,8 @@ namespace GiaImport
                 MessageBox.Show("Ни одного файла не выбрано!", "Внимание!");
                 return;
             }
-            if (!Globals.frmSettings.ServerText.Any() || !Globals.frmSettings.DatabaseText.Any() || !Globals.frmSettings.LoginText.Any())
-            {
-                MessageBox.Show("Настройки базы данных не установлены!", "Внимание!");
-                return;
-            }
             ProgressBarWindow pbw = new ProgressBarWindow();
-            pbw.SetTitle("Валидация выполняется...");
+            pbw.SetTitle("Проверка выполняется...");
             ProgressBar pbarTotal = pbw.GetProgressBarTotal();
             ProgressBar pbarLine = pbw.GetProgressBarLine();
             pbarTotal.Maximum = actualCheckedFiles.Count - 1;
@@ -231,14 +229,22 @@ namespace GiaImport
         {
             pbw.Invoke((MethodInvoker)(() => { pbw.Close(); }));
             ConcurrentDictionary<string, string> result = task.Result;
-            if (result.Count != 0)
+            List<TableInfo> idata = new List<TableInfo>();
+            idata = MakeInfoData(result, "Проверено!");
+            Invoke(new Action(() => 
             {
-                Invoke(new Action(() => { MessageShowControl.ShowValidationErrors(result); }));
-            }
-            else
-            {
-                Invoke(new Action(() => { MessageShowControl.ShowValidationSuccess(); }));
-            }
+                ResultWindow rw = new ResultWindow();
+                rw.SetTableData(idata);
+                rw.ShowDialog();
+            }));
+            //if (result.Count != 0)
+            //{
+            //    Invoke(new Action(() => { MessageShowControl.ShowValidationErrors(result); }));
+            //}
+            //else
+            //{
+            //    Invoke(new Action(() => { MessageShowControl.ShowValidationSuccess(); }));
+            //}
             Invoke(new Action(() =>
             {
                 openFilesButton.Enabled = true;
@@ -246,6 +252,28 @@ namespace GiaImport
                 validateButton.Enabled = true;
                 importButton.Enabled = true;
             }));
+        }
+
+        private List<TableInfo> MakeInfoData(ConcurrentDictionary<string, string> result, string successStatus)
+        {
+            var resultData = new List<TableInfo>();
+            foreach (var check in this.actualCheckedFiles)
+            {
+                string tableName = Path.GetFileNameWithoutExtension(check.Key);
+                TableInfo ti = new TableInfo();
+                ti.Name = tableName;
+                ti.Description = Globals.TABLES_INFO[tableName];
+                if (result.ContainsKey(tableName))
+                {
+                    ti.Status = result[tableName];
+                }
+                else
+                {
+                    ti.Status = successStatus;
+                }
+                resultData.Add(ti);
+            }
+            return resultData;
         }
 
         private void ShrinkFiles()
@@ -292,6 +320,7 @@ namespace GiaImport
             catch (Exception ex)
             {
                 MessageShowControl.ShowPrepareErrors(ex.ToString());
+                log.Error(ToString());
             }
         }
 
@@ -375,6 +404,11 @@ namespace GiaImport
                 MessageBox.Show("Настройки базы данных не установлены!", "Внимание!");
                 return;
             }
+            if (!DatabaseHelper.CheckConnection())
+            {
+                MessageBox.Show("Нет соединения с базой данных!", "Внимание!");
+                return;
+            }
             FindShrinkedFiles();
             List<string> guf = GetUnpreparedFiles();
             if (guf.Count != 0)
@@ -454,7 +488,7 @@ namespace GiaImport
             return result;
         }
 
-        private void EndImport(Task taskc, ProgressBarWindow pbw)
+        private void EndImport(Task<ConcurrentDictionary<string, string>> task, ProgressBarWindow pbw)
         {
             if (!pbw.IsDisposed)
             {
@@ -484,8 +518,8 @@ namespace GiaImport
 
         private ConcurrentDictionary<string, string> RunImport(ProgressBarWindow pbw, ProgressBar pbarLine, Label plabel, IProgress<int> progress, CancellationToken ct)
         {
-
-            Verifier verifier = new Verifier();
+            BulkManager bm = new BulkManager();
+            ConcurrentDictionary<string, Tuple<string, long, TimeSpan>> importStatus = new ConcurrentDictionary<string, Tuple<string, long, TimeSpan>>();
             try
             {
                 int i = 0;
@@ -505,13 +539,13 @@ namespace GiaImport
                         pbarLine.MarqueeAnimationSpeed = 30;
                         pbarLine.Visible = true;
                     }));
-                    BulkManager.BulkStart(tableName, xmlFilePath, ((rows) =>
+                    bm.BulkStart(tableName, xmlFilePath, ((rows) =>
                     {
                         if (!plabel.IsDisposed)
                         {
                             plabel.Invoke((MethodInvoker)(() => plabel.Text = string.Format("{0} - {1}", tableName, rows.RowsCopied.ToString())));
                         }
-                    }));
+                    }), importStatus);
                     pbarLine.Invoke((MethodInvoker)(() =>
                     {
                         pbarLine.Style = ProgressBarStyle.Continuous;
@@ -529,16 +563,17 @@ namespace GiaImport
                     pbarLine.MarqueeAnimationSpeed = 30;
                     pbarLine.Visible = true;
                 }));
-                BulkManager.RunStoredSynchronize();
+                bm.RunStoredSynchronize();
+                DatabaseHelper.DeleteLoaderTables(Globals.GetConnectionString());
                 pbarLine.Invoke((MethodInvoker)(() =>
                 {
                     pbarLine.Style = ProgressBarStyle.Continuous;
                     pbarLine.MarqueeAnimationSpeed = 0;
                 }));
-
             }
             catch (Exception ex)
             {
+                log.Error(ex.ToString());
                 pbw.Invoke((MethodInvoker)(() => { pbw.Close(); }));
                 Invoke(new Action(() => { MessageShowControl.ShowImportErrors(ex.ToString()); }));
                 Invoke(new Action(() =>
@@ -548,12 +583,9 @@ namespace GiaImport
                     validateButton.Enabled = true;
                     importButton.Enabled = true;
                 }));
-
             }
-            return verifier.errorDict;
+            return bm.errorDict;
         }
-
-
 
         private ConcurrentDictionary<string, string> RunVerifier(ProgressBar pbarLine, Label plabel, IProgress<int> progress, CancellationToken ct)
         {
@@ -578,13 +610,11 @@ namespace GiaImport
                     pbarLine.Visible = true;
                 }));
                 verifier.VerifySingleFile(xsdFilePath, xmlFilePath, ct);
-                //Thread.Sleep(2000);
                 pbarLine.Invoke((MethodInvoker)(() =>
                 {
                     pbarLine.Style = ProgressBarStyle.Continuous;
                     pbarLine.MarqueeAnimationSpeed = 0;
                 }));
-                //Thread.Sleep(100);
             }
             return verifier.errorDict;
         }
@@ -767,22 +797,8 @@ namespace GiaImport
         private void settingsButton_Click(object sender, EventArgs e)
         {
             SettingsWindow sw = new SettingsWindow();
-            sw.ShowDialog(); 
+            sw.ShowDialog();
         }
 
-        private void eraseButton_Click(object sender, EventArgs e)
-        {
-            if (!Globals.frmSettings.ServerText.Any() || !Globals.frmSettings.DatabaseText.Any() || !Globals.frmSettings.LoginText.Any())
-            {
-                MessageBox.Show("Настройки базы данных не установлены!", "Внимание!");
-                return;
-            }
-            DialogResult result = MessageBox.Show("Данная операция очистит содержимое таблиц предварительной загрузки. \n Подтвердите или отклоните операцию.", "Внимание!", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
-            if (result == DialogResult.OK)
-            {
-                DatabaseHelper.DeleteLoaderTables(Globals.GetConnectionString());
-                MessageShowControl.ShowTruncateSuccess();
-            }
-        }
     }
 }

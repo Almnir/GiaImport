@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProgressBarWindow));
             this.metroPanel1 = new MetroFramework.Controls.MetroPanel();
             this.pbLabel = new MetroFramework.Controls.MetroLabel();
             this.progressBarLine = new MetroFramework.Controls.MetroProgressBar();
@@ -84,6 +85,7 @@
             this.Controls.Add(this.progressBarTotal);
             this.Controls.Add(this.progressBarLine);
             this.Controls.Add(this.metroPanel1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ProgressBarWindow";

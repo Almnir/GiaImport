@@ -1,12 +1,17 @@
-﻿using System;
+﻿using NLog;
+using System;
+using System.Collections.Concurrent;
 using System.IO;
-using System.Text;
 using System.Xml.Serialization;
 
 namespace GiaImport
 {
     class MainStage
     {
+        private static Logger log = LogManager.GetCurrentClassLogger();
+
+        public static ConcurrentDictionary<string, Tuple<string, long, TimeSpan>> errorDict = new ConcurrentDictionary<string, Tuple<string, long, TimeSpan>>();
+
         public static T DeserializeXMLFileToObject<T>(string xmlFileName)
         {
             T returnObject = default(T);
@@ -22,7 +27,10 @@ namespace GiaImport
             }
             catch (Exception ex)
             {
-                throw new DeserializeException(string.Format("При десериализации файла {0} произошла ошибка: {1}.", xmlFileName, ex.ToString()));
+                string status = string.Format(string.Format("При десериализации файла {0} произошла ошибка: {1}.", xmlFileName, ex.ToString()));
+                errorDict.TryAdd(xmlFileName, new Tuple<string, long, TimeSpan>(status, 0, TimeSpan.Zero));
+                log.Error(status);
+
             }
             return returnObject;
         }

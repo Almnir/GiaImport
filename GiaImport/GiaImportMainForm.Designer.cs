@@ -42,7 +42,6 @@ namespace GiaImport
             this.validateButton = new MetroFramework.Controls.MetroButton();
             this.importButton = new MetroFramework.Controls.MetroButton();
             this.settingsButton = new MetroFramework.Controls.MetroButton();
-            this.eraseButton = new MetroFramework.Controls.MetroButton();
             this.metroContextMenu1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -102,7 +101,7 @@ namespace GiaImport
             this.openFilesButton.Name = "openFilesButton";
             this.openFilesButton.Size = new System.Drawing.Size(115, 42);
             this.openFilesButton.TabIndex = 1;
-            this.openFilesButton.Text = "Выбрать Архив";
+            this.openFilesButton.Text = "Выбрать";
             this.openFilesButton.UseSelectable = true;
             this.openFilesButton.Click += new System.EventHandler(this.openFilesButton_Click);
             // 
@@ -122,13 +121,13 @@ namespace GiaImport
             this.validateButton.Name = "validateButton";
             this.validateButton.Size = new System.Drawing.Size(115, 42);
             this.validateButton.TabIndex = 2;
-            this.validateButton.Text = "Валидировать";
+            this.validateButton.Text = "Проверить";
             this.validateButton.UseSelectable = true;
             this.validateButton.Click += new System.EventHandler(this.validateButton_Click);
             // 
             // importButton
             // 
-            this.importButton.Location = new System.Drawing.Point(504, 64);
+            this.importButton.Location = new System.Drawing.Point(383, 64);
             this.importButton.Name = "importButton";
             this.importButton.Size = new System.Drawing.Size(115, 42);
             this.importButton.TabIndex = 5;
@@ -147,22 +146,11 @@ namespace GiaImport
             this.settingsButton.UseSelectable = true;
             this.settingsButton.Click += new System.EventHandler(this.settingsButton_Click);
             // 
-            // eraseButton
-            // 
-            this.eraseButton.Location = new System.Drawing.Point(383, 64);
-            this.eraseButton.Name = "eraseButton";
-            this.eraseButton.Size = new System.Drawing.Size(115, 42);
-            this.eraseButton.TabIndex = 4;
-            this.eraseButton.Text = "Удалить таблицы";
-            this.eraseButton.UseSelectable = true;
-            this.eraseButton.Click += new System.EventHandler(this.eraseButton_Click);
-            // 
             // GiaImportMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(961, 513);
-            this.Controls.Add(this.eraseButton);
             this.Controls.Add(this.settingsButton);
             this.Controls.Add(this.importButton);
             this.Controls.Add(this.validateButton);
@@ -189,7 +177,6 @@ namespace GiaImport
         private System.Windows.Forms.ToolStripMenuItem uncheckAllToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem clearListToolStripMenuItem;
         private MetroFramework.Controls.MetroButton settingsButton;
-        private MetroFramework.Controls.MetroButton eraseButton;
     }
 }
 

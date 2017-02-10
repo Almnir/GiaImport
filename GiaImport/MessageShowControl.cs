@@ -11,7 +11,7 @@ namespace GiaImport
         public static void ShowValidationErrors(ConcurrentDictionary<string, string> filesErrors)
         {
             MessageForm frm = new MessageForm();
-            frm.SetTitle("Результаты верификации");
+            frm.SetTitle("Результаты проверки");
             frm.SetStyling(MessageForm.EnumMessageStyle.Error);
             //frm.SetContent("Файлы, не прошедшие проверку и причина ошибки");
             StringBuilder fileErrorText = new StringBuilder();
@@ -20,11 +20,11 @@ namespace GiaImport
                 fileErrorText.Append(string.Format("{0} - {1}", fe.Key, fe.Value)).Append(Environment.NewLine);
             }
             frm.SetExtendedContent(fileErrorText.ToString());
-            MessageForm.ShowDialog("Результаты верификации", "Файлы, не прошедшие проверку и причина ошибки", fileErrorText.ToString(), MessageForm.EnumMessageStyle.Error);
+            MessageForm.ShowDialog("Результаты проверки", "Файлы, не прошедшие проверку и причина ошибки", fileErrorText.ToString(), MessageForm.EnumMessageStyle.Error);
         }
         public static void ShowValidationSuccess()
         {
-            MessageForm.ShowDialog("Результаты верификации", "Верификация пройдена без ошибок!", "Ошибок нет.", MessageForm.EnumMessageStyle.Information);
+            MessageForm.ShowDialog("Результаты проверки", "Проверка пройдена без ошибок!", "Ошибок нет.", MessageForm.EnumMessageStyle.Information);
         }
 
         internal static void ShowPrepareSuccess()
@@ -57,9 +57,9 @@ namespace GiaImport
             MessageForm.ShowDialog("Проверка", "Импорт невозможен, так как указаны файлы, которые имеют слишком большой размер для импорта без подготовки.", errorText.ToString(), MessageForm.EnumMessageStyle.Warning);
         }
 
-        internal static void ShowTruncateSuccess()
+        internal static void ShowDeleteSuccess()
         {
-            MessageForm.ShowDialog("Очистка", "Очистка таблиц завершена!", "Очищено", MessageForm.EnumMessageStyle.Information);
+            MessageForm.ShowDialog("Очистка", "Очистка основных таблиц завершена!", "Очистка завершена успешно", MessageForm.EnumMessageStyle.Information);
         }
     }
 }

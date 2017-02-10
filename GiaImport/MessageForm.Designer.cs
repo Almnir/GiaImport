@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MessageForm));
             this.metroTextBox1 = new MetroFramework.Controls.MetroTextBox();
             this.metroTile1 = new MetroFramework.Controls.MetroTile();
             this.metroButton1 = new MetroFramework.Controls.MetroButton();
@@ -74,9 +75,9 @@
             // metroTile1
             // 
             this.metroTile1.ActiveControl = null;
-            this.metroTile1.Location = new System.Drawing.Point(635, 86);
+            this.metroTile1.Location = new System.Drawing.Point(635, 148);
             this.metroTile1.Name = "metroTile1";
-            this.metroTile1.Size = new System.Drawing.Size(127, 370);
+            this.metroTile1.Size = new System.Drawing.Size(127, 308);
             this.metroTile1.Style = MetroFramework.MetroColorStyle.Red;
             this.metroTile1.TabIndex = 7;
             this.metroTile1.TabStop = false;
@@ -119,9 +120,8 @@
             this.metroLabel1.AutoSize = true;
             this.metroLabel1.Location = new System.Drawing.Point(0, 0);
             this.metroLabel1.Name = "metroLabel1";
-            this.metroLabel1.Size = new System.Drawing.Size(81, 19);
+            this.metroLabel1.Size = new System.Drawing.Size(0, 0);
             this.metroLabel1.TabIndex = 2;
-            this.metroLabel1.Text = "metroLabel1";
             // 
             // MessageForm
             // 
@@ -133,6 +133,7 @@
             this.Controls.Add(this.metroTile1);
             this.Controls.Add(this.metroButton1);
             this.Controls.Add(this.metroTextBox1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MessageForm";
             this.Resizable = false;
             this.metroPanel1.ResumeLayout(false);
