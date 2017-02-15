@@ -16,6 +16,12 @@ namespace GiaImport
             return string.Format("Server={0};Database={1};User Id={2};Password={3};", frmSettings.ServerText, frmSettings.DatabaseText, frmSettings.LoginText, frmSettings.PasswordText);
         }
 
+        public const string GRID_NAME = "Таблица";
+        public const string GRID_DESCRIPTION = "Описание";
+        public const string GRID_TOTAL = "Записей всего";
+        public const string GRID_LOADER = "Записей загружено";
+        public const string GRID_XML = "Записей в XML";
+
         public static List<string> TABLES_NAMES = new List<string>()
         {
             "ac_Appeals",
@@ -72,6 +78,64 @@ namespace GiaImport
             "sht_Sheets_AB",
             "sht_Sheets_C",
             "sht_Sheets_D",
+            "sht_Sheets_R"
+        };
+        public static List<string> TABLES_NAMES_FOR_DELETE = new List<string>()
+        {
+            "rbd_CurrentRegion",
+            "rbd_Governments",
+            "rbd_Address",
+            "rbd_CurrentRegionAddress",
+            "rbd_Areas",
+            "rbd_Schools",
+            "rbd_SchoolAddress",
+            "rbd_Stations",
+            "rbd_Auditoriums",
+            "rbd_AuditoriumsSubjects",
+            "rbd_Places",
+            "rbd_StationsExams",
+            "rbd_StationExamAuditory",
+            "sht_Sheets_C",
+            "sht_Sheets_D",
+            "res_Complects",
+            "res_SubComplects",
+            "rbd_Experts",
+            "rbd_ExpertsSubjects",
+            "rbd_ExpertsExams",
+            "sht_Alts",
+            "sht_Marks_C",
+            "sht_Marks_D",
+            "sht_FinalMarks_C",
+            "sht_FinalMarks_D",
+            "rbd_Participants",
+            "rbd_ParticipantsExams",
+            "rbd_ParticipantsExamsOnStation",
+            "rbd_ParticipantProperties",
+            "rbd_ParticipantsExamPStation",
+            "prnf_CertificatePrintMain",
+            "res_HumanTests",
+            "res_Subtests",
+            "rbd_StationWorkers",
+            "rbd_StationWorkersSubjects",
+            "rbd_StationWorkerOnStation",
+            "rbd_StationWorkerOnExam",
+            "ac_Appeals",
+            "ac_AppealTasks",
+            "ac_Changes",
+            "dats_Borders",
+            "dats_Groups",
+            "rbd_ParticipantsProfSubject",
+            "rbd_ParticipantsSubject",
+            "rbd_StationForm",
+            "rbd_StationFormAct",
+            "rbd_StationFormAuditoryFields",
+            "rbd_StationFormFields",
+            "rbd_StationWorkersAccreditation",
+            "res_Answers",
+            "res_Marks",
+            "sht_Marks_AB",
+            "sht_Packages",
+            "sht_Sheets_AB",
             "sht_Sheets_R"
         };
         public static Dictionary<string, string> TABLES_INFO = new Dictionary<string, string>()

@@ -11,6 +11,14 @@ namespace GiaImport
             InitializeComponent();
         }
 
+        public ResultWindow(DataTable dataTable)
+        {
+            InitializeComponent();
+            this.resultGrid.Columns.Clear();
+            this.resultGrid.AutoGenerateColumns = true;
+            this.resultGrid.DataSource = dataTable;
+        }
+
         public void SetTableData(List<TableInfo> tableData)
         {
             foreach (var td in tableData)

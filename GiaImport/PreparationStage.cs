@@ -10,6 +10,7 @@ using System.Threading;
 using System.Xml.Linq;
 using System.Linq;
 using System.Text;
+using NLog;
 
 namespace GiaImport
 {
@@ -19,6 +20,8 @@ namespace GiaImport
         private string tempFolder = "";
 
         private string zipfilename;
+
+        private static Logger log = LogManager.GetCurrentClassLogger();
 
         public PreparationStage()
         {
@@ -51,7 +54,7 @@ namespace GiaImport
             }
             catch (Exception ex)
             {
-                throw new PreparationStageException(ex);
+                throw new PreparationStageException(ex.ToString());
             }
         }
 
@@ -136,7 +139,7 @@ namespace GiaImport
             }
         }
 
-        private bool CheckRootAndGetArrayElement(string filename, out string arrayElement, out string errorString)
+        private static bool CheckRootAndGetArrayElement(string filename, out string arrayElement, out string errorString)
         {
             bool error = false;
             arrayElement = string.Empty;
@@ -171,6 +174,35 @@ namespace GiaImport
                 }
             }
             return error;
+        }
+
+        /// <summary>
+        /// Подсчёт количества элементов
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <param name="element"></param>
+        /// <param name="errorString"></param>
+        /// <returns></returns>
+        public static long GetElementsCount(string filename, string element)
+        {
+            long countElements = 0;
+            try
+            {
+                using (XmlReader reader = XmlReader.Create(filename))
+                {
+                    while (reader.ReadToFollowing(element))
+                    {
+                        countElements += 1;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                string errorStr = string.Format("При чтении xml файла {0} произошла ошибка {1}.", filename, ex.ToString());
+                log.Error(errorStr);
+                throw new PreparationStageException(errorStr);
+            }
+            return countElements;
         }
 
         public bool Shrinker(string filepath, long chunksize)

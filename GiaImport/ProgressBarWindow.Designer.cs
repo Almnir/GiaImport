@@ -90,7 +90,6 @@
             this.MinimizeBox = false;
             this.Name = "ProgressBarWindow";
             this.Resizable = false;
-            this.ShowIcon = false;
             this.Text = "Выполнение";
             this.TopMost = true;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ProgressBarWindow_FormClosed);

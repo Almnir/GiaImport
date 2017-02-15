@@ -4,7 +4,6 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -20,13 +19,18 @@ namespace GiaImport
         private static Logger log = LogManager.GetCurrentClassLogger();
 
         Dictionary<string, FileInfo> loadedFiles = new Dictionary<string, FileInfo>();
-
         /// <summary>
         /// Файл - инфо
         /// </summary>
         Dictionary<string, FileInfo> actualCheckedFiles = new Dictionary<string, FileInfo>();
         // Имя файл - таблица
         Dictionary<string, string> preparedFilesTables = new Dictionary<string, string>();
+        // статистика: таблица - xml записей
+        Dictionary<string, long> importStatistics = new Dictionary<string, long>();
+        // Таблица статистики
+        DataTable dataStatTable;
+        // Манагер
+        BulkManager bm;
 
         public GiaImportMainForm()
         {
@@ -96,6 +100,8 @@ namespace GiaImport
                     // создать временный каталог
                     Directory.CreateDirectory(Globals.TEMP_DIR);
                 }
+                // очистить временный каталог
+                ClearFiles();
                 // распаковать выбранный архив во временный каталог
                 UnpackFiles(openFileDialog.FileName);
             }
@@ -230,21 +236,13 @@ namespace GiaImport
             pbw.Invoke((MethodInvoker)(() => { pbw.Close(); }));
             ConcurrentDictionary<string, string> result = task.Result;
             List<TableInfo> idata = new List<TableInfo>();
-            idata = MakeInfoData(result, "Проверено!");
-            Invoke(new Action(() => 
+            idata = MakeInfoData(result, "Проверено, ошибок нет.");
+            Invoke(new Action(() =>
             {
                 ResultWindow rw = new ResultWindow();
                 rw.SetTableData(idata);
                 rw.ShowDialog();
             }));
-            //if (result.Count != 0)
-            //{
-            //    Invoke(new Action(() => { MessageShowControl.ShowValidationErrors(result); }));
-            //}
-            //else
-            //{
-            //    Invoke(new Action(() => { MessageShowControl.ShowValidationSuccess(); }));
-            //}
             Invoke(new Action(() =>
             {
                 openFilesButton.Enabled = true;
@@ -493,14 +491,23 @@ namespace GiaImport
             if (!pbw.IsDisposed)
             {
                 pbw.Invoke((MethodInvoker)(() => { pbw.Close(); }));
-                Invoke(new Action(() => { MessageShowControl.ShowImportSuccess(); }));
             }
+            ShowStatistics();
             Invoke(new Action(() =>
             {
                 openFilesButton.Enabled = true;
                 prepareFilesButton.Enabled = true;
                 validateButton.Enabled = true;
                 importButton.Enabled = true;
+            }));
+        }
+
+        private void ShowStatistics()
+        {
+            Invoke(new Action(() =>
+            {
+                ResultLogWindow rw = new ResultLogWindow(dataStatTable, bm.outLog.ToString());
+                rw.ShowDialog();
             }));
         }
 
@@ -518,7 +525,7 @@ namespace GiaImport
 
         private ConcurrentDictionary<string, string> RunImport(ProgressBarWindow pbw, ProgressBar pbarLine, Label plabel, IProgress<int> progress, CancellationToken ct)
         {
-            BulkManager bm = new BulkManager();
+            bm = new BulkManager();
             ConcurrentDictionary<string, Tuple<string, long, TimeSpan>> importStatus = new ConcurrentDictionary<string, Tuple<string, long, TimeSpan>>();
             try
             {
@@ -539,6 +546,13 @@ namespace GiaImport
                         pbarLine.MarqueeAnimationSpeed = 30;
                         pbarLine.Visible = true;
                     }));
+                    // если нет в статистике, то считаем элементы и добавляем (это чтобы не считалось заново для кусков)
+                    if (!importStatistics.ContainsKey(tableName))
+                    {
+                        string uncutXmlFilePath = GetUncutFilePath(tableName);
+                        long countElements = PreparationStage.GetElementsCount(uncutXmlFilePath, "ns1:" + tableName);
+                        importStatistics.Add(tableName, countElements);
+                    }
                     bm.BulkStart(tableName, xmlFilePath, ((rows) =>
                     {
                         if (!plabel.IsDisposed)
@@ -564,6 +578,7 @@ namespace GiaImport
                     pbarLine.Visible = true;
                 }));
                 bm.RunStoredSynchronize();
+                dataStatTable = BulkManager.PrepareStatistics(importStatistics);
                 DatabaseHelper.DeleteLoaderTables(Globals.GetConnectionString());
                 pbarLine.Invoke((MethodInvoker)(() =>
                 {
@@ -585,6 +600,21 @@ namespace GiaImport
                 }));
             }
             return bm.errorDict;
+        }
+
+        private string GetUncutFilePath(string tableName)
+        {
+            string path = string.Empty;
+            foreach (var acf in this.actualCheckedFiles)
+            {
+                string fname = Path.GetFileNameWithoutExtension(acf.Key);
+                if (fname.Equals(tableName))
+                {
+                    path = acf.Key;
+                    break;
+                }
+            }
+            return path;
         }
 
         private ConcurrentDictionary<string, string> RunVerifier(ProgressBar pbarLine, Label plabel, IProgress<int> progress, CancellationToken ct)
@@ -762,7 +792,17 @@ namespace GiaImport
 
         private void prepareFilesButton_Click(object sender, EventArgs e)
         {
-            ShrinkFiles();
+            DataTable dt = new DataTable();
+            dt.Columns.Add(new DataColumn("asdsds"));
+            for (int i = 0; i < 50; i++)
+            {
+                DataRow dr = dt.NewRow();
+                dr["asdsds"] = i.ToString();
+                dt.Rows.Add(dr);
+            }
+            ResultLogWindow rw = new ResultLogWindow(dt, "asdsd");
+            rw.ShowDialog();
+            //ShrinkFiles();
         }
 
         private void validateButton_Click(object sender, EventArgs e)
@@ -781,6 +821,11 @@ namespace GiaImport
         }
 
         private void clearListToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ClearFiles();
+        }
+
+        private void ClearFiles()
         {
             this.loadedFiles.Clear();
             this.actualCheckedFiles.Clear();

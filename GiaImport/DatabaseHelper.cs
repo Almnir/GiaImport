@@ -28,27 +28,22 @@ namespace GiaImport
         public static void DeleteLoaderTables(string connectionString)
         {
             string sqlTrunc = string.Empty;
-            SqlConnection con = new SqlConnection(connectionString);
-            con.Open();
-
-            SqlTransaction trans = con.BeginTransaction(IsolationLevel.ReadCommitted);
 
             try
             {
-                foreach (var table in BulkManager.tablesList)
+                using (SqlConnection con = new SqlConnection(connectionString))
                 {
-                    sqlTrunc = "TRUNCATE TABLE loader." + table;
-                    SqlCommand cmd = new SqlCommand(sqlTrunc, con, trans);
-                    cmd.ExecuteNonQuery();
-                    trans.Commit();
-                    con.Close();
-                    trans.Dispose();
+                    con.Open();
+                    foreach (var table in Globals.TABLES_NAMES)
+                    {
+                        sqlTrunc = "TRUNCATE TABLE loader." + table;
+                        SqlCommand cmd = new SqlCommand(sqlTrunc, con);
+                        cmd.ExecuteNonQuery();
+                    }
                 }
             }
             catch (Exception ex)
             {
-                trans.Rollback();
-                con.Close();
                 throw new TruncateException(string.Format("При выполнении {0}, ошибка {1}", sqlTrunc, ex.ToString()));
             }
         }

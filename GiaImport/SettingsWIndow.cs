@@ -1,5 +1,7 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,6 +11,8 @@ namespace GiaImport
 {
     public partial class SettingsWindow : MetroFramework.Forms.MetroForm
     {
+        private static Logger log = LogManager.GetCurrentClassLogger();
+
         public SettingsWindow()
         {
             InitializeComponent();
@@ -75,22 +79,11 @@ namespace GiaImport
             pbarTotal.Maximum = BulkManager.tablesList.Count - 1;
             Label plabel = pbw.GetLabel();
             CancellationTokenSource source = new CancellationTokenSource();
-            IProgress<int> progress = new Progress<int>(value =>
-            {
-                ProgressBar pb = pbw.GetProgressBarTotal();
-                if (!pb.IsDisposed)
-                {
-                    pb.Invoke((MethodInvoker)(() =>
-                    {
-                        pb.Value = value;
-                    }));
-                }
-            });
             pbw.FormClosed += (a, e) => { source.Cancel(); };
             pbw.Show();
             try
             {
-                Task task = Task.Run(() => RunDelete(pbw, pbarLine, plabel, progress, source.Token), source.Token);
+                Task task = Task.Run(() => RunDelete(pbarTotal, pbarLine, plabel, source.Token), source.Token);
                 task.ContinueWith(taskc => EndDelete(taskc, pbw));
             }
             catch (TaskCanceledException)
@@ -105,29 +98,68 @@ namespace GiaImport
             Invoke(new Action(() => { MessageShowControl.ShowDeleteSuccess(); }));
         }
 
-        private void RunDelete(ProgressBarWindow pbw, ProgressBar pbarLine, Label plabel, IProgress<int> progress, CancellationToken token)
+        private void RunDelete(ProgressBar pbarTotal, ProgressBar pbarLine, Label plabel, CancellationToken token)
         {
-            for (int i = 0; i <= BulkManager.tablesList.Count - 1; i++)
+            token.ThrowIfCancellationRequested();
+            if (!plabel.IsDisposed)
             {
-                progress.Report(i);
-                token.ThrowIfCancellationRequested();
-                string tableName = BulkManager.tablesList[i];
-                if (!plabel.IsDisposed)
+                plabel.Invoke((MethodInvoker)(() => plabel.Text = "Процесс очистки основных таблиц..."));
+            }
+            pbarLine.Invoke((MethodInvoker)(() =>
+            {
+                pbarLine.Style = ProgressBarStyle.Marquee;
+                pbarLine.MarqueeAnimationSpeed = 30;
+                pbarLine.Visible = true;
+            }));
+            pbarTotal.Invoke((MethodInvoker)(() =>
+            {
+                pbarTotal.Style = ProgressBarStyle.Marquee;
+                pbarTotal.MarqueeAnimationSpeed = 30;
+                pbarTotal.Visible = true;
+            }));
+            RunDeletedSynchronize();
+            pbarLine.Invoke((MethodInvoker)(() =>
+            {
+                pbarLine.Style = ProgressBarStyle.Continuous;
+                pbarLine.MarqueeAnimationSpeed = 0;
+            }));
+            pbarTotal.Invoke((MethodInvoker)(() =>
+            {
+                pbarTotal.Style = ProgressBarStyle.Continuous;
+                pbarTotal.MarqueeAnimationSpeed = 0;
+            }));
+        }
+
+        public void RunDeletedSynchronize()
+        {
+            int errorCount = 0;
+            try
+            {
+                using (var conn = new SqlConnection(Globals.GetConnectionString()))
+                using (var command = new SqlCommand("loader.CleanupTables", conn)
                 {
-                    plabel.Invoke((MethodInvoker)(() => plabel.Text = tableName));
+                    CommandType = CommandType.StoredProcedure
+                })
+                {
+                    command.Parameters.Add("@TableGroup", SqlDbType.SmallInt).Value = 0;
+                    command.Parameters.Add("@SkipErrors", SqlDbType.Bit).Value = 0;
+                    command.CommandTimeout = 3600;
+                    SqlParameter returnParameter = command.Parameters.Add("@error_count", SqlDbType.Int);
+                    returnParameter.Direction = ParameterDirection.ReturnValue;
+                    conn.Open();
+                    command.ExecuteNonQuery();
+                    errorCount = (int)returnParameter.Value;
+                    if (errorCount != 0)
+                    {
+                        log.Error("Ошибки очистки основных таблиц: " + errorCount);
+                    }
                 }
-                pbarLine.Invoke((MethodInvoker)(() =>
-                {
-                    pbarLine.Style = ProgressBarStyle.Marquee;
-                    pbarLine.MarqueeAnimationSpeed = 30;
-                    pbarLine.Visible = true;
-                }));
-                DeleteTable(tableName);
-                pbarLine.Invoke((MethodInvoker)(() =>
-                {
-                    pbarLine.Style = ProgressBarStyle.Continuous;
-                    pbarLine.MarqueeAnimationSpeed = 0;
-                }));
+            }
+            catch (Exception ex)
+            {
+                string status = string.Format("При выполнении очистки основных таблиц была обнаружена ошибка: {0}", ex.ToString());
+                log.Error(status);
+                throw new SyncException(status);
             }
         }
 
@@ -139,9 +171,12 @@ namespace GiaImport
                 using (var connection = new SqlConnection(Globals.GetConnectionString()))
                 {
                     connection.Open();
-                    query = "DELETE FROM dbo." + tableName;
-                    SqlCommand cmd = new SqlCommand(query, connection);
-                    cmd.ExecuteNonQuery();
+                    if (DatabaseHelper.IsDataTableExists(Globals.GetConnectionString(), "dbo", tableName))
+                    {
+                        query = "DELETE FROM dbo." + tableName;
+                        SqlCommand cmd = new SqlCommand(query, connection);
+                        cmd.ExecuteNonQuery();
+                    }
                 }
             }
             catch (Exception ex)

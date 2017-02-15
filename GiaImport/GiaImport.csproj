@@ -151,6 +151,12 @@
       <DependentUpon>ProgressBarWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResultLogWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ResultLogWindow.Designer.cs">
+      <DependentUpon>ResultLogWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="ResultWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -191,6 +197,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="ResultLogWindow.resx">
+      <DependentUpon>ResultLogWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ResultWindow.resx">
       <DependentUpon>ResultWindow.cs</DependentUpon>
     </EmbeddedResource>

@@ -101,7 +101,7 @@ namespace GiaImport
             this.openFilesButton.Name = "openFilesButton";
             this.openFilesButton.Size = new System.Drawing.Size(115, 42);
             this.openFilesButton.TabIndex = 1;
-            this.openFilesButton.Text = "Выбрать";
+            this.openFilesButton.Text = "1     Выбрать";
             this.openFilesButton.UseSelectable = true;
             this.openFilesButton.Click += new System.EventHandler(this.openFilesButton_Click);
             // 
@@ -111,7 +111,7 @@ namespace GiaImport
             this.prepareFilesButton.Name = "prepareFilesButton";
             this.prepareFilesButton.Size = new System.Drawing.Size(115, 42);
             this.prepareFilesButton.TabIndex = 3;
-            this.prepareFilesButton.Text = "Подготовить";
+            this.prepareFilesButton.Text = "3  Подготовить";
             this.prepareFilesButton.UseSelectable = true;
             this.prepareFilesButton.Click += new System.EventHandler(this.prepareFilesButton_Click);
             // 
@@ -121,7 +121,7 @@ namespace GiaImport
             this.validateButton.Name = "validateButton";
             this.validateButton.Size = new System.Drawing.Size(115, 42);
             this.validateButton.TabIndex = 2;
-            this.validateButton.Text = "Проверить";
+            this.validateButton.Text = "2    Проверить";
             this.validateButton.UseSelectable = true;
             this.validateButton.Click += new System.EventHandler(this.validateButton_Click);
             // 
@@ -131,7 +131,7 @@ namespace GiaImport
             this.importButton.Name = "importButton";
             this.importButton.Size = new System.Drawing.Size(115, 42);
             this.importButton.TabIndex = 5;
-            this.importButton.Text = "Импортировать";
+            this.importButton.Text = "4 Импортировать";
             this.importButton.UseSelectable = true;
             this.importButton.Click += new System.EventHandler(this.importButton_Click);
             // 
@@ -160,7 +160,7 @@ namespace GiaImport
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(762, 200);
             this.Name = "GiaImportMainForm";
-            this.Text = "Импорт ГИА";
+            this.Text = "Импорт ГИА-9";
             this.metroContextMenu1.ResumeLayout(false);
             this.ResumeLayout(false);
 

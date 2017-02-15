@@ -9,6 +9,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Text;
 
 namespace GiaImport
 {
@@ -115,9 +116,12 @@ namespace GiaImport
             }
         }
 
+        public StringBuilder outLog;
+
         public void RunStoredSynchronize()
         {
             int errorCount = 0;
+            this.outLog = new StringBuilder();
             try
             {
                 using (var conn = new SqlConnection(Globals.GetConnectionString()))
@@ -131,9 +135,15 @@ namespace GiaImport
                     command.CommandTimeout = 3600;
                     SqlParameter returnParameter = command.Parameters.Add("@error_count", SqlDbType.Int);
                     returnParameter.Direction = ParameterDirection.ReturnValue;
+                    conn.InfoMessage += WriteProcedureLog;
+                    conn.FireInfoMessageEventOnUserErrors = true;
                     conn.Open();
                     command.ExecuteNonQuery();
                     errorCount = (int)returnParameter.Value;
+                    if (errorCount != 0)
+                    {
+                        log.Error("Ошибки слияния: " + errorCount);
+                    }
                 }
             }
             catch (Exception ex)
@@ -144,11 +154,91 @@ namespace GiaImport
             }
         }
 
+        private void WriteProcedureLog(object sndr, SqlInfoMessageEventArgs evt)
+        {
+            List<int> error_codes = new List<int>();
+            if (evt.Errors.Count > 0)
+            {
+                foreach (SqlError err in evt.Errors)
+                {
+                    if (err.Number > 0)
+                    {
+                        //msg = string.Format("[{0} {1}]: Код [{2}] {3}\r\n",
+                        //                    DateTime.Now.ToShortDateString(),
+                        //                    DateTime.Now.ToLongTimeString(),
+                        //                    err.Number,
+                        //                    err.Message);
+                        this.outLog.Append(err.Message).Append(Environment.NewLine);
+                        log.Info(err.Message);
+                    }
+                    else
+                    {
+                        //msg = string.Format("[{0} {1}]: {2}\r\n",
+                        //                    DateTime.Now.ToShortDateString(),
+                        //                    DateTime.Now.ToShortTimeString(),
+                        //                    err.Message);
+                    }
+                }
+            }
+            return;
+        }
+
+        public static DataTable GetStoredStatistics()
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                using (var conn = new SqlConnection(Globals.GetConnectionString()))
+                using (var command = new SqlCommand("loader.Statistics", conn)
+                {
+                    CommandType = CommandType.StoredProcedure
+                })
+                {
+                    command.CommandTimeout = 3600;
+                    conn.Open();
+                    dt.Load(command.ExecuteReader());
+                }
+            }
+            catch (Exception ex)
+            {
+                string status = string.Format("При выполнении запроса статистики была обнаружена ошибка: {0}", ex.ToString());
+                log.Error(status);
+                throw new SyncException(status);
+            }
+            return dt;
+        }
+
+        public static DataTable PrepareStatistics(Dictionary<string, long> importStatictics)
+        {
+            DataTable statTable = GetStoredStatistics();
+            DataTable resultTable = new DataTable();
+            resultTable.Columns.Add(new DataColumn(Globals.GRID_NAME, typeof(string)));
+            resultTable.Columns.Add(new DataColumn(Globals.GRID_DESCRIPTION, typeof(string)));
+            resultTable.Columns.Add(new DataColumn(Globals.GRID_TOTAL, typeof(int)));
+            resultTable.Columns.Add(new DataColumn(Globals.GRID_LOADER, typeof(int)));
+            resultTable.Columns.Add(new DataColumn(Globals.GRID_XML, typeof(long)));
+            foreach (DataRow st in statTable.Rows)
+            {
+                string tname = st.Field<string>("TableName");
+                // если есть в статистике по xml подсчёту
+                if (importStatictics.ContainsKey(tname))
+                {
+                    DataRow row = resultTable.NewRow();
+                    row["Таблица"] = tname;
+                    row["Описание"] = st.Field<string>("TableDescription");
+                    row["Записей всего"] = st.Field<int>("DboAmount");
+                    row["Записей загружено"] = st.Field<int>("LoaderAmount");
+                    row["Записей в XML"] = importStatictics[tname];
+                    resultTable.Rows.Add(row);
+                }
+            }
+            return resultTable;
+        }
+
         public void BulkStart(string tablename, string xmlfilename, Action<BulkCopyRowsCopied> handler, ConcurrentDictionary<string, Tuple<string, long, TimeSpan>> outParam)
         {
             switch (tablename)
             {
-
 
                 case "ac_Appeals":
                     Bulkload_ac_Appeals(xmlfilename, handler, out outParam);
