@@ -30,6 +30,12 @@ namespace GiaImport
             get { return (String)(this["PasswordText"]); }
             set { this["PasswordText"] = value; }
         }
+        [UserScopedSettingAttribute()]
+        public String TempDirectoryText
+        {
+            get { return (String)(this["TempDirectoryText"]); }
+            set { this["TempDirectoryText"] = value; }
+        }
     }
 
 }

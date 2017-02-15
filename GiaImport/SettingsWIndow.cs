@@ -3,6 +3,7 @@ using System;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -21,25 +22,43 @@ namespace GiaImport
 
         private void SettingsWindowLoad(object sender, EventArgs e)
         {
-            serverTextBox.Text = Globals.frmSettings.ServerText;
-            databaseTextBox.Text = Globals.frmSettings.DatabaseText;
-            loginTextBox.Text = Globals.frmSettings.LoginText;
-            passwordTextBox.Text = Globals.frmSettings.PasswordText;
+            serverTextBox.Text = Globals.frmSettings.ServerText == null ? "" : Globals.frmSettings.ServerText;
+            databaseTextBox.Text = Globals.frmSettings.DatabaseText == null ? "" : Globals.frmSettings.DatabaseText;
+            loginTextBox.Text = Globals.frmSettings.LoginText == null ? "" : Globals.frmSettings.LoginText;
+            passwordTextBox.Text = Globals.frmSettings.PasswordText == null ? "" : Globals.frmSettings.PasswordText;
+            // если не задано, ставим юзерский временный каталог
+            if (string.IsNullOrWhiteSpace(Globals.frmSettings.TempDirectoryText == null ? "" : Globals.frmSettings.TempDirectoryText))
+            {
+                tempDirTextBox.Text = Path.GetTempPath();
+            }
+            else
+            {
+                tempDirTextBox.Text = Globals.frmSettings.TempDirectoryText;
+            }
         }
 
         private void okButton_Click(object sender, System.EventArgs e)
         {
-            SaveSettings();
-            this.Close();
+            if (SaveSettings())
+            {
+                this.Close();
+            }
         }
 
-        private void SaveSettings()
+        private bool SaveSettings()
         {
             Globals.frmSettings.ServerText = serverTextBox.Text;
             Globals.frmSettings.DatabaseText = databaseTextBox.Text;
             Globals.frmSettings.LoginText = loginTextBox.Text;
             Globals.frmSettings.PasswordText = passwordTextBox.Text;
+            Globals.frmSettings.TempDirectoryText = tempDirTextBox.Text.Trim();
+            if (!Directory.Exists(tempDirTextBox.Text.Trim()))
+            {
+                MessageBox.Show("Неверный путь для каталога временных файлов!", "Внимание!");
+                return false;
+            }
             Globals.frmSettings.Save();
+            return true;
         }
 
         private void cancelButton_Click(object sender, System.EventArgs e)
@@ -67,7 +86,11 @@ namespace GiaImport
                 MessageBox.Show("Нет соединения!", "Внимание!");
                 return;
             }
-            DeleteTables();
+            DialogResult dlg = MessageBox.Show("Подтвердите очистку основных таблиц.", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dlg == DialogResult.OK)
+            {
+                DeleteTables();
+            }
         }
 
         public void DeleteTables()

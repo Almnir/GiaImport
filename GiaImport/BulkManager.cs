@@ -214,9 +214,9 @@ namespace GiaImport
             DataTable resultTable = new DataTable();
             resultTable.Columns.Add(new DataColumn(Globals.GRID_NAME, typeof(string)));
             resultTable.Columns.Add(new DataColumn(Globals.GRID_DESCRIPTION, typeof(string)));
-            resultTable.Columns.Add(new DataColumn(Globals.GRID_TOTAL, typeof(int)));
-            resultTable.Columns.Add(new DataColumn(Globals.GRID_LOADER, typeof(int)));
             resultTable.Columns.Add(new DataColumn(Globals.GRID_XML, typeof(long)));
+            resultTable.Columns.Add(new DataColumn(Globals.GRID_LOADER, typeof(int)));
+            resultTable.Columns.Add(new DataColumn(Globals.GRID_TOTAL, typeof(int)));
             foreach (DataRow st in statTable.Rows)
             {
                 string tname = st.Field<string>("TableName");
@@ -224,11 +224,11 @@ namespace GiaImport
                 if (importStatictics.ContainsKey(tname))
                 {
                     DataRow row = resultTable.NewRow();
-                    row["Таблица"] = tname;
-                    row["Описание"] = st.Field<string>("TableDescription");
-                    row["Записей всего"] = st.Field<int>("DboAmount");
-                    row["Записей загружено"] = st.Field<int>("LoaderAmount");
-                    row["Записей в XML"] = importStatictics[tname];
+                    row[Globals.GRID_NAME] = tname;
+                    row[Globals.GRID_DESCRIPTION] = st.Field<string>("TableDescription");
+                    row[Globals.GRID_XML] = importStatictics[tname];
+                    row[Globals.GRID_LOADER] = st.Field<int>("LoaderAmount");
+                    row[Globals.GRID_TOTAL] = st.Field<int>("DboAmount");
                     resultTable.Rows.Add(row);
                 }
             }

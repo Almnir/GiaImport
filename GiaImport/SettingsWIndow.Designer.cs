@@ -44,8 +44,12 @@
             this.metroPanel2 = new MetroFramework.Controls.MetroPanel();
             this.clearMainTablesButton = new MetroFramework.Controls.MetroButton();
             this.metroLabel5 = new MetroFramework.Controls.MetroLabel();
+            this.metroPanel3 = new MetroFramework.Controls.MetroPanel();
+            this.tempDirTextBox = new MetroFramework.Controls.MetroTextBox();
+            this.metroLabel6 = new MetroFramework.Controls.MetroLabel();
             this.metroPanel1.SuspendLayout();
             this.metroPanel2.SuspendLayout();
+            this.metroPanel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // metroPanel1
@@ -76,7 +80,7 @@
             this.checkConnectionButton.Location = new System.Drawing.Point(105, 102);
             this.checkConnectionButton.Name = "checkConnectionButton";
             this.checkConnectionButton.Size = new System.Drawing.Size(201, 23);
-            this.checkConnectionButton.TabIndex = 10;
+            this.checkConnectionButton.TabIndex = 5;
             this.checkConnectionButton.Text = "Проверить соединение";
             this.checkConnectionButton.UseSelectable = true;
             this.checkConnectionButton.Click += new System.EventHandler(this.checkConnectionButton_Click);
@@ -108,7 +112,7 @@
             this.passwordTextBox.SelectionStart = 0;
             this.passwordTextBox.ShortcutsEnabled = true;
             this.passwordTextBox.Size = new System.Drawing.Size(409, 23);
-            this.passwordTextBox.TabIndex = 9;
+            this.passwordTextBox.TabIndex = 4;
             this.passwordTextBox.UseSelectable = true;
             this.passwordTextBox.UseSystemPasswordChar = true;
             this.passwordTextBox.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
@@ -141,7 +145,7 @@
             this.loginTextBox.SelectionStart = 0;
             this.loginTextBox.ShortcutsEnabled = true;
             this.loginTextBox.Size = new System.Drawing.Size(409, 23);
-            this.loginTextBox.TabIndex = 8;
+            this.loginTextBox.TabIndex = 3;
             this.loginTextBox.UseSelectable = true;
             this.loginTextBox.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.loginTextBox.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
@@ -173,7 +177,7 @@
             this.databaseTextBox.SelectionStart = 0;
             this.databaseTextBox.ShortcutsEnabled = true;
             this.databaseTextBox.Size = new System.Drawing.Size(409, 23);
-            this.databaseTextBox.TabIndex = 7;
+            this.databaseTextBox.TabIndex = 2;
             this.databaseTextBox.UseSelectable = true;
             this.databaseTextBox.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.databaseTextBox.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
@@ -205,7 +209,7 @@
             this.serverTextBox.SelectionStart = 0;
             this.serverTextBox.ShortcutsEnabled = true;
             this.serverTextBox.Size = new System.Drawing.Size(409, 23);
-            this.serverTextBox.TabIndex = 6;
+            this.serverTextBox.TabIndex = 1;
             this.serverTextBox.UseSelectable = true;
             this.serverTextBox.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.serverTextBox.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
@@ -248,20 +252,20 @@
             // 
             // okButton
             // 
-            this.okButton.Location = new System.Drawing.Point(114, 238);
+            this.okButton.Location = new System.Drawing.Point(107, 274);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(118, 43);
-            this.okButton.TabIndex = 1;
+            this.okButton.TabIndex = 8;
             this.okButton.Text = "OK";
             this.okButton.UseSelectable = true;
             this.okButton.Click += new System.EventHandler(this.okButton_Click);
             // 
             // cancelButton
             // 
-            this.cancelButton.Location = new System.Drawing.Point(299, 238);
+            this.cancelButton.Location = new System.Drawing.Point(292, 274);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(118, 43);
-            this.cancelButton.TabIndex = 2;
+            this.cancelButton.TabIndex = 9;
             this.cancelButton.Text = "Cancel";
             this.cancelButton.UseSelectable = true;
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
@@ -287,7 +291,7 @@
             this.clearMainTablesButton.Location = new System.Drawing.Point(375, -1);
             this.clearMainTablesButton.Name = "clearMainTablesButton";
             this.clearMainTablesButton.Size = new System.Drawing.Size(139, 20);
-            this.clearMainTablesButton.TabIndex = 3;
+            this.clearMainTablesButton.TabIndex = 6;
             this.clearMainTablesButton.Text = "Очистить таблицы";
             this.clearMainTablesButton.UseSelectable = true;
             this.clearMainTablesButton.Click += new System.EventHandler(this.clearMainTablesButton_Click);
@@ -302,12 +306,73 @@
             this.metroLabel5.TabIndex = 2;
             this.metroLabel5.Text = "Очистка основных таблиц";
             // 
+            // metroPanel3
+            // 
+            this.metroPanel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.metroPanel3.Controls.Add(this.tempDirTextBox);
+            this.metroPanel3.Controls.Add(this.metroLabel6);
+            this.metroPanel3.HorizontalScrollbarBarColor = true;
+            this.metroPanel3.HorizontalScrollbarHighlightOnWheel = false;
+            this.metroPanel3.HorizontalScrollbarSize = 10;
+            this.metroPanel3.Location = new System.Drawing.Point(10, 229);
+            this.metroPanel3.Name = "metroPanel3";
+            this.metroPanel3.Size = new System.Drawing.Size(517, 25);
+            this.metroPanel3.TabIndex = 4;
+            this.metroPanel3.VerticalScrollbarBarColor = true;
+            this.metroPanel3.VerticalScrollbarHighlightOnWheel = false;
+            this.metroPanel3.VerticalScrollbarSize = 10;
+            // 
+            // tempDirTextBox
+            // 
+            // 
+            // 
+            // 
+            this.tempDirTextBox.CustomButton.Image = null;
+            this.tempDirTextBox.CustomButton.Location = new System.Drawing.Point(358, 1);
+            this.tempDirTextBox.CustomButton.Name = "";
+            this.tempDirTextBox.CustomButton.Size = new System.Drawing.Size(21, 21);
+            this.tempDirTextBox.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.tempDirTextBox.CustomButton.TabIndex = 1;
+            this.tempDirTextBox.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.tempDirTextBox.CustomButton.UseSelectable = true;
+            this.tempDirTextBox.Dock = System.Windows.Forms.DockStyle.Right;
+            this.tempDirTextBox.FontSize = MetroFramework.MetroTextBoxSize.Medium;
+            this.tempDirTextBox.FontWeight = MetroFramework.MetroTextBoxWeight.Bold;
+            this.tempDirTextBox.Lines = new string[0];
+            this.tempDirTextBox.Location = new System.Drawing.Point(135, 0);
+            this.tempDirTextBox.MaxLength = 32767;
+            this.tempDirTextBox.Name = "tempDirTextBox";
+            this.tempDirTextBox.PasswordChar = '\0';
+            this.tempDirTextBox.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.tempDirTextBox.SelectedText = "";
+            this.tempDirTextBox.SelectionLength = 0;
+            this.tempDirTextBox.SelectionStart = 0;
+            this.tempDirTextBox.ShortcutsEnabled = true;
+            this.tempDirTextBox.ShowButton = true;
+            this.tempDirTextBox.ShowClearButton = true;
+            this.tempDirTextBox.Size = new System.Drawing.Size(380, 23);
+            this.tempDirTextBox.TabIndex = 7;
+            this.tempDirTextBox.UseSelectable = true;
+            this.tempDirTextBox.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.tempDirTextBox.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            // 
+            // metroLabel6
+            // 
+            this.metroLabel6.AutoSize = true;
+            this.metroLabel6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.metroLabel6.Location = new System.Drawing.Point(0, 0);
+            this.metroLabel6.Name = "metroLabel6";
+            this.metroLabel6.Size = new System.Drawing.Size(130, 19);
+            this.metroLabel6.TabIndex = 2;
+            this.metroLabel6.Text = "Каталог распаковки";
+            // 
             // SettingsWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(537, 297);
+            this.ClientSize = new System.Drawing.Size(537, 340);
             this.ControlBox = false;
+            this.Controls.Add(this.metroPanel3);
             this.Controls.Add(this.metroPanel2);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.okButton);
@@ -324,6 +389,8 @@
             this.metroPanel1.PerformLayout();
             this.metroPanel2.ResumeLayout(false);
             this.metroPanel2.PerformLayout();
+            this.metroPanel3.ResumeLayout(false);
+            this.metroPanel3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -345,5 +412,8 @@
         private MetroFramework.Controls.MetroPanel metroPanel2;
         private MetroFramework.Controls.MetroButton clearMainTablesButton;
         private MetroFramework.Controls.MetroLabel metroLabel5;
+        private MetroFramework.Controls.MetroPanel metroPanel3;
+        private MetroFramework.Controls.MetroTextBox tempDirTextBox;
+        private MetroFramework.Controls.MetroLabel metroLabel6;
     }
 }

@@ -9,6 +9,12 @@ namespace GiaImport
         public ResultWindow()
         {
             InitializeComponent();
+            Load += ResultWindow_Load;
+        }
+
+        private void ResultWindow_Load(object sender, EventArgs e)
+        {
+            this.resultGrid.AutoResizeColumns();
         }
 
         public ResultWindow(DataTable dataTable)

@@ -71,7 +71,7 @@ namespace GiaImport
             "sht_Sheets_R.xsd"
         };
 
-        public ConcurrentDictionary<string, string> errorDict = new ConcurrentDictionary<string, string>();
+        public ConcurrentDictionary<string, string> errorDict;
 
         public static string GetPath(string filename)
         {
@@ -87,6 +87,7 @@ namespace GiaImport
         {
             this.errorState = false;
             this.errorString = string.Empty;
+            this.errorDict = new ConcurrentDictionary<string, string>();
         }
 
         //public async void VerifySingleFile(string xsdFileName, string xmlFileName, IProgress<int> progress)
@@ -136,9 +137,23 @@ namespace GiaImport
             else if (e.Severity == XmlSeverityType.Error)
             {
                 this.errorState = true;
-                this.errorString += e.Message;
-                this.errorString += Environment.NewLine;
-                this.errorDict.TryAdd(tableName, this.errorString);
+                if (this.errorDict.ContainsKey(tableName))
+                {
+                    string errstr = string.Empty;
+                    this.errorDict.TryGetValue(tableName, out errstr);
+                    errstr += Environment.NewLine;
+                    // если уже встречалась такая ошибка, не повторяем
+                    if (!errstr.Contains(e.Message))
+                    {
+                        errstr += e.Message;
+                        this.errorDict.AddOrUpdate(tableName, errstr, (key, old) => errstr);
+                        //this.errorDict[tableName] = errstr;
+                    }
+                }
+                else
+                {
+                    this.errorDict.TryAdd(tableName, e.Message);
+                }
             }
         }
 

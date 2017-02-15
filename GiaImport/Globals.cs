@@ -7,7 +7,8 @@ namespace GiaImport
     {
         public static string ROOT_ELEMENT = "ns1:GIADBSet";
 
-        public static string TEMP_DIR = Directory.GetCurrentDirectory() + @"\Tempdir\";
+        // если не задано, то юзер каталог
+        //public static string TEMP_DIR = string.IsNullOrWhiteSpace(frmSettings.TempDirectoryText) ? Path.GetTempPath() + @"\Tempdir\" : frmSettings.TempDirectoryText + @"\Tempdir\";
 
         public static FormSettings frmSettings = new FormSettings();
 
@@ -18,9 +19,9 @@ namespace GiaImport
 
         public const string GRID_NAME = "Таблица";
         public const string GRID_DESCRIPTION = "Описание";
-        public const string GRID_TOTAL = "Записей всего";
-        public const string GRID_LOADER = "Записей загружено";
         public const string GRID_XML = "Записей в XML";
+        public const string GRID_LOADER = "Записей в таблицах загрузки";
+        public const string GRID_TOTAL = "Записей всего в БД";
 
         public static List<string> TABLES_NAMES = new List<string>()
         {

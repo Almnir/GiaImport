@@ -305,12 +305,12 @@ namespace GiaImport
             ProcessStartInfo startInfo = new ProcessStartInfo();
             //startInfo.CreateNoWindow = true;
             //startInfo.UseShellExecute = false;
-            startInfo.FileName = Path.Combine(Globals.TEMP_DIR, "XMLcut.exe");
+            startInfo.FileName = Path.Combine(Globals.frmSettings.TempDirectoryText == null ? Path.GetTempPath() + @"\Tempdir\" : Globals.frmSettings.TempDirectoryText + @"\Tempdir\", "XMLcut.exe");
             startInfo.CreateNoWindow = true;
             startInfo.WindowStyle = ProcessWindowStyle.Hidden;
             FileInfo fi = new FileInfo(xmlFilePath);
             startInfo.Arguments = partSizeMB.ToString() + " " + fi.Name;
-            startInfo.WorkingDirectory = Globals.TEMP_DIR;
+            startInfo.WorkingDirectory = Globals.frmSettings.TempDirectoryText == null ? Path.GetTempPath() + @"\Tempdir\" : Globals.frmSettings.TempDirectoryText + @"\Tempdir\";
             try
             {
                 using (Process exeProcess = Process.Start(startInfo))

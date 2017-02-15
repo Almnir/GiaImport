@@ -40,11 +40,17 @@ namespace GiaImport
 
         private void LoadForm(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(Globals.frmSettings.ServerText) || string.IsNullOrEmpty(Globals.frmSettings.DatabaseText)
+                || string.IsNullOrEmpty(Globals.frmSettings.LoginText) || string.IsNullOrEmpty(Globals.frmSettings.PasswordText))
+            {
+                SettingsWindow sw = new SettingsWindow();
+                sw.ShowDialog();
+            }
             string regexPattern = @"_\d+.*$";
             Regex regex = new Regex(regexPattern, RegexOptions.IgnoreCase);
-            if (Directory.Exists(Globals.TEMP_DIR))
+            if (Directory.Exists(Globals.frmSettings.TempDirectoryText == null ? Path.GetTempPath() + @"\Tempdir\" : Globals.frmSettings.TempDirectoryText + @"\Tempdir\"))
             {
-                var files = Directory.GetFiles(Globals.TEMP_DIR);
+                var files = Directory.GetFiles(Globals.frmSettings.TempDirectoryText == null ? Path.GetTempPath() + @"\Tempdir\" : Globals.frmSettings.TempDirectoryText + @"\Tempdir\");
                 foreach (var file in files)
                 {
                     FileInfo fi = new FileInfo(file);
@@ -57,6 +63,7 @@ namespace GiaImport
                     }
                 }
             }
+            this.Focus();
         }
 
         private void SetActualCheckedFiles()
@@ -95,10 +102,10 @@ namespace GiaImport
 
             if (userClicked == DialogResult.OK)
             {
-                if (!Directory.Exists(Globals.TEMP_DIR))
+                if (!Directory.Exists(Globals.frmSettings.TempDirectoryText == null ? Path.GetTempPath() + @"\Tempdir\" : Globals.frmSettings.TempDirectoryText + @"\Tempdir\"))
                 {
                     // создать временный каталог
-                    Directory.CreateDirectory(Globals.TEMP_DIR);
+                    Directory.CreateDirectory(Globals.frmSettings.TempDirectoryText == null ? Path.GetTempPath() + @"\Tempdir\" : Globals.frmSettings.TempDirectoryText + @"\Tempdir\");
                 }
                 // очистить временный каталог
                 ClearFiles();
@@ -186,6 +193,10 @@ namespace GiaImport
                 Invoke(new Action(() => { metroListView1.Items.Add(lvi); }));
             }
             Invoke(new Action(() => { metroListView1.Refresh(); }));
+            Invoke(new Action(() =>
+            {
+                this.Focus();
+            }));
         }
 
         private void ValidateFiles()
@@ -250,6 +261,10 @@ namespace GiaImport
                 validateButton.Enabled = true;
                 importButton.Enabled = true;
             }));
+            Invoke(new Action(() =>
+            {
+                this.Focus();
+            }));
         }
 
         private List<TableInfo> MakeInfoData(ConcurrentDictionary<string, string> result, string successStatus)
@@ -308,9 +323,9 @@ namespace GiaImport
             pbw.Show();
             try
             {
-                //if (!File.Exists(Globals.TEMP_DIR + @"\XMLcut.exe"))
+                //if (!File.Exists(Globals.frmSettings.TempDirectoryText == null ? Path.GetTempPath() + @"\Tempdir\" : Globals.frmSettings.TempDirectoryText + @"\Tempdir\" + @"\XMLcut.exe"))
                 //{
-                //    File.Copy(Directory.GetCurrentDirectory() + @"\XMLcut.exe", Globals.TEMP_DIR + @"\XMLcut.exe");
+                //    File.Copy(Directory.GetCurrentDirectory() + @"\XMLcut.exe", Globals.frmSettings.TempDirectoryText == null ? Path.GetTempPath() + @"\Tempdir\" : Globals.frmSettings.TempDirectoryText + @"\Tempdir\" + @"\XMLcut.exe");
                 //}
                 Task task = Task.Run(() => RunShrinker(pbarLine, plabel, progress, source.Token), source.Token);
                 task.ContinueWith(taskc => EndShrinker(pbw));
@@ -335,6 +350,10 @@ namespace GiaImport
                 validateButton.Enabled = true;
                 importButton.Enabled = true;
             }));
+            Invoke(new Action(() =>
+            {
+                this.Focus();
+            }));
         }
 
         private void FindShrinkedFiles()
@@ -348,7 +367,7 @@ namespace GiaImport
                 // имя*.расширение
                 string filePattern = Path.GetFileNameWithoutExtension(file.Key) + @"*";
                 string rootFileName = Path.GetFileNameWithoutExtension(file.Key);
-                string[] allFiles = Directory.GetFiles(Globals.TEMP_DIR, filePattern);
+                string[] allFiles = Directory.GetFiles(Globals.frmSettings.TempDirectoryText == null ? Path.GetTempPath() + @"\Tempdir\" : Globals.frmSettings.TempDirectoryText + @"\Tempdir\", filePattern);
                 if (allFiles.Length > 1)
                 {
                     List<string> resultList = allFiles.Where(f => regex.IsMatch(f)).ToList();
@@ -500,6 +519,10 @@ namespace GiaImport
                 validateButton.Enabled = true;
                 importButton.Enabled = true;
             }));
+            Invoke(new Action(() =>
+            {
+                this.Focus();
+            }));
         }
 
         private void ShowStatistics()
@@ -526,6 +549,7 @@ namespace GiaImport
         private ConcurrentDictionary<string, string> RunImport(ProgressBarWindow pbw, ProgressBar pbarLine, Label plabel, IProgress<int> progress, CancellationToken ct)
         {
             bm = new BulkManager();
+            this.importStatistics.Clear();
             ConcurrentDictionary<string, Tuple<string, long, TimeSpan>> importStatus = new ConcurrentDictionary<string, Tuple<string, long, TimeSpan>>();
             try
             {
@@ -659,13 +683,13 @@ namespace GiaImport
                 string fileName = actualCheckedFiles[actualCheckedFiles.Keys.ElementAt(i)].Name;
                 string xmlFilePath = actualCheckedFiles[actualCheckedFiles.Keys.ElementAt(i)].FullName;
                 string tempDir = string.Empty;
-                if (string.IsNullOrEmpty(Globals.TEMP_DIR))
+                if (string.IsNullOrEmpty(Globals.frmSettings.TempDirectoryText == null ? Path.GetTempPath() + @"\Tempdir\" : Globals.frmSettings.TempDirectoryText + @"\Tempdir\"))
                 {
                     tempDir = Directory.GetCurrentDirectory();
                 }
                 else
                 {
-                    tempDir = Globals.TEMP_DIR;
+                    tempDir = Globals.frmSettings.TempDirectoryText == null ? Path.GetTempPath() + @"\Tempdir\" : Globals.frmSettings.TempDirectoryText + @"\Tempdir\";
 
                 }
                 // TODO: хардкод - исправить
@@ -709,13 +733,13 @@ namespace GiaImport
                 pbarTotal.MarqueeAnimationSpeed = 30;
                 pbarTotal.Visible = true;
             }));
-            //ZipFile.ExtractToDirectory(zipfilename, Globals.TEMP_DIR);
+            //ZipFile.ExtractToDirectory(zipfilename, Globals.frmSettings.TempDirectoryText == null ? Path.GetTempPath() + @"\Tempdir\" : Globals.frmSettings.TempDirectoryText + @"\Tempdir\");
             int counter = 0;
             using (ZipArchive zip = ZipFile.OpenRead(zipfilename))
             {
                 foreach (var e in zip.Entries)
                 {
-                    string filenewpath = Path.Combine(Globals.TEMP_DIR, e.FullName);
+                    string filenewpath = Path.Combine(Globals.frmSettings.TempDirectoryText == null ? Path.GetTempPath() + @"\Tempdir\" : Globals.frmSettings.TempDirectoryText + @"\Tempdir\", e.FullName);
                     e.ExtractToFile(filenewpath, true);
                     FileInfo fi = new FileInfo(filenewpath);
                     if (!loadedFiles.Keys.Contains(filenewpath) && !loadedFiles.Values.Contains(fi))
@@ -792,17 +816,17 @@ namespace GiaImport
 
         private void prepareFilesButton_Click(object sender, EventArgs e)
         {
-            DataTable dt = new DataTable();
-            dt.Columns.Add(new DataColumn("asdsds"));
-            for (int i = 0; i < 50; i++)
-            {
-                DataRow dr = dt.NewRow();
-                dr["asdsds"] = i.ToString();
-                dt.Rows.Add(dr);
-            }
-            ResultLogWindow rw = new ResultLogWindow(dt, "asdsd");
-            rw.ShowDialog();
-            //ShrinkFiles();
+            //DataTable dt = new DataTable();
+            //dt.Columns.Add(new DataColumn("asdsds"));
+            //for (int i = 0; i < 50; i++)
+            //{
+            //    DataRow dr = dt.NewRow();
+            //    dr["asdsds"] = i.ToString();
+            //    dt.Rows.Add(dr);
+            //}
+            //ResultLogWindow rw = new ResultLogWindow(dt, "asdsd");
+            //rw.ShowDialog();
+            ShrinkFiles();
         }
 
         private void validateButton_Click(object sender, EventArgs e)
@@ -832,7 +856,7 @@ namespace GiaImport
             this.preparedFilesTables.Clear();
             this.metroListView1.Clear();
             this.metroListView1.Refresh();
-            string[] files = Directory.GetFiles(Globals.TEMP_DIR);
+            string[] files = Directory.GetFiles(Globals.frmSettings.TempDirectoryText == null ? Path.GetTempPath() + @"\Tempdir\" : Globals.frmSettings.TempDirectoryText + @"\Tempdir\");
             foreach (var file in files)
             {
                 File.Delete(file);
