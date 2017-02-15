@@ -433,6 +433,11 @@ namespace GiaImport
                 MessageShowControl.ShowImportPrepareErrors(guf);
                 return;
             }
+            if (!DatabaseHelper.CheckIfStoredProcsExist())
+            {
+                MessageShowControl.ShowImportErrors("База данных не содержит необходимых хранимых процедур!");
+                return;
+            }
             ProgressBarWindow pbw = new ProgressBarWindow();
             pbw.SetTitle("Импорт выполняется...");
             ProgressBar pbarTotal = pbw.GetProgressBarTotal();

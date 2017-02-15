@@ -68,5 +68,29 @@ namespace GiaImport
             }
             return result;
         }
+        public static bool CheckIfStoredProcsExist()
+        {
+            if (CheckIfStoredExists("Statistics") || CheckIfStoredExists("Synchronize") || CheckIfStoredExists("CleanupTables"))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private static bool CheckIfStoredExists(string sp)
+        {
+            var query = string.Format("SELECT COUNT(0) FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_NAME = '{0}'", sp);
+            using (var conn = new SqlConnection(Globals.GetConnectionString()))
+            {
+                conn.Open();
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    return Convert.ToInt32(cmd.ExecuteScalar()) > 0;
+                }
+            }
+        }
     }
 }
