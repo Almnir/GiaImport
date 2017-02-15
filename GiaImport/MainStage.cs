@@ -28,9 +28,11 @@ namespace GiaImport
             catch (Exception ex)
             {
                 string status = string.Format(string.Format("При десериализации файла {0} произошла ошибка: {1}.", xmlFileName, ex.ToString()));
-                errorDict.TryAdd(xmlFileName, new Tuple<string, long, TimeSpan>(status, 0, TimeSpan.Zero));
+                if (!errorDict.ContainsKey(xmlFileName))
+                {
+                    errorDict.TryAdd(xmlFileName, new Tuple<string, long, TimeSpan>(status, 0, TimeSpan.Zero));
+                }
                 log.Error(status);
-
             }
             return returnObject;
         }

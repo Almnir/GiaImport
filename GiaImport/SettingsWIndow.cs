@@ -87,7 +87,7 @@ namespace GiaImport
                 return;
             }
             DialogResult dlg = MessageBox.Show("Подтвердите очистку основных таблиц.", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (dlg == DialogResult.OK)
+            if (dlg == DialogResult.Yes)
             {
                 DeleteTables();
             }

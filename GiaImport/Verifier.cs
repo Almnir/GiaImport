@@ -117,12 +117,14 @@ namespace GiaImport
             string tableName = Path.GetFileNameWithoutExtension(xmlFileName);
             readerSettings.ValidationEventHandler += (sender, e) => ValidationEventHandler(sender, e, tableName);
 
-            XmlReader xml = XmlReader.Create(xmlFileName, readerSettings);
-            while (xml.Read())
+            using (XmlReader xml = XmlReader.Create(xmlFileName, readerSettings))
             {
-                ct.ThrowIfCancellationRequested();
-                //progress.Report(progressCounter);
-                //progressCounter++;
+                while (xml.Read())
+                {
+                    ct.ThrowIfCancellationRequested();
+                    //progress.Report(progressCounter);
+                    //progressCounter++;
+                }
             }
         }
 
