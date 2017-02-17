@@ -179,6 +179,16 @@ namespace GiaImport
 
         private void EndUnpacker(ProgressBarWindow pbw)
         {
+            pbw.GetProgressBarLine().Invoke((MethodInvoker)(() =>
+            {
+                pbw.GetProgressBarLine().Style = ProgressBarStyle.Continuous;
+                pbw.GetProgressBarLine().MarqueeAnimationSpeed = 0;
+            }));
+            pbw.GetProgressBarTotal().Invoke((MethodInvoker)(() =>
+            {
+                pbw.GetProgressBarTotal().Style = ProgressBarStyle.Continuous;
+                pbw.GetProgressBarTotal().MarqueeAnimationSpeed = 0;
+            }));
             pbw.Invoke((MethodInvoker)(() => { pbw.Close(); }));
             Invoke(new Action(() =>
             {
@@ -755,16 +765,6 @@ namespace GiaImport
                     }
                 }
             }
-            pbarLine.Invoke((MethodInvoker)(() =>
-            {
-                pbarLine.Style = ProgressBarStyle.Continuous;
-                pbarLine.MarqueeAnimationSpeed = 0;
-            }));
-            pbarTotal.Invoke((MethodInvoker)(() =>
-            {
-                pbarTotal.Style = ProgressBarStyle.Continuous;
-                pbarTotal.MarqueeAnimationSpeed = 0;
-            }));
         }
 
         public long GetAvailableRAM()

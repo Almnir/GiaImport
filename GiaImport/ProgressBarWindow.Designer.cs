@@ -33,6 +33,7 @@
             this.pbLabel = new MetroFramework.Controls.MetroLabel();
             this.progressBarLine = new MetroFramework.Controls.MetroProgressBar();
             this.progressBarTotal = new MetroFramework.Controls.MetroProgressBar();
+            this.metroButton1 = new MetroFramework.Controls.MetroButton();
             this.metroPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -76,12 +77,23 @@
             this.progressBarTotal.Size = new System.Drawing.Size(598, 44);
             this.progressBarTotal.TabIndex = 2;
             // 
+            // metroButton1
+            // 
+            this.metroButton1.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.metroButton1.Location = new System.Drawing.Point(252, 177);
+            this.metroButton1.Name = "metroButton1";
+            this.metroButton1.Size = new System.Drawing.Size(80, 32);
+            this.metroButton1.TabIndex = 3;
+            this.metroButton1.Text = "Отмена";
+            this.metroButton1.UseSelectable = true;
+            // 
             // ProgressBarWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(618, 178);
+            this.ClientSize = new System.Drawing.Size(618, 220);
             this.ControlBox = false;
+            this.Controls.Add(this.metroButton1);
             this.Controls.Add(this.progressBarTotal);
             this.Controls.Add(this.progressBarLine);
             this.Controls.Add(this.metroPanel1);
@@ -105,5 +117,6 @@
         private MetroFramework.Controls.MetroLabel pbLabel;
         private MetroFramework.Controls.MetroProgressBar progressBarLine;
         private MetroFramework.Controls.MetroProgressBar progressBarTotal;
+        private MetroFramework.Controls.MetroButton metroButton1;
     }
 }
